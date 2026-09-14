@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>月次改善レポート 2026年10月 サンプル食堂 様 | H.I. Company</title>
+<style>
+:root{--navy:#1B2A4A;--teal:#3ADBC6;--ink:#111;--muted:#5a6270;--line:#dfe3ea;--bg:#f4f6f9}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",sans-serif;color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.sheet{width:210mm;min-height:297mm;margin:16px auto;background:#fff;padding:12mm 13mm 10mm;box-shadow:0 2px 14px rgba(27,42,74,.12);display:flex;flex-direction:column;gap:5mm}
+/* 見出し */
+.head{display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--navy);padding-bottom:3mm}
+.head .l{display:flex;align-items:center;gap:10px}
+.head img{width:40px;height:40px;object-fit:contain}
+.head .t{font-size:17px;font-weight:700;color:var(--navy);letter-spacing:.02em}
+.head .t small{display:block;font-size:10px;font-weight:500;color:var(--muted);letter-spacing:.08em}
+.head .r{text-align:right;font-size:10.5px;color:var(--muted);line-height:1.6}
+.head .r b{color:var(--navy);font-size:12px}
+.meta{display:flex;justify-content:space-between;align-items:baseline}
+.meta .shop{font-size:20px;font-weight:700;color:var(--navy)}
+.meta .shop span{font-size:12px;font-weight:500;color:var(--muted);margin-left:6px}
+.meta .month{font-size:13px;color:var(--navy);font-weight:700}
+.lead{font-size:11px;color:var(--muted);margin:-2mm 0 0}
+/* 区画 */
+.sec{border:1px solid var(--line);border-radius:6px;padding:3.2mm 4mm;break-inside:avoid}
+.sec h2{margin:0 0 2mm;font-size:12px;color:var(--navy);display:flex;align-items:center;gap:6px}
+.sec h2 .n{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--navy);color:#fff;font-size:10px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+/* (a) 件数 */
+.kpi{display:flex;align-items:flex-end;gap:10px;margin-bottom:2mm}
+.kpi .big{font-size:38px;font-weight:800;color:var(--navy);line-height:1}
+.kpi .big small{font-size:13px;font-weight:600;margin-left:2px}
+.kpi .sub{font-size:10.5px;color:var(--muted);padding-bottom:4px}
+.brk{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.brk div{background:var(--bg);border-radius:4px;padding:5px 6px;text-align:center}
+.brk .k{font-size:9.5px;color:var(--muted)}
+.brk .v{font-size:16px;font-weight:700;color:var(--navy);line-height:1.2}
+.brk .v small{font-size:9px;font-weight:500}
+.brk .hl{background:var(--teal);color:var(--navy)}
+.brk .hl .k{color:var(--navy)}
+/* (b) 時間帯 */
+.share{display:flex;align-items:flex-end;gap:8px;margin-bottom:2mm}
+.share .big{font-size:38px;font-weight:800;color:var(--teal);line-height:1;-webkit-text-stroke:.6px var(--navy)}
+.share .big small{font-size:14px;-webkit-text-stroke:0;color:var(--navy);font-weight:700}
+.share .sub{font-size:10.5px;color:var(--muted);padding-bottom:4px;line-height:1.4}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:3px 6px;align-items:center;font-size:10px}
+.bars .lab{color:var(--muted);white-space:nowrap}
+.bars .bar{height:9px;background:#e6e9ef;border-radius:3px;overflow:hidden}
+.bars .bar i{display:block;height:100%;background:var(--navy);border-radius:3px}
+.bars .bar i.out{background:var(--teal)}
+.bars .num{font-weight:700;color:var(--navy);width:24px;text-align:right}
+.legend{font-size:9px;color:var(--muted);margin-top:2mm}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;vertical-align:-1px;margin:0 3px 0 6px}
+/* (c) 表 */
+table{width:100%;border-collapse:collapse;font-size:10.5px}
+th,td{padding:4px 6px;border-bottom:1px solid var(--line);vertical-align:top;text-align:left}
+th{background:var(--bg);color:var(--navy);font-size:10px;font-weight:700}
+td.no{width:18px;color:var(--muted);text-align:center}
+td.cnt{width:36px;text-align:center;font-weight:700;color:var(--navy);white-space:nowrap}
+td.ans{color:#22343f}
+td.ans::before{content:"済";display:inline-block;background:var(--teal);color:var(--navy);font-size:9px;font-weight:700;border-radius:3px;padding:0 4px;margin-right:5px}
+/* (d) 提案 */
+.plan{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.plan li{display:flex;gap:8px;font-size:10.5px}
+.plan .tag{flex:none;background:var(--navy);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;height:fit-content;margin-top:2px;white-space:nowrap}
+.plan b{color:var(--navy)}
+.plan .who{color:var(--muted);font-size:9.5px}
+/* (e) 効果 */
+.eff{background:var(--navy);color:#fff;border:none}
+.eff h2{color:#fff}
+.eff h2 .n{background:var(--teal);color:var(--navy)}
+.eff .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.eff .formula{font-size:11px;color:#dfe6f2;line-height:1.7}
+.eff .formula b{color:#fff}
+.eff .total{font-size:11px;text-align:right}
+.eff .total .yen{font-size:30px;font-weight:800;color:var(--teal);line-height:1;display:block}
+.eff .note{font-size:9px;color:#b9c4d6;margin-top:2mm}
+/* 末尾 */
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:9.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:2.5mm}
+.foot .msg{color:var(--navy);font-weight:600}
+.foot .co{flex:none;white-space:nowrap;margin-left:10px}
+/* 印刷 */
+@page{size:A4;margin:0}
+@media print{
+  body{background:#fff}
+  .sheet{width:210mm;height:297mm;min-height:0;margin:0;box-shadow:none;padding:11mm 13mm 9mm;page-break-after:avoid}
+  .noprint{display:none}
+}
+@media screen and (max-width:760px){.sheet{width:auto;min-height:0;margin:0;padding:16px}.grid2{grid-template-columns:1fr}}
+.noprint{width:210mm;margin:0 auto 12px;text-align:center;font-size:12px;color:var(--muted)}
+.noprint button{font:inherit;background:var(--navy);color:#fff;border:0;border-radius:6px;padding:8px 18px;cursor:pointer}
+@media screen and (max-width:760px){.noprint{width:auto}}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <header class="head">
+    <div class="l">
+      <img src="../img/logo-mark-512.png" alt="H.I. Company">
+      <div class="t">月次改善レポート<small>MONTHLY IMPROVEMENT REPORT</small></div>
+    </div>
+    <div class="r">
+      担当: <b>H.I. Company カスタマーサクセス</b><br>
+      発行日: 2026年11月1日　／　お問い合わせ: LINE @966kahwj
+    </div>
+  </header>
+
+  <div class="meta">
+    <div class="shop">サンプル食堂<span>様</span></div>
+    <div class="month">対象月: 2026年10月（10/1〜10/31）</div>
+  </div>
+  <p class="lead">今月もAI受付をご利用いただき、ありがとうございます。AIが受けた内容と、来月に向けた改善をまとめました。読む時間の目安は3分です。</p>
+
+  <div class="grid2">
+    <!-- (a) -->
+    <section class="sec">
+      <h2><span class="n">1</span>今月AIが受けた件数</h2>
+      <div class="kpi">
+        <div class="big">58<small>件</small></div>
+        <div class="sub">先月 41件 → <b>＋17件</b><br>お店に電話が鳴らずに済んだ回数です</div>
+      </div>
+      <div class="brk">
+        <div class="hl"><div class="k">予約</div><div class="v">12<small>組</small></div></div>
+        <div><div class="k">変更・キャンセル</div><div class="v">6<small>件</small></div></div>
+        <div><div class="k">質問</div><div class="v">34<small>件</small></div></div>
+        <div><div class="k">スタッフへ転送</div><div class="v">6<small>件</small></div></div>
+      </div>
+    </section>
+
+    <!-- (b) -->
+    <section class="sec">
+      <h2><span class="n">2</span>時間帯別の件数</h2>
+      <div class="share">
+        <div class="big">67<small>%</small></div>
+        <div class="sub">が<b>営業時間外</b>に届いたご連絡です<br>（58件中39件。閉店後・準備中・定休日）</div>
+      </div>
+      <div class="bars">
+        <div class="lab">9〜11時（準備中）</div><div class="bar"><i class="out" style="width:23%"></i></div><div class="num">5</div>
+        <div class="lab">11〜14時（営業中）</div><div class="bar"><i style="width:36%"></i></div><div class="num">8</div>
+        <div class="lab">14〜17時（休憩中）</div><div class="bar"><i class="out" style="width:55%"></i></div><div class="num">12</div>
+        <div class="lab">17〜22時（営業中）</div><div class="bar"><i style="width:50%"></i></div><div class="num">11</div>
+        <div class="lab">22〜翌9時（閉店後）</div><div class="bar"><i class="out" style="width:100%"></i></div><div class="num">22</div>
+      </div>
+      <div class="legend"><i style="background:#1B2A4A"></i>営業中<i style="background:#3ADBC6"></i>営業時間外（AIがいなければ取りこぼしていた時間）</div>
+    </section>
+  </div>
+
+  <!-- (c) -->
+  <section class="sec">
+    <h2><span class="n">3</span>AIが答えられなかった質問トップ5 と、今月追加した回答</h2>
+    <table>
+      <thead><tr><th></th><th>お客様からの質問</th><th style="text-align:center">回数</th><th>追加した回答（すでにAIが答えられます）</th></tr></thead>
+      <tbody>
+        <tr><td class="no">1</td><td>個室はありますか？</td><td class="cnt">7回</td><td class="ans">4名様まで使える半個室が2席。前日までのご予約で確保できます</td></tr>
+        <tr><td class="no">2</td><td>駐車場はありますか？</td><td class="cnt">5回</td><td class="ans">店舗前に2台。満車のときは徒歩1分のコインパーキング（1時間無料券あり）</td></tr>
+        <tr><td class="no">3</td><td>子ども用の椅子・取り分け皿はありますか？</td><td class="cnt">4回</td><td class="ans">子ども用椅子3脚、取り分け皿・お子様用カトラリーをご用意しています</td></tr>
+        <tr><td class="no">4</td><td>誕生日ケーキの持ち込みはできますか？</td><td class="cnt">3回</td><td class="ans">持ち込み無料。前日までにご連絡いただければお皿・ろうそくをご用意します</td></tr>
+        <tr><td class="no">5</td><td>貸切は何名からできますか？</td><td class="cnt">2回</td><td class="ans">20名様から貸切可能。ご希望はスタッフへ転送し、店主から折り返します</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="grid2">
+    <!-- (d) -->
+    <section class="sec">
+      <h2><span class="n">4</span>来月の改善提案</h2>
+      <ul class="plan">
+        <li><span class="tag">提案1</span><div><b>忘年会コース（4,500円・5,500円）をAIに登録</b><br>11月は「コースはありますか」の質問が増える見込みです。<span class="who">お店の作業: メニュー内容をLINEで送るだけ（3分）</span></div></li>
+        <li><span class="tag">提案2</span><div><b>「変更・キャンセルはLINEで」の一言をレジ横の案内に追加</b><br>電話での変更が月6件残っています。案内の画像はこちらで作ります。<span class="who">お店の作業: 印刷して貼る（5分）</span></div></li>
+        <li><span class="tag">提案3</span><div><b>22時以降の予約に「翌朝、お店から確認のご連絡」の文を追加</b><br>深夜の予約が22件。確認の一言でキャンセル率を下げます。<span class="who">お店の作業: なし</span></div></li>
+      </ul>
+    </section>
+
+    <!-- (e) -->
+    <section class="sec eff">
+      <h2><span class="n">5</span>今月の概算効果</h2>
+      <div class="row">
+        <div class="formula">
+          LINE経由の予約 <b>12組</b><br>
+          × 1組あたり <b>2万円</b><br>
+          <span style="font-size:9.5px">（客単価 5,000円 × 4名 で計算）</span>
+        </div>
+        <div class="total">
+          <span class="yen">24万円</span>
+          売上への貢献（概算）
+        </div>
+      </div>
+      <div class="note">月額3万円に対して約8倍です。※ 客単価・人数はお店の実績に合わせて調整します。</div>
+    </section>
+  </div>
+
+  <footer class="foot">
+    <div class="msg">レポートについてのご質問・「これも答えられるようにしてほしい」は、LINEでひと言お送りください。翌営業日までに反映します。</div>
+    <div class="co">H.I. Company　hi-companyjapan.jp</div>
+  </footer>
+
+</div>
+
+<div class="noprint"><button onclick="window.print()">このレポートを印刷 / PDF保存</button></div>
+
+</body>
+</html>
