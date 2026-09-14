@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /line/teian.html
+
+Sitemap: https://hi-companyjapan.jp/sitemap.xml

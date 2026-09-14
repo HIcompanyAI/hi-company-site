@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ご提案書｜LINE 24時間AI受付</title>
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--g:#06C755;--ink:#111;--mute:#555;--line:#ddd}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink);background:#e9ecef;line-height:1.8;font-size:13px}
+.toolbar{background:#222;color:#fff;padding:10px 20px;display:flex;gap:16px;align-items:center;font-size:13px;position:sticky;top:0;z-index:9}
+.toolbar input{padding:6px 10px;border-radius:6px;border:none;font-size:13px}
+.toolbar button{background:var(--g);color:#fff;border:none;padding:7px 16px;border-radius:6px;cursor:pointer;font-weight:700}
+.page{background:#fff;width:210mm;min-height:297mm;margin:16px auto;padding:22mm 20mm;box-shadow:0 4px 20px rgba(0,0,0,.12);page-break-after:always;position:relative}
+.cover{display:flex;flex-direction:column;justify-content:center}
+.cover .k{color:var(--g);font-weight:700;letter-spacing:.1em;font-size:12px}
+.cover h1{font-size:34px;line-height:1.35;margin:10px 0 20px}
+.cover .to{font-size:18px;margin:40px 0 6px}
+.cover .from{margin-top:auto;color:var(--mute)}
+h2{font-size:20px;border-left:5px solid var(--g);padding-left:12px;margin:0 0 18px}
+h3{font-size:15px;margin:22px 0 8px}
+p{margin:0 0 10px}
+table{width:100%;border-collapse:collapse;margin:10px 0}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:#f4f7f5;width:32%}
+.num{text-align:right}
+.box{background:#f4f7f5;border-radius:8px;padding:14px 16px;margin:12px 0}
+.big{font-size:26px;font-weight:800;color:var(--g)}
+.foot{position:absolute;bottom:12mm;left:20mm;right:20mm;font-size:11px;color:#999;display:flex;justify-content:space-between}
+.s{color:var(--mute);font-size:12px}
+ul{margin:6px 0;padding-left:20px}
+@media print{body{background:#fff}.toolbar{display:none}.page{margin:0;box-shadow:none;width:auto;min-height:auto}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  店名：<input id="i_store" value="〇〇店" oninput="fill()">
+  ご担当者：<input id="i_person" value="店長" oninput="fill()" style="width:90px">
+  客単価：<input id="i_unit" value="5000" oninput="fill()" style="width:70px">円
+  月の取りこぼし想定：<input id="i_lost" value="10" oninput="fill()" style="width:50px">組
+  <button onclick="window.print()">PDFで保存 / 印刷</button>
+</div>
+
+<div class="page cover">
+  <div class="k">PROPOSAL</div>
+  <h1>LINE 24時間AI受付<br>導入のご提案</h1>
+  <p class="s">電話に出られない時間の予約・問い合わせをゼロにする</p>
+  <div class="to"><span data-f="store">〇〇店</span> 御中<br><span class="s"><span data-f="person">店長</span> 様</span></div>
+  <div class="from">H.I. Company<br>店舗・中小企業のAI業務自動化<br><span id="date"></span></div>
+</div>
+
+<div class="page">
+  <h2>1. 現状の課題（ヒアリング内容）</h2>
+  <p><span data-f="store">〇〇店</span> 様の現状について、以下の課題をお伺いしました。</p>
+  <table>
+    <tr><th>ピークタイムの電話</th><td>調理・接客中で着信に出られず、折り返しの時点で別店舗に流れている。</td></tr>
+    <tr><th>閉店後・深夜の問い合わせ</th><td>SNSやLINEに届く予約依頼へ、翌朝まで返信できない。</td></tr>
+    <tr><th>繰り返しの質問対応</th><td>駐車場・個室・アレルギー等、同じ質問にスタッフが毎日対応している。</td></tr>
+    <tr><th>無断キャンセル</th><td>リマインドができておらず、当日の空席が発生している。</td></tr>
+  </table>
+  <div class="box">
+    <b>取りこぼしの試算</b><br>
+    客単価 <span data-f="unit">5,000</span>円 × 4名 = 1組 <span data-f="perGroup">20,000</span>円<br>
+    月 <span data-f="lost">10</span>組の取りこぼし = <span class="big">月 <span data-f="lostYen">200,000</span>円</span> の機会損失<br>
+    <span class="s">※ ヒアリングに基づく概算。導入後1ヶ月の実データで再計算します。</span>
+  </div>
+
+  <h2 style="margin-top:28px">2. ご提案内容</h2>
+  <p>公式LINEに、貴店専用のAI受付を接続します。お客様からの予約・問い合わせに24時間即答し、判断が必要な内容だけをスタッフに転送します。</p>
+  <table>
+    <tr><th>予約受付</th><td>日時・人数・名前をAIがヒアリングし、予約台帳（Googleカレンダー / スプレッドシート）に自動登録。前日リマインドを自動送信。</td></tr>
+    <tr><th>FAQ即答</th><td>営業時間、定休日、駐車場、個室、アレルギー、メニュー、支払い方法。貴店が登録した情報のみを回答。</td></tr>
+    <tr><th>キャンセル・変更</th><td>LINE上で受付。空いた枠を即座に把握できます。</td></tr>
+    <tr><th>スタッフ転送</th><td>AIが答えられない内容は自動で通知。お客様には返信予定時刻を案内。</td></tr>
+    <tr><th>配信・レポート</th><td>季節メニュー等の配信文を月2本作成。月次で問い合わせ数・予約数・頻出質問をレポート。</td></tr>
+  </table>
+  <div class="foot"><span>H.I. Company</span><span>2</span></div>
+</div>
+
+<div class="page">
+  <h2>3. 導入スケジュール</h2>
+  <table>
+    <tr><th>Week 1</th><td>ヒアリング（30分）。営業時間・席数・メニュー・FAQ・予約ルールの確認。公式LINE開設（未開設の場合）。</td></tr>
+    <tr><th>Week 2</th><td>AI受付の構築・学習。予約台帳と通知の設定。</td></tr>
+    <tr><th>Week 3</th><td>スタッフによるテスト運用。回答の調整。操作説明（15分）。</td></tr>
+    <tr><th>Week 4〜</th><td>本稼働。以降、毎月1回の改善ミーティング（15分・オンライン）。</td></tr>
+  </table>
+
+  <h2 style="margin-top:28px">4. 費用</h2>
+  <table>
+    <tr><th>初期費用（構築）</th><td class="num">100,000円（税別）</td></tr>
+    <tr><th>月額費用（運用・改善）</th><td class="num">30,000円（税別）</td></tr>
+    <tr><th>含まれるもの</th><td>AI利用料、サーバー費、月1回の改善、情報更新、配信文作成（月2本）、月次レポート、LINE・チャットサポート</td></tr>
+    <tr><th>契約期間</th><td>最低契約期間なし。月末までのご連絡で翌月から停止。違約金なし。</td></tr>
+    <tr><th>お支払い</th><td>初期費用は稼働開始時、月額は毎月末に請求書払い。</td></tr>
+  </table>
+
+  <div class="box">
+    <b>投資対効果</b><br>
+    月額 30,000円 ÷ 1組 <span data-f="perGroup">20,000</span>円 = <b>月1.5組の予約で回収</b><br>
+    取りこぼし <span data-f="lost">10</span>組が半減した場合でも、月 <span data-f="halfYen">100,000</span>円の増収見込み。<br>
+    加えて電話・返信対応の削減で、月約20時間のスタッフ工数が空きます。
+  </div>
+
+  <h2 style="margin-top:28px">5. 導入後のサポート</h2>
+  <ul>
+    <li>会話ログをもとに、毎月回答精度を改善します。</li>
+    <li>メニュー・営業時間の変更は、LINEで一言いただければ当日中に反映します。</li>
+    <li>2店舗目以降は初期50,000円・月額20,000円でご提供します。</li>
+    <li>書類作成・口コミ返信など受付以外の自動化を追加する場合は、月額顧問プラン（ライト 55,000円〜）へ移行できます。</li>
+  </ul>
+
+  <h3>次のステップ</h3>
+  <p>ご検討いただける場合は、ヒアリングの日程（30分・オンライン可）をご指定ください。<br>ご不明点はLINE・メールでいつでもお問い合わせください。</p>
+  <p style="margin-top:30px">H.I. Company<br>担当：市川 晴喜<br>メール：h.ichikawa@hi-companyjapan.jp　LINE：@966kahwj　Instagram：@hi_company_ai</p>
+  <div class="foot"><span>H.I. Company</span><span>3</span></div>
+</div>
+
+<script>
+const yen=n=>Number(n).toLocaleString('ja-JP');
+function fill(){
+  const store=document.getElementById('i_store').value||'〇〇店';
+  const person=document.getElementById('i_person').value||'ご担当者';
+  const unit=Number(document.getElementById('i_unit').value)||0;
+  const lost=Number(document.getElementById('i_lost').value)||0;
+  const per=unit*4;
+  const m={store,person,unit:yen(unit),lost,perGroup:yen(per),lostYen:yen(per*lost),halfYen:yen(Math.round(per*lost/2))};
+  document.querySelectorAll('[data-f]').forEach(e=>e.textContent=m[e.dataset.f]);
+}
+const d=new Date();document.getElementById('date').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+fill();
+</script>
+</body>
+</html>

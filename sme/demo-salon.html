@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LINE 24時間AI受付 デモ（美容室・サロン）｜H.I. Company</title>
+<link rel="canonical" href="https://hi-companyjapan.jp/sme/demo-salon.html">
+<meta name="robots" content="index,follow">
+<style>
+:root{--g:#06C755;--bg:#8CABD9;--bub:#fff;--me:#8DE055;--ink:#1a1a1a}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:#eef1f5;color:var(--ink);display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px;gap:32px;flex-wrap:wrap}
+.side{max-width:360px}
+.side h1{font-size:22px;margin:0 0 8px}
+.side p{font-size:14px;line-height:1.8;color:#444}
+.side .tag{display:inline-block;background:var(--g);color:#fff;font-size:12px;padding:3px 10px;border-radius:99px;margin-bottom:12px}
+.side ul{font-size:13px;color:#444;line-height:1.9;padding-left:18px}
+.side .store{margin-top:16px;font-size:13px}
+.side input{width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+.phone{width:375px;height:740px;background:#000;border-radius:44px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.25);flex-shrink:0}
+.screen{background:var(--bg);border-radius:34px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.head{background:#fff;padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e5e5}
+.head .av{width:36px;height:36px;border-radius:50%;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.head b{font-size:15px}
+.head small{display:block;color:#888;font-size:11px}
+.log{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:78%;padding:10px 12px;border-radius:16px;font-size:14px;line-height:1.6;white-space:pre-wrap;animation:pop .2s ease}
+.bot{background:var(--bub);align-self:flex-start;border-top-left-radius:4px}
+.me{background:var(--me);align-self:flex-end;border-top-right-radius:4px}
+.time{font-size:10px;color:#e8f0ff;align-self:flex-end;margin-top:-6px}
+.qr{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px}
+.qr button{background:#fff;border:1px solid var(--g);color:var(--g);border-radius:99px;padding:6px 12px;font-size:12px;cursor:pointer}
+.qr button:hover{background:var(--g);color:#fff}
+.input{background:#fff;padding:10px;display:flex;gap:8px;border-top:1px solid #e5e5e5}
+.input input{flex:1;border:1px solid #ddd;border-radius:20px;padding:9px 14px;font-size:14px;outline:none}
+.input button{background:var(--g);color:#fff;border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:16px}
+.typing span{display:inline-block;width:6px;height:6px;background:#bbb;border-radius:50%;margin:0 2px;animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.note{font-size:11px;color:#666;margin-top:14px;line-height:1.7}
+@media(max-width:430px){body{padding:12px}.phone{width:100%;height:78vh;min-height:560px;border-radius:28px;padding:8px}.screen{border-radius:22px}}
+</style>
+</head>
+<body>
+<div class="side">
+  <span class="tag">デモ（ブラウザ内で動作）</span>
+  <h1>LINE 24時間AI受付</h1>
+  <p>施術中で電話に出られない時間も、予約・変更・メニューの質問にAIが即答します。ホットペッパー等の予約システムはそのまま併用できます。</p>
+  <ul>
+    <li>予約の受付（日時・メニュー・名前を自動でヒアリング）</li>
+    <li>営業時間・駐車場・所要時間・料金などのFAQ即答</li>
+    <li>予約変更・キャンセルの受付（施術後にまとめて返信する必要がなくなる）</li>
+    <li>答えられない質問はスタッフに転送</li>
+  </ul>
+  <div class="store">店名を変えて試す：<input id="storeName" value="hair salon LUMO" oninput="renameStore()"></div>
+  <p class="note">実際の導入では、メニュー・料金・所要時間・スタッフ指名・定休日を学習させ、公式LINEアカウントに接続します。予約は既存の予約台帳やGoogleカレンダーに自動記録されます。</p>
+</div>
+<div class="phone"><div class="screen">
+  <div class="head"><div class="av">L</div><div><b id="hName">hair salon LUMO</b><small>AI受付 · 24時間対応</small></div></div>
+  <div class="log" id="log"></div>
+  <div class="qr" id="qr"></div>
+  <div class="input"><input id="inp" placeholder="メッセージを入力" onkeydown="if(event.key==='Enter')send()"><button onclick="send()">➤</button></div>
+</div></div>
+<script>
+let store='hair salon LUMO';
+const log=document.getElementById('log'),qr=document.getElementById('qr'),inp=document.getElementById('inp');
+let flow=null,rsv={};
+const now=()=>{const d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')};
+function add(t,who){const m=document.createElement('div');m.className='msg '+who;m.textContent=t;log.appendChild(m);const s=document.createElement('div');s.className='time';s.textContent=now();log.appendChild(s);log.scrollTop=log.scrollHeight}
+function bot(t,delay=700){return new Promise(r=>{const ty=document.createElement('div');ty.className='msg bot typing';ty.innerHTML='<span></span><span></span><span></span>';log.appendChild(ty);log.scrollTop=log.scrollHeight;setTimeout(()=>{ty.remove();add(t,'bot');r()},delay)})}
+function quick(list){qr.innerHTML='';list.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{inp.value=t;send()};qr.appendChild(b)})}
+const HOME=['予約したい','営業時間は？','カットの料金は？','駐車場ある？','予約を変更したい','メニュー一覧'];
+function renameStore(){store=document.getElementById('storeName').value||'店舗名';document.getElementById('hName').textContent=store}
+async function send(){const t=inp.value.trim();if(!t)return;inp.value='';qr.innerHTML='';add(t,'me');await reply(t)}
+async function reply(t){
+  if(flow){return step(t)}
+  if(/予約|席|取れ/.test(t)){flow='date';rsv={};await bot('ご予約ありがとうございます！\nご希望の日時を教えてください。\n例）9月20日 14時');quick(['9月20日 14時','明日 11時','今週土曜 16時']);return}
+  if(/営業時間|何時|開いて|やってる/.test(t)){await bot('営業時間はこちらです。\n\n平日 10:00〜20:00（最終受付 カット19:00 / カラー18:00）\n土日祝 9:00〜19:00\n定休日：毎週月曜日・第2火曜日\n\n本日も営業しております！');quick(HOME);return}
+  if(/駐車|パーキング|車/.test(t)){await bot('店舗裏に2台分の専用駐車場がございます。満車の場合は、徒歩1分のコインパーキングをご利用ください。施術のお客様には2時間分のサービス券をお渡ししています。');quick(HOME);return}
+  if(/料金|カット|いくら|値段|カラー|パーマ/.test(t)){await bot('主なメニューと料金です（税込）。\n\n・カット 5,500円（60分）\n・カット＋カラー 12,100円（120分）\n・カット＋パーマ 13,200円（120分）\n・トリートメント +3,300円（30分）\n\n初回のお客様は全メニュー10%OFFです。ご予約されますか？');quick(['予約したい','メニュー一覧']);return}
+  if(/指名|担当|スタイリスト/.test(t)){await bot('スタイリストのご指名を承ります。\n\n・店長（指名料 +550円）\n・スタイリスト A\n・スタイリスト B\n\nご予約時にお名前をお知らせください。空き状況はスタッフが確認してご連絡します。');quick(['予約したい']);return}
+  if(/キャンセル|変更/.test(t)){await bot('ご予約の変更・キャンセルを承ります。\nご予約時のお名前と日時を教えてください。\n\n※ 当日の変更は施術の合間にスタッフが確認し、このLINEでご連絡します。');flow='cancel';return}
+  if(/メニュー|おすすめ|一覧|縮毛|ヘッドスパ/.test(t)){await bot('メニュー一覧です（税込）。\n\n・カット 5,500円\n・カラー 7,700円〜\n・パーマ 8,800円〜\n・縮毛矯正 16,500円〜\n・ヘッドスパ 4,400円（30分）\n\n所要時間はメニューにより60〜180分です。写真付きはこちら → https://example.com/menu');quick(HOME);return}
+  if(/ありがとう|助かる/.test(t)){await bot('こちらこそありがとうございます！\nご来店を心よりお待ちしております✂️');quick(HOME);return}
+  if(/相談|髪質|似合う/.test(t)){await bot('承知しました。スタッフに引き継ぎます。\n営業時間内（17時以降）にこのLINEでお返事しますので、少々お待ちください。\n\n【スタッフ通知済み ✅】');quick(HOME);return}
+  await bot('申し訳ありません、その内容はAIでは判断が難しいため、スタッフに転送しました。営業時間内にお返事します。\n\n【スタッフ通知済み ✅】\n\n他にご質問があればどうぞ。');quick(HOME);
+}
+async function step(t){
+  if(flow==='date'){rsv.date=t;flow='num';await bot(`${t} ですね。\nご希望のメニューを教えてください。`);quick(['カット','カット＋カラー','カット＋パーマ']);return}
+  if(flow==='num'){rsv.num=t;flow='name';await bot('ありがとうございます。\n代表者様のお名前（フルネーム）をお願いします。');return}
+  if(flow==='name'){rsv.name=t;flow='confirm';await bot(`以下の内容でお間違いないでしょうか？\n\n📅 日時：${rsv.date}\n✂️ メニュー：${rsv.num}\n👤 お名前：${rsv.name} 様\n\n「はい」で確定します。`);quick(['はい','やり直す']);return}
+  if(flow==='confirm'){
+    if(/はい|OK|お願い/.test(t)){flow=null;await bot(`✅ ご予約を承りました！\n\n📅 ${rsv.date}\n✂️ ${rsv.num}\n👤 ${rsv.name} 様\n\n前日にリマインドをお送りします。\nご来店を心よりお待ちしております。\n\n【予約台帳に自動登録済み・スタッフに通知済み】`);quick(HOME)}
+    else{flow='date';await bot('かしこまりました。ご希望の日時からもう一度お願いします。');quick(['9月20日 14時','明日 11時'])}
+    return}
+  if(flow==='cancel'){flow=null;await bot(`承知しました。\n「${t}」のご予約について、スタッフが確認のうえ、このLINEでご連絡します。\n\n【スタッフ通知済み ✅】`);quick(HOME);return}
+}
+(async()=>{await bot(`${store} 公式LINEへようこそ！\nAI受付の「ルモ」です。ご予約・変更やご質問に24時間お答えします。施術中でもすぐ返信します。\n\n下のボタンか、メッセージでお気軽にどうぞ。`,300);quick(HOME)})();
+</script>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>飲食店向け LINE 24時間AI受付｜構築10万円・月額3万円｜H.I. Company</title>
+<meta name="description" content="電話に出られない時間の予約・問い合わせをAIが即答。飲食店向けLINE 24時間AI受付。構築10万円、月額3万円。最短2週間で稼働。">
+<link rel="canonical" href="https://hi-companyjapan.jp/line/">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<meta property="og:title" content="飲食店向け LINE 24時間AI受付｜構築10万円・月額3万円｜H.I. Company">
+<meta property="og:description" content="電話に出られない時間の予約・問い合わせをAIが即答。飲食店向けLINE 24時間AI受付。構築10万円、月額3万円。最短2週間で稼働。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hi-companyjapan.jp/line/">
+<meta property="og:site_name" content="H.I. Company">
+<meta property="og:locale" content="ja_JP">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Service",
+      "name": "飲食店向け LINE 24時間AI受付",
+      "serviceType": "LINE公式アカウントのAI自動応答構築・運用",
+      "provider": {"@type": "Organization", "name": "H.I. Company", "url": "https://hi-companyjapan.jp/"},
+      "audience": {"@type": "BusinessAudience", "name": "飲食店"},
+      "areaServed": "JP",
+      "url": "https://hi-companyjapan.jp/line/",
+      "offers": [
+        {"@type": "Offer", "name": "構築費", "price": "100000", "priceCurrency": "JPY"},
+        {"@type": "Offer", "name": "月額運用", "price": "30000", "priceCurrency": "JPY"}
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "H.I. Company", "item": "https://hi-companyjapan.jp/"},
+        {"@type": "ListItem", "position": 2, "name": "飲食店向け LINE 24時間AI受付", "item": "https://hi-companyjapan.jp/line/"}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+:root{--g:#06C755;--gd:#059c43;--gl:#e8f9ee;--ink:#15181c;--mute:#5b6470;--bg:#fff;--soft:#f4f7f5;--line:#e3e7ea;--dark:#15181c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px;-webkit-text-size-adjust:100%}
+body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg);line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+p{margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:60px;gap:12px}
+.brand{text-decoration:none;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.brand .pk{font-size:12px;font-weight:600;color:var(--mute);background:var(--soft);padding:3px 10px;border-radius:99px}
+.hnav{display:flex;gap:6px;align-items:center}
+.hnav a{font-size:13px;color:var(--mute);text-decoration:none;padding:8px 10px;border-radius:8px}
+.hnav a:hover{background:var(--soft);color:var(--ink)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--g);color:#fff;text-decoration:none;padding:15px 26px;border-radius:99px;font-weight:700;font-size:16px;box-shadow:0 8px 20px rgba(6,199,85,.22);border:2px solid var(--g);transition:.2s;line-height:1.3;white-space:nowrap}
+.btn:hover{background:var(--gd);border-color:var(--gd);transform:translateY(-1px)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:var(--line);box-shadow:none}
+.btn.ghost:hover{background:var(--soft);border-color:#cfd5da}
+.btn.sm{padding:9px 16px;font-size:13px;box-shadow:none}
+.btn .ic{font-size:18px;line-height:1}
+.btn small{display:block;font-weight:500;font-size:11px;opacity:.85;line-height:1.2;white-space:nowrap}
+.btn.stack{flex-direction:column;gap:2px}
+
+/* hero */
+.hero{padding:56px 0 48px;background:radial-gradient(1200px 500px at 80% -10%,#dff7e8,transparent 60%),linear-gradient(180deg,#f3fbf6,#fff 80%)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero .tag{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #cdeedb;color:var(--gd);font-weight:700;font-size:13px;padding:6px 14px;border-radius:99px}
+.hero .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g)}
+.hero h1{font-size:clamp(28px,4.2vw,42px);line-height:1.35;margin:16px 0 14px;letter-spacing:.01em;font-weight:800}
+.hero h1 .em{color:var(--gd)}
+.hero h1 br.m,.sec-h h2 br.m{display:none}
+.hero .sub{font-size:16px;color:var(--mute);max-width:520px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 24px;padding:0;list-style:none}
+.facts li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:13px;color:var(--mute)}
+.facts li b{display:block;color:var(--ink);font-size:17px;line-height:1.2}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
+.hero .note{margin-top:12px;font-size:12px;color:var(--mute)}
+
+/* chat mock */
+.mock{background:#8CABD9;border-radius:22px;padding:14px;box-shadow:0 24px 50px rgba(20,40,60,.18);position:relative;max-width:360px;margin:0 auto;width:100%}
+.mock .mh{background:#fff;border-radius:12px 12px 0 0;padding:10px 14px;display:flex;align-items:center;gap:10px;margin:-14px -14px 12px;border-bottom:1px solid #dde3ea}
+.mock .mh .av{width:32px;height:32px;border-radius:50%;background:var(--g);color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px}
+.mock .mh b{font-size:14px;display:block;line-height:1.2}
+.mock .mh small{font-size:11px;color:#777}
+.mock .m{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.55;margin-bottom:8px;white-space:pre-line}
+.mock .b{background:#fff;border-top-left-radius:4px}
+.mock .u{background:#8DE055;margin-left:auto;border-top-right-radius:4px}
+.mock .t{font-size:10px;color:#eef3ff;text-align:right;margin:-4px 0 8px}
+.mock .badge{position:absolute;top:-12px;right:-8px;background:var(--dark);color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px;box-shadow:0 6px 16px rgba(0,0,0,.2)}
+
+/* sections */
+section{padding:64px 0}
+.sec-h{text-align:center;margin-bottom:32px}
+.sec-h .eyebrow{color:var(--gd);font-weight:700;font-size:13px;letter-spacing:.08em}
+.sec-h h2{font-size:clamp(22px,3.4vw,30px);margin:6px 0 10px;line-height:1.4}
+.sec-h p{color:var(--mute);font-size:15px;max-width:600px;margin:0 auto}
+.soft{background:var(--soft)}
+
+/* summary 3 */
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sum>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 20px}
+.sum .k{font-size:12px;font-weight:700;color:var(--gd);letter-spacing:.06em}
+.sum .v{font-size:22px;font-weight:800;margin:6px 0 4px;line-height:1.3}
+.sum p{font-size:13px;color:var(--mute)}
+
+/* pain */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.card .n{font-size:30px;font-weight:800;color:var(--g);line-height:1.1}
+.card h3{margin:10px 0 6px;font-size:16px}
+.card p{font-size:14px;color:var(--mute)}
+.card .ico{display:inline-block;background:var(--gl);color:var(--gd);font-weight:700;font-size:12px;letter-spacing:.08em;padding:2px 10px;border-radius:99px;margin-bottom:4px}
+.fine{text-align:center;margin-top:18px;color:var(--mute);font-size:12px}
+
+/* demo */
+.demo-box{display:grid;grid-template-columns:400px 1fr;gap:32px;align-items:start}
+.demo-frame{background:#eef1f5;border:1px solid var(--line);border-radius:22px;padding:12px;width:100%}
+.demo-frame iframe{width:100%;height:740px;border:0;border-radius:14px;display:block;background:#eef1f5}
+.try{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
+.try h3{margin:0 0 6px;font-size:17px}
+.try p{font-size:14px;color:var(--mute)}
+.try ol{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.try li{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.try li i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--g);color:#fff;font-style:normal;font-weight:700;font-size:12px;display:grid;place-items:center;margin-top:2px}
+.try .alt{margin-top:16px;font-size:13px}
+.try .alt a{color:var(--gd)}
+
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:s}
+.flow>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 18px 18px;position:relative}
+.flow>div::before{counter-increment:s;content:"STEP " counter(s);display:inline-block;background:var(--gl);color:var(--gd);border-radius:99px;padding:2px 10px;font-weight:700;font-size:11px;letter-spacing:.06em;margin-bottom:8px}
+.flow b{display:block;font-size:16px;margin-bottom:4px}
+.flow .d{font-size:12px;color:var(--gd);font-weight:700;margin-bottom:6px}
+.flow p{font-size:13px;color:var(--mute)}
+
+/* price */
+.price{background:var(--dark);color:#fff}
+.price .sec-h h2{color:#fff}
+.price .sec-h p{color:#b8bec5}
+.price .sec-h .eyebrow{color:#8de055}
+.pgrid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:stretch}
+.pmain{background:#1f2327;border:1px solid #33393f;border-radius:18px;padding:28px}
+.prow{display:grid;grid-template-columns:1fr auto;align-items:baseline;padding:14px 0;border-bottom:1px solid #33393f;gap:2px 12px}
+.prow .l{font-size:15px;color:#e6e9ec;font-weight:700}
+.prow>small{grid-column:1/-1;font-size:12px;color:#8a929a;line-height:1.6}
+.prow .amt{font-size:30px;font-weight:800;white-space:nowrap}
+.prow .amt small{font-size:13px;font-weight:400;color:#aaa;margin-left:4px}
+.prow.total{border-bottom:0;padding-top:16px}
+.prow.total .l{color:#fff;font-weight:700;font-size:15px}
+.prow.total .amt{color:#8de055;font-size:34px}
+.ptag{display:inline-block;background:#8de055;color:#0d2a17;font-weight:700;font-size:12px;padding:3px 10px;border-radius:99px;margin-bottom:10px}
+.pinc{background:#1f2327;border:1px solid #33393f;border-radius:18px;padding:28px}
+.pinc h3{margin:0 0 12px;font-size:15px;color:#c9cfd5}
+.pinc ul{list-style:none;margin:0;padding:0;font-size:14px;color:#e6e9ec}
+.pinc li{padding:6px 0 6px 26px;position:relative}
+.pinc li::before{content:"✓";position:absolute;left:0;color:#8de055;font-weight:700}
+.pnotes{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pnotes div{background:#1f2327;border-radius:12px;padding:12px 14px;font-size:13px;color:#c9cfd5}
+.pnotes b{display:block;color:#fff;font-size:14px;margin-bottom:2px}
+.pnotes a{color:#8de055}
+
+/* roi */
+.roi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+.roi .big{font-size:clamp(24px,3.5vw,32px);font-weight:800;line-height:1.35}
+.roi .big span{color:var(--gd)}
+.roi .cond{font-size:13px;color:var(--mute);margin-top:8px}
+.roi table{width:100%;border-collapse:collapse;font-size:14px}
+.roi td{padding:9px 4px;border-bottom:1px solid var(--line)}
+.roi td:last-child{text-align:right;font-weight:700;white-space:nowrap}
+.roi tr.hl td{color:var(--gd)}
+
+/* faq */
+.faq{max-width:760px;margin:0 auto}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 18px;margin-bottom:10px}
+.faq summary{cursor:pointer;font-weight:700;padding:15px 0;list-style:none;display:flex;justify-content:space-between;gap:12px;font-size:15px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"＋";color:var(--g);flex:none}
+.faq details[open] summary::after{content:"－"}
+.faq p{color:var(--mute);font-size:14px;padding:0 0 16px}
+
+/* final */
+.final{text-align:center;padding:70px 0 80px;background:linear-gradient(180deg,#fff,#eefaf3)}
+.final h2{font-size:clamp(22px,3.4vw,30px);margin:0 0 10px}
+.final p{color:var(--mute)}
+.final .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:24px 0 16px}
+.final .other{font-size:13px;color:var(--mute)}
+.final .other a{color:var(--ink)}
+footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid var(--line);text-align:center}
+
+/* mobile sticky bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px}
+.bar .btn{flex:1;padding:12px 10px;font-size:14px;box-shadow:none}
+
+@media(max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;gap:28px}
+  .mock{max-width:340px}
+  .demo-box{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .pgrid{grid-template-columns:1fr}
+  .roi{grid-template-columns:1fr}
+  .pnotes{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  section{padding:48px 0}
+  .hero{padding:32px 0 36px}
+  .hero h1{font-size:25px}
+  .hero h1 br.m,.sec-h h2 br.m{display:inline}
+  .hnav .lk{display:none}
+  .brand .pk{display:none}
+  .sum{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .hero .cta .btn{width:100%}
+  .final .cta .btn{width:100%}
+  .demo-frame{padding:8px;border-radius:18px}
+  .prow .amt{font-size:26px}
+  .prow.total .amt{font-size:30px}
+  .prow .l{white-space:nowrap}
+  .demo-frame iframe{height:640px}
+  .bar{display:flex}
+  .mock{display:none}
+}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <a class="brand" href="https://hi-companyjapan.jp/">H.I. Company <span class="pk">飲食店向け LINE AI受付</span></a>
+  <nav class="hnav">
+    <a class="lk" href="#demo">デモ</a>
+    <a class="lk" href="#features">できること</a>
+    <a class="lk" href="#price">料金</a>
+    <a class="lk" href="#faq">よくある質問</a>
+    <a class="btn sm" href="#contact">無料相談</a>
+  </nav>
+</div></header>
+
+<div class="hero"><div class="wrap">
+  <div>
+    <span class="tag">飲食店向け ｜ 公式LINEにAI受付を追加</span>
+    <h1>電話に出られない時間も、<br>予約と問い合わせを<br class="m"><span class="em">AIが24時間</span>受け付けます。</h1>
+    <p class="sub">仕込み中も、ピークタイムも、閉店後も。お客様がLINEを送ったその場で、AIが返信します。予約の取りこぼしがなくなります。</p>
+    <ul class="facts">
+      <li><b>10万円</b>初期費用（税別）</li>
+      <li><b>3万円</b>月額（税別）</li>
+      <li><b>最短2週間</b>で稼働開始</li>
+      <li><b>初月解約OK</b>違約金なし</li>
+    </ul>
+    <div class="cta">
+      <a class="btn" href="#demo"><span class="ic">▶</span> デモを触ってみる（無料・登録不要）</a>
+      <a class="btn ghost" href="#contact">相談する</a>
+    </div>
+    <p class="note">※ デモはこのページ内で動きます。お申し込み前に、実際の応対を確認できます。</p>
+  </div>
+  <div class="mock" aria-hidden="true">
+    <span class="badge">深夜2時でも即返信</span>
+    <div class="mh"><div class="av">一</div><div><b>炭火焼き 一心</b><small>AI受付 · 24時間対応</small></div></div>
+    <div class="m u">明日19時に4名で予約できますか？</div>
+    <div class="t">2:14</div>
+    <div class="m b">ご予約ありがとうございます！
+明日 19:00 4名様、空きがございます。
+代表者様のお名前をお願いします。</div>
+    <div class="t">2:14</div>
+    <div class="m u">山田です。駐車場はありますか？</div>
+    <div class="t">2:15</div>
+    <div class="m b">✅ 山田様 明日19:00 4名様で承りました。
+店舗前に専用駐車場2台分がございます。前日にリマインドをお送りします。</div>
+    <div class="t">2:15</div>
+  </div>
+</div></div>
+
+<section class="soft"><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">30秒でわかる</div><h2>ポイントは3つだけです</h2></div>
+  <div class="sum">
+    <div><div class="k">何ができる？</div><div class="v">LINEの返信をAIが代行</div><p>予約・営業時間・駐車場・個室・アレルギーなど、貴店の情報をもとにAIが即答。判断が難しい内容だけスタッフに通知します。</p></div>
+    <div><div class="k">料金は？</div><div class="v">初期10万円 ＋ 月額3万円</div><p>AI利用料・サーバー費・毎月の改善・レポートは、すべて月額に含まれます。追加費用はありません。</p></div>
+    <div><div class="k">始め方は？</div><div class="v">30分のヒアリングから</div><p>営業時間・席数・よくある質問をお聞きし、構築はこちらで行います。公式LINEをお持ちでなくても、開設から代行します。</p></div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">お困りごと</div><h2>その「取りこぼし」、月にいくらになっていますか？</h2></div>
+  <div class="cards">
+    <div class="card"><div class="n">3件に1件</div><h3>ピーク時の電話に出られない</h3><p>かけ直したときには、お客様はもう別の店を予約しています。</p></div>
+    <div class="card"><div class="n">夜21時〜</div><h3>閉店後・深夜の問い合わせ</h3><p>翌日のランチや週末の予約は、前の晩に決まります。翌朝の返信では間に合いません。</p></div>
+    <div class="card"><div class="n">1日40分</div><h3>同じ質問への対応</h3><p>「駐車場はある？」「個室はある？」「アレルギー対応は？」。同じ質問に、スタッフが毎日答えている時間です。</p></div>
+  </div>
+  <p class="fine">※ 数値は一般的な飲食店の傾向をもとにした目安です。貴店の場合の金額は、無料相談で試算します。</p>
+</div></section>
+
+<section id="demo" class="soft"><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">デモ</div><h2>実際に触ってみてください</h2><p>下のスマホ画面は実際に動きます。登録は不要です。</p></div>
+  <div class="demo-box">
+    <div class="demo-frame"><iframe src="demo.html?embed=1" title="LINE AI受付デモ" loading="lazy"></iframe></div>
+    <div class="try">
+      <h3>試し方</h3>
+      <p>画面の下にあるボタンを押すか、メッセージを入力してください。</p>
+      <ol>
+        <li><i>1</i><span>「予約したい」を押すと、日時・人数・お名前を順に聞かれ、予約が完了します。</span></li>
+        <li><i>2</i><span>「駐車場ある？」「個室はある？」を押すと、店舗の情報をもとにその場で答えます。</span></li>
+        <li><i>3</i><span>「貸切について相談したい」など判断が必要な内容は、AIが答えずにスタッフへ引き継ぎます。</span></li>
+      </ol>
+      <p class="alt">画面が小さい場合は <a href="demo.html" target="_blank" rel="noopener">別画面でデモを開く ↗</a></p>
+      <p class="alt" style="color:var(--mute)">実際の導入では、貴店のメニュー・座席・営業日・予約枠を学習させたAIを、公式LINEアカウントに接続します。</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="features"><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">できること</div><h2>受付まわりの仕事を、まとめてAIに任せられます</h2></div>
+  <div class="cards">
+    <div class="card"><div class="ico">01</div><h3>予約の自動受付</h3><p>日時・人数・お名前をAIが聞き取り、予約台帳（Googleカレンダーやスプレッドシート）に自動で登録します。前日のリマインドも自動で送ります。</p></div>
+    <div class="card"><div class="ico">02</div><h3>よくある質問に即答</h3><p>営業時間・定休日・駐車場・個室・アレルギー・メニュー・支払い方法など、貴店の情報をもとに答えます。</p></div>
+    <div class="card"><div class="ico">03</div><h3>キャンセル・変更の受付</h3><p>LINEで気軽に連絡できるため無断キャンセルが減り、空いた枠をすぐに埋め直せます。</p></div>
+    <div class="card"><div class="ico">04</div><h3>難しい内容はスタッフへ</h3><p>AIが答えられない内容は、自動でスタッフに通知します。お客様には「営業時間内にご返信します」とご案内します。</p></div>
+    <div class="card"><div class="ico">05</div><h3>一斉配信の下書き</h3><p>季節メニューやイベントの案内文をAIが作成します。内容を確認して、ワンタップで友だち全員に配信できます。</p></div>
+    <div class="card"><div class="ico">06</div><h3>月次レポート</h3><p>問い合わせ数・予約数・よくある質問を、毎月レポートにまとめます。メニューや案内の改善に使えます。</p></div>
+  </div>
+</div></section>
+
+<section class="soft"><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">導入の流れ</div><h2>お申し込みから最短2週間で稼働します</h2></div>
+  <div class="flow">
+    <div><b>ヒアリング</b><div class="d">30分・オンライン</div><p>営業時間、席数、メニュー、よくある質問をお聞きします。</p></div>
+    <div><b>構築</b><div class="d">7〜10日</div><p>貴店専用のAI受付を構築し、公式LINEアカウントに接続します。</p></div>
+    <div><b>テスト</b><div class="d">2〜3日</div><p>スタッフの皆様に試していただき、回答を調整します。</p></div>
+    <div><b>稼働・毎月改善</b><div class="d">月1回</div><p>会話の記録をもとに回答を改善します。追加のご要望も月額の範囲で対応します。</p></div>
+  </div>
+</div></section>
+
+<section id="price" class="price"><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">料金</div><h2>料金は2つだけ。<br class="m">追加費用はありません</h2><p>すべて税別。最低契約期間なし、違約金なし。</p></div>
+  <div class="pgrid">
+    <div class="pmain">
+      <span class="ptag">シンプル料金</span>
+      <div class="prow"><div class="l">初期費用</div><div class="amt">100,000<small>円</small></div><small>ヒアリング・構築・公式LINE接続・スタッフ向け操作説明</small></div>
+      <div class="prow"><div class="l">月額</div><div class="amt">30,000<small>円 / 月</small></div><small>AI利用料・サーバー費・月1回の改善・月次レポート込み</small></div>
+      <div class="prow total"><div class="l">初月のお支払い</div><div class="amt">130,000<small>円</small></div></div>
+      <div style="font-size:13px;color:#8a929a">2ヶ月目以降は月額30,000円のみ。</div>
+    </div>
+    <div class="pinc">
+      <h3>月額に含まれるもの</h3>
+      <ul>
+        <li>AI利用料・サーバー費用</li>
+        <li>月1回の回答改善</li>
+        <li>メニュー・営業時間の更新</li>
+        <li>一斉配信文の作成（月2本）</li>
+        <li>月次レポート</li>
+        <li>チャット・LINEでのサポート</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pnotes">
+    <div><b>解約はいつでも</b>月末までにご連絡いただければ、翌月から停止します。合わなければ初月で解約できます。</div>
+    <div><b>複数店舗は割引</b>2店舗目からは初期5万円・月額2万円です。</div>
+    <div><b>受付以外も任せたい方</b>書類作成や口コミ返信まで含めたい場合は、<a href="https://hi-companyjapan.jp/#price">月額顧問プラン（ライト 55,000円〜）</a>をご案内します。</div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">費用対効果</div><h2>月額3万円は、予約1.5組で回収できます</h2></div>
+  <div class="roi">
+    <div>
+      <div class="big">月に<span>2組</span>予約が増えれば、元が取れます。</div>
+      <p class="cond">客単価5,000円・4名のご予約で計算しています。さらに電話対応が1日40分減れば、月に約20時間、スタッフの時間が空きます。</p>
+    </div>
+    <table>
+      <tr><td>1組（4名）の売上</td><td>20,000円</td></tr>
+      <tr><td>月額費用</td><td>30,000円</td></tr>
+      <tr><td>損益分岐</td><td>月1.5組</td></tr>
+      <tr class="hl"><td>取りこぼしが月10組減った場合</td><td>+200,000円 / 月</td></tr>
+    </table>
+  </div>
+</div></section>
+
+<section id="faq" class="soft"><div class="wrap">
+  <div class="sec-h"><div class="eyebrow">よくある質問</div><h2>導入前によくいただく質問</h2></div>
+  <div class="faq">
+    <details><summary>公式LINEアカウントを持っていません</summary><p>無料で開設できます。開設から設定まで、初期費用の範囲でこちらが代行します。</p></details>
+    <details><summary>AIが間違った回答をしませんか？</summary><p>営業時間や価格などの事実は、貴店が登録した内容だけを答えるように設計します。判断が難しい質問はAIが答えず、スタッフに転送します。</p></details>
+    <details><summary>今使っている予約システム（ホットペッパー等）と併用できますか</summary><p>できます。LINE経由の予約を、既存の予約台帳やカレンダーに反映する形で連携します。</p></details>
+    <details><summary>パソコンが苦手なスタッフでも使えますか</summary><p>スタッフ側の操作は、普段のLINEと同じです。特別な操作はありません。</p></details>
+    <details><summary>解約したいときは</summary><p>月末までにご連絡いただければ翌月から停止します。違約金はありません。</p></details>
+  </div>
+</div></section>
+
+<div class="final" id="contact"><div class="wrap">
+  <h2>まずは、30分の無料相談から</h2>
+  <p>オンラインで、貴店の情報を入れたデモをお見せします。その場で「取りこぼしの金額」も試算します。<br>無理な営業はしません。合わないと感じたら、そのままお断りください。</p>
+  <div class="cta">
+    <a class="btn" href="https://line.me/R/ti/p/@966kahwj">LINEで相談する</a>
+    <a class="btn ghost" href="mailto:h.ichikawa@hi-companyjapan.jp">メールで相談する</a>
+  </div>
+  <p class="other">Instagram：<a href="https://www.instagram.com/hi_company_ai/" target="_blank" rel="noopener">@hi_company_ai</a> のDMでも受け付けています</p>
+</div></div>
+
+<footer>© H.I. Company ｜ 店舗・中小企業のAI業務自動化 ｜ <a href="https://hi-companyjapan.jp/">公式サイト</a> ｜ <a href="https://hi-companyjapan.jp/#company">特定商取引法に基づく表記</a></footer>
+
+<div class="bar">
+  <a class="btn ghost" href="#demo">▶ デモを触る</a>
+  <a class="btn" href="https://line.me/R/ti/p/@966kahwj">LINEで相談</a>
+</div>
+</body>
+</html>

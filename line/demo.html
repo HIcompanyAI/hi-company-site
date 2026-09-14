@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LINE 24時間AI受付 デモ｜H.I. Company</title>
+<link rel="canonical" href="https://hi-companyjapan.jp/line/demo.html">
+<meta name="robots" content="index,follow">
+<style>
+:root{--g:#06C755;--bg:#8CABD9;--bub:#fff;--me:#8DE055;--ink:#1a1a1a}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:#eef1f5;color:var(--ink);display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px;gap:32px;flex-wrap:wrap}
+.side{max-width:360px}
+.side h1{font-size:22px;margin:0 0 8px}
+.side p{font-size:14px;line-height:1.8;color:#444}
+.side .tag{display:inline-block;background:var(--g);color:#fff;font-size:12px;padding:3px 10px;border-radius:99px;margin-bottom:12px}
+.side ul{font-size:13px;color:#444;line-height:1.9;padding-left:18px}
+.side .store{margin-top:16px;font-size:13px}
+.side input{width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+.phone{width:375px;max-width:100%;height:740px;max-height:calc(100vh - 40px);background:#000;border-radius:44px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.25);flex-shrink:0}
+@media(max-width:420px){.phone{border-radius:28px;padding:8px}.screen{border-radius:22px}}
+/* 埋め込みモード（LPの iframe から ?embed=1 で呼び出す） */
+body.embed{padding:0;background:transparent;min-height:0;height:100vh;align-items:stretch}
+body.embed .side{display:none}
+body.embed .phone{width:100%;max-width:none;height:100%;max-height:none;border-radius:18px;padding:0;box-shadow:none;background:transparent}
+body.embed .screen{border-radius:14px}
+.screen{background:var(--bg);border-radius:34px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.head{background:#fff;padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e5e5}
+.head .av{width:36px;height:36px;border-radius:50%;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.head b{font-size:15px}
+.head small{display:block;color:#888;font-size:11px}
+.log{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:78%;padding:10px 12px;border-radius:16px;font-size:14px;line-height:1.6;white-space:pre-wrap;animation:pop .2s ease}
+.bot{background:var(--bub);align-self:flex-start;border-top-left-radius:4px}
+.me{background:var(--me);align-self:flex-end;border-top-right-radius:4px}
+.time{font-size:10px;color:#e8f0ff;align-self:flex-end;margin-top:-6px}
+.qr{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px}
+.qr button{background:#fff;border:1px solid var(--g);color:var(--g);border-radius:99px;padding:6px 12px;font-size:12px;cursor:pointer}
+.qr button:hover{background:var(--g);color:#fff}
+.input{background:#fff;padding:10px;display:flex;gap:8px;border-top:1px solid #e5e5e5}
+.input input{flex:1;border:1px solid #ddd;border-radius:20px;padding:9px 14px;font-size:14px;outline:none}
+.input button{background:var(--g);color:#fff;border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:16px}
+.typing span{display:inline-block;width:6px;height:6px;background:#bbb;border-radius:50%;margin:0 2px;animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.note{font-size:11px;color:#666;margin-top:14px;line-height:1.7}
+@media(max-width:430px){body{padding:12px}.phone{width:100%;height:78vh;min-height:560px;border-radius:28px;padding:8px}.screen{border-radius:22px}}
+</style>
+</head>
+<body>
+<div class="side">
+  <span class="tag">デモ（ブラウザ内で動作）</span>
+  <h1>LINE 24時間AI受付</h1>
+  <p>お客様からの予約・問い合わせに、AIが深夜でも即答します。電話に出られない仕込み中やピーク時間も、取りこぼしゼロ。</p>
+  <ul>
+    <li>予約の受付（日時・人数・名前を自動でヒアリング）</li>
+    <li>営業時間・駐車場・アレルギー・個室などのFAQ即答</li>
+    <li>キャンセル・変更の受付</li>
+    <li>答えられない質問はスタッフに転送</li>
+  </ul>
+  <div class="store">店名を変えて試す：<input id="storeName" value="炭火焼き 一心" oninput="renameStore()"></div>
+  <p class="note">実際の導入では、店舗ごとのメニュー・座席・営業日・定休日・予約枠を学習させ、公式LINEアカウントに接続します。予約はGoogleカレンダーやスプレッドシートに自動記録されます。</p>
+</div>
+<div class="phone"><div class="screen">
+  <div class="head"><div class="av">一</div><div><b id="hName">炭火焼き 一心</b><small>AI受付 · 24時間対応</small></div></div>
+  <div class="log" id="log"></div>
+  <div class="qr" id="qr"></div>
+  <div class="input"><input id="inp" placeholder="メッセージを入力" onkeydown="if(event.key==='Enter')send()"><button onclick="send()">➤</button></div>
+</div></div>
+<script>
+if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+let store='炭火焼き 一心';
+const log=document.getElementById('log'),qr=document.getElementById('qr'),inp=document.getElementById('inp');
+let flow=null,rsv={};
+const now=()=>{const d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')};
+function add(t,who){const m=document.createElement('div');m.className='msg '+who;m.textContent=t;log.appendChild(m);const s=document.createElement('div');s.className='time';s.textContent=now();log.appendChild(s);log.scrollTop=log.scrollHeight}
+function bot(t,delay=700){return new Promise(r=>{const ty=document.createElement('div');ty.className='msg bot typing';ty.innerHTML='<span></span><span></span><span></span>';log.appendChild(ty);log.scrollTop=log.scrollHeight;setTimeout(()=>{ty.remove();add(t,'bot');r()},delay)})}
+function quick(list){qr.innerHTML='';list.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{inp.value=t;send()};qr.appendChild(b)})}
+const HOME=['予約したい','営業時間は？','駐車場ある？','個室はある？','アレルギー対応','キャンセルしたい'];
+function renameStore(){store=document.getElementById('storeName').value||'店舗名';document.getElementById('hName').textContent=store}
+async function send(){const t=inp.value.trim();if(!t)return;inp.value='';qr.innerHTML='';add(t,'me');await reply(t)}
+async function reply(t){
+  if(flow){return step(t)}
+  if(/予約|席|取れ/.test(t)){flow='date';rsv={};await bot('ご予約ありがとうございます！\nご希望の日時を教えてください。\n例）9月20日 19時');quick(['9月20日 19時','明日 18時半','今週土曜 20時']);return}
+  if(/営業時間|何時|開いて|やってる/.test(t)){await bot('営業時間はこちらです。\n\n月〜土 17:00〜23:30（L.O. 23:00）\n日・祝 17:00〜22:30\n定休日：毎週火曜日\n\n本日も通常営業しております！');quick(HOME);return}
+  if(/駐車|パーキング|車/.test(t)){await bot('店舗前に2台分の専用駐車場がございます。満車の場合は、徒歩1分のコインパーキング（〇〇パーキング）をご利用ください。ご飲食のお客様は1時間分のサービス券をお渡ししています。');quick(HOME);return}
+  if(/個室|座敷|貸切/.test(t)){await bot('個室は4名様用が2室、8名様用が1室ございます。\n貸切は20名様〜承ります（要相談）。\n\n個室のご予約はお早めがおすすめです。ご予約されますか？');quick(['予約したい','貸切について相談したい']);return}
+  if(/アレルギー|ベジ|ヴィーガン|ハラル/.test(t)){await bot('アレルギー対応は可能です。\nご予約時に品目をお知らせいただければ、調理を分けてご用意します。\n\n※ 卵・乳・小麦・落花生・えび・かに・そば は特にご注意ください。\n対応が難しい場合はスタッフから直接ご連絡します。');quick(HOME);return}
+  if(/キャンセル|変更/.test(t)){await bot('ご予約のキャンセル・変更を承ります。\nご予約時のお名前と日時を教えてください。\n\n※ 当日キャンセルはお電話でお願いする場合がございます。');flow='cancel';return}
+  if(/メニュー|おすすめ|料理|コース/.test(t)){await bot('人気メニューはこちらです。\n\n・炭火焼き盛り合わせ 2,480円\n・本日の鮮魚刺身 1,680円\n・飲み放題付きコース 5,000円〜\n\n写真付きメニューはこちら → https://example.com/menu');quick(HOME);return}
+  if(/ありがとう|助かる/.test(t)){await bot('こちらこそありがとうございます！\nご来店を心よりお待ちしております🍶');quick(HOME);return}
+  if(/相談|貸切/.test(t)){await bot('承知しました。スタッフに引き継ぎます。\n営業時間内（17時以降）にこのLINEでお返事しますので、少々お待ちください。\n\n【スタッフ通知済み ✅】');quick(HOME);return}
+  await bot('申し訳ありません、その内容はAIでは判断が難しいため、スタッフに転送しました。営業時間内にお返事します。\n\n【スタッフ通知済み ✅】\n\n他にご質問があればどうぞ。');quick(HOME);
+}
+async function step(t){
+  if(flow==='date'){rsv.date=t;flow='num';await bot(`${t} ですね。\n何名様でしょうか？`);quick(['2名','4名','6名']);return}
+  if(flow==='num'){rsv.num=t;flow='name';await bot('ありがとうございます。\n代表者様のお名前（フルネーム）をお願いします。');return}
+  if(flow==='name'){rsv.name=t;flow='confirm';await bot(`以下の内容でお間違いないでしょうか？\n\n📅 日時：${rsv.date}\n👥 人数：${rsv.num}\n👤 お名前：${rsv.name} 様\n\n「はい」で確定します。`);quick(['はい','やり直す']);return}
+  if(flow==='confirm'){
+    if(/はい|OK|お願い/.test(t)){flow=null;await bot(`✅ ご予約を承りました！\n\n📅 ${rsv.date}\n👥 ${rsv.num}\n👤 ${rsv.name} 様\n\n前日にリマインドをお送りします。\nご来店を心よりお待ちしております。\n\n【店舗の予約台帳に自動登録済み】`);quick(HOME)}
+    else{flow='date';await bot('かしこまりました。ご希望の日時からもう一度お願いします。');quick(['9月20日 19時','明日 18時半'])}
+    return}
+  if(flow==='cancel'){flow=null;await bot(`承知しました。\n「${t}」のご予約について、スタッフが確認のうえ、このLINEでご連絡します。\n\n【スタッフ通知済み ✅】`);quick(HOME);return}
+}
+(async()=>{await bot(`${store} 公式LINEへようこそ！\nAI受付の「いっしん」です。ご予約やご質問に24時間お答えします。\n\n下のボタンか、メッセージでお気軽にどうぞ。`,300);quick(HOME)})();
+</script>
+</body>
+</html>

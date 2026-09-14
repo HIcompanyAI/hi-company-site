@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="fWRvwcWYxadZOtSgO8fPazTxa93fsA8ORGu89gfC3q0" />
+<title>H.I. Company｜店舗・中小企業のAI業務自動化</title>
+<meta name="description" content="H.I. Companyは、店舗・中小企業向けに公式LINEの24時間AI受付係や業務自動化ツールを構築し、月額の顧問サービスとして提供します。">
+<meta name="theme-color" content="#050607">
+<meta property="og:title" content="H.I. Company｜店舗・中小企業のAI業務自動化">
+<meta property="og:description" content="電話に出られない時間を、AI受付係が引き受ける。公式LINEの一次対応から書類作成まで、月額の顧問サービスで運用まで伴走します。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hi-companyjapan.jp/">
+<link rel="canonical" href="https://hi-companyjapan.jp/">
+<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large">
+<meta property="og:site_name" content="H.I. Company">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://hi-companyjapan.jp/#org",
+      "name": "H.I. Company",
+      "alternateName": "エイチアイカンパニー",
+      "url": "https://hi-companyjapan.jp/",
+      "email": "h.ichikawa@hi-companyjapan.jp",
+      "founder": {"@type": "Person", "name": "市川 晴喜"},
+      "description": "店舗・中小企業向けに公式LINEの24時間AI受付や書類自動作成などのAI業務自動化を構築し、月額の顧問サービスとして提供します。",
+      "address": {
+        "@type": "PostalAddress",
+        "postalCode": "111-0035",
+        "addressRegion": "東京都",
+        "addressLocality": "台東区",
+        "streetAddress": "西浅草3-22-3-1306",
+        "addressCountry": "JP"
+      },
+      "areaServed": "JP",
+      "sameAs": ["https://www.instagram.com/hi_company_ai/"],
+      "priceRange": "¥¥"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://hi-companyjapan.jp/#website",
+      "url": "https://hi-companyjapan.jp/",
+      "name": "H.I. Company｜店舗・中小企業のAI業務自動化",
+      "inLanguage": "ja",
+      "publisher": {"@id": "https://hi-companyjapan.jp/#org"}
+    },
+    {
+      "@type": "Service",
+      "name": "LINE 24時間AI受付",
+      "serviceType": "AI業務自動化",
+      "provider": {"@id": "https://hi-companyjapan.jp/#org"},
+      "url": "https://hi-companyjapan.jp/line/",
+      "areaServed": "JP",
+      "offers": {"@type": "Offer", "price": "30000", "priceCurrency": "JPY", "description": "月額3万円（構築費10万円）"}
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* ============ tokens ============ */
+:root{
+  --bg:#050607;--bg-2:#0A0C0E;--panel:#0F1316;--panel-2:#141A1E;
+  --line:rgba(255,255,255,.10);--line-2:rgba(255,255,255,.16);
+  --ink:#F2F5F6;--ink-2:#A9B2B9;--muted:#6E777E;
+  --accent:#3ADBC6;--accent-deep:#0E6F6B;--accent-glow:rgba(58,219,198,.28);
+  --light:#F4F6F7;--light-2:#FFFFFF;--l-ink:#0B0F12;--l-ink-2:#4B555C;--l-line:#E1E5E8;
+  --serif:"Shippori Mincho",serif;
+  --display:"Cormorant Garamond","Shippori Mincho",serif;
+  --sans:"Noto Sans JP",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --max:1180px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.9;letter-spacing:.02em;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#04211E}
+
+/* ============ preloader ============ */
+#pre{position:fixed;inset:0;z-index:999;background:var(--bg);display:grid;place-items:center;transition:opacity .7s var(--ease),visibility .7s}
+#pre.done{opacity:0;visibility:hidden}
+#pre .pl{font-family:var(--display);font-size:clamp(22px,5vw,34px);letter-spacing:.18em;color:var(--ink);opacity:.9}
+#pre .bar{position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent-deep),var(--accent));animation:load 1.1s var(--ease) forwards}
+@keyframes load{to{width:100%}}
+
+/* ============ nav ============ */
+header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s var(--ease),border-color .4s var(--ease),backdrop-filter .4s}
+header{border-bottom:1px solid transparent}
+header.scrolled{background:rgba(5,6,7,.72);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
+.nav{max-width:var(--max);margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:baseline;gap:9px;font-family:var(--display);font-size:19px;letter-spacing:.14em;color:#fff}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);font-style:normal;flex:none;transform:translateY(-2px)}
+.menu{display:flex;align-items:center;gap:30px;font-size:13px;letter-spacing:.06em;color:var(--ink-2)}
+.menu a{position:relative;padding:4px 0;transition:color .3s}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);transition:width .35s var(--ease)}
+.menu a:hover{color:#fff}.menu a:hover::after{width:100%}
+.nav-cta{font-size:12.5px;letter-spacing:.08em;padding:10px 20px;border-radius:100px;border:1px solid var(--line-2);color:#fff;transition:.35s var(--ease)}
+.nav-cta:hover{background:#fff;color:#0B0F12;border-color:#fff}
+.burger{display:none;width:42px;height:42px;border:1px solid var(--line-2);border-radius:50%;background:none;cursor:pointer;position:relative}
+.burger span{position:absolute;left:12px;width:18px;height:1px;background:#fff;transition:.35s var(--ease)}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:23px}
+body.open .burger span:nth-child(1){transform:translateY(3px) rotate(45deg)}
+body.open .burger span:nth-child(2){transform:translateY(-3px) rotate(-45deg)}
+.drawer{position:fixed;inset:0;z-index:99;background:rgba(5,6,7,.97);backdrop-filter:blur(20px);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:0 32px;opacity:0;visibility:hidden;transition:.45s var(--ease)}
+body.open .drawer{opacity:1;visibility:visible}
+.drawer a{font-family:var(--serif);font-size:24px;padding:14px 0;border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:.5s var(--ease)}
+.drawer a em{font-family:var(--mono);font-style:normal;font-size:11px;color:var(--accent);margin-right:14px;letter-spacing:.1em}
+body.open .drawer a{opacity:1;transform:none}
+body.open .drawer a:nth-child(1){transition-delay:.06s}
+body.open .drawer a:nth-child(2){transition-delay:.12s}
+body.open .drawer a:nth-child(3){transition-delay:.18s}
+body.open .drawer a:nth-child(4){transition-delay:.24s}
+body.open .drawer a:nth-child(5){transition-delay:.3s}
+body.open .drawer a:nth-child(6){transition-delay:.36s}
+body.open .drawer a:nth-child(7){transition-delay:.42s}
+body.open .drawer a:nth-child(8){transition-delay:.48s}
+
+/* ============ layout ============ */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+section{position:relative}
+.sec{padding:clamp(90px,13vw,160px) 0}
+.light{background:var(--light);color:var(--l-ink)}
+.light p{color:var(--l-ink-2)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);opacity:.7}
+.light .eyebrow{color:var(--accent-deep)}
+.light .eyebrow::before{background:var(--accent-deep)}
+.sec-head{margin-bottom:clamp(40px,6vw,64px)}
+.sec-head .en{font-family:var(--display);font-weight:300;font-variant-numeric:lining-nums;font-size:clamp(46px,8vw,86px);line-height:1;letter-spacing:.01em;margin:18px 0 10px}
+.sec-head .jp{font-family:var(--serif);font-weight:600;font-size:clamp(17px,2.2vw,22px);letter-spacing:.08em;color:var(--ink-2)}
+.light .sec-head .jp{color:var(--l-ink-2)}
+.lead{max-width:60ch;color:var(--ink-2);font-size:15.5px;line-height:2.05}
+.light .lead{color:var(--l-ink-2)}
+
+/* ============ buttons ============ */
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:250px;padding:16px 30px;border-radius:100px;font-size:14px;font-weight:500;letter-spacing:.06em;transition:.4s var(--ease);border:1px solid transparent;position:relative;overflow:hidden}
+.btn.solid{background:#fff;color:#0B0F12}
+.btn.solid:hover{background:var(--accent);color:#04211E;transform:translateY(-2px);box-shadow:0 14px 40px var(--accent-glow)}
+.btn.ghost{background:rgba(255,255,255,.06);color:#fff;border-color:var(--line-2);backdrop-filter:blur(6px)}
+.btn.ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
+.light .btn.solid{background:var(--l-ink);color:#fff}
+.light .btn.solid:hover{background:var(--accent-deep);color:#fff;box-shadow:0 14px 40px rgba(14,111,107,.28)}
+.light .btn.ghost{background:transparent;color:var(--l-ink);border-color:#C9D0D5}
+.light .btn.ghost:hover{background:rgba(0,0,0,.05)}
+.btn .ar{transition:transform .4s var(--ease)}
+.btn:hover .ar{transform:translateX(5px)}
+
+/* ============ hero ============ */
+.hero{min-height:100svh;display:flex;align-items:center;padding:120px 0 90px;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-bg .aurora{position:absolute;inset:-30%;background:
+  radial-gradient(38% 42% at 22% 32%,rgba(14,111,107,.55),transparent 65%),
+  radial-gradient(34% 38% at 76% 26%,rgba(58,219,198,.22),transparent 62%),
+  radial-gradient(46% 46% at 62% 78%,rgba(23,58,90,.55),transparent 66%);
+  filter:blur(28px);animation:drift 22s ease-in-out infinite alternate}
+@keyframes drift{0%{transform:translate3d(-2%,-1%,0) scale(1)}100%{transform:translate3d(3%,2%,0) scale(1.12)}}
+.hero-bg .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:78px 78px;mask-image:radial-gradient(72% 68% at 50% 42%,#000 15%,transparent 78%);-webkit-mask-image:radial-gradient(72% 68% at 50% 42%,#000 15%,transparent 78%)}
+.hero-bg .vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 0%,transparent 40%,var(--bg) 88%)}
+.hero-bg .scan{position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px)}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,6.6vw,76px);line-height:1.28;letter-spacing:.01em;margin:22px 0 26px;max-width:16em}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l span{display:block;transform:translateY(105%);animation:rise 1s var(--ease) forwards}
+.hero h1 .l:nth-child(1) span{animation-delay:.75s}
+.hero h1 .l:nth-child(2) span{animation-delay:.87s}
+@keyframes rise{to{transform:none}}
+.hero .glow{color:transparent;background:linear-gradient(100deg,#fff 12%,var(--accent) 52%,#9BE7DC 78%);-webkit-background-clip:text;background-clip:text}
+.fadeup{opacity:0;transform:translateY(18px);animation:fu .9s var(--ease) forwards}
+.hero .eyebrow{animation-delay:.6s}
+.hero .lead{animation-delay:1.05s;margin-bottom:34px}
+.hero .btns{animation-delay:1.2s}
+.hero .badges{animation-delay:1.35s;margin-top:40px;display:flex;flex-wrap:wrap;gap:10px 26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--muted)}
+.hero .badges b{color:var(--ink-2);font-weight:400}
+@keyframes fu{to{opacity:1;transform:none}}
+.scrollcue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fu 1s var(--ease) 1.6s forwards}
+.scrollcue .ln{width:1px;height:44px;background:linear-gradient(var(--accent),transparent);animation:cue 2.1s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:scaleY(.35);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* ============ marquee ============ */
+/* ======== nav highlight & industry picker ======== */
+.menu a.hl{color:#fff;padding:6px 14px;border:1px solid rgba(6,199,85,.55);border-radius:100px;background:rgba(6,199,85,.10)}
+.menu a.hl::after{display:none}
+.menu a.hl:hover{background:rgba(6,199,85,.22);border-color:#06C755}
+.menu a.hl i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#06C755;margin-right:8px;transform:translateY(-1px);box-shadow:0 0 10px #06C755}
+.drawer a.hl{color:#9BE7DC}
+.pick{padding:clamp(56px,8vw,84px) 0;background:var(--bg-2);border-bottom:1px solid var(--line)}
+.pick .ttl{font-family:var(--serif);font-weight:600;font-size:clamp(18px,2.4vw,24px);letter-spacing:.06em;margin:14px 0 26px}
+.pick .ttl small{display:block;font-family:var(--sans);font-weight:400;font-size:14px;color:var(--ink-2);letter-spacing:.02em;margin-top:6px}
+.pick-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.tile{position:relative;display:flex;flex-direction:column;gap:10px;padding:30px 30px 28px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));color:#fff;transition:.4s var(--ease);overflow:hidden}
+.tile:hover{transform:translateY(-4px);border-color:var(--line-2)}
+.tile .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
+.tile h3{font-family:var(--serif);font-weight:600;font-size:clamp(20px,2.6vw,26px);letter-spacing:.04em;margin:0;line-height:1.5}
+.tile p{font-size:14px;line-height:1.9;color:var(--ink-2);margin:0}
+.tile .go{margin-top:auto;padding-top:14px;display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:.06em}
+.tile .go .ar{transition:transform .4s var(--ease)}
+.tile:hover .go .ar{transform:translateX(5px)}
+.tile.food{border-color:rgba(6,199,85,.45);background:radial-gradient(90% 80% at 100% 0%,rgba(6,199,85,.22),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015))}
+.tile.food:hover{border-color:#06C755;box-shadow:0 18px 50px rgba(6,199,85,.18)}
+.tile.food .lab{color:#5fe08f}
+.tile.food .go{color:#8de055}
+.tile .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.tile .tags span{font-size:12px;padding:5px 11px;border-radius:100px;border:1px solid var(--line-2);color:var(--ink);background:rgba(255,255,255,.04)}
+.tile.food .tags span{border-color:rgba(6,199,85,.45)}
+@media (max-width:860px){.pick-grid{grid-template-columns:1fr}}
+.card .linkbtn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:500;letter-spacing:.04em;color:#fff;border:1px solid rgba(6,199,85,.55);background:rgba(6,199,85,.12);transition:.35s var(--ease)}
+.card .linkbtn:hover{background:#06C755;color:#04211E;border-color:#06C755}
+.card .sub-link{display:block;margin-top:10px;font-size:12.5px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.demo-card .sub-link{margin-top:12px;text-align:center}
+
+.marquee{border-block:1px solid var(--line);background:var(--bg-2);padding:20px 0;overflow:hidden;white-space:nowrap}
+.marquee .track{display:inline-flex;gap:52px;animation:mv 34s linear infinite;will-change:transform}
+.marquee span{font-family:var(--display);font-size:clamp(20px,3vw,32px);letter-spacing:.06em;color:rgba(255,255,255,.34)}
+.marquee span i{font-style:normal;color:var(--accent);margin-right:52px}
+@keyframes mv{to{transform:translateX(-50%)}}
+
+/* ============ reveal ============ */
+[data-rv]{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+[data-rv].in{opacity:1;transform:none}
+[data-rv="clip"]{opacity:1;transform:none;overflow:hidden;padding-bottom:.12em}
+[data-rv="clip"] > span{display:block;transform:translateY(108%);transition:transform 1.05s var(--ease);transition-delay:var(--d,0s)}
+[data-rv="clip"].in > span{transform:none}
+
+/* ============ about / stats ============ */
+.statement{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3.6vw,40px);line-height:1.75;letter-spacing:.02em;max-width:20em;margin:0 0 40px;color:var(--l-ink)}
+.statement em{font-style:normal;background:linear-gradient(transparent 62%,rgba(58,219,198,.42) 62%)}
+.about-grid{display:grid;grid-template-columns:1fr .85fr;gap:clamp(30px,6vw,80px);align-items:start}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--l-line);border:1px solid var(--l-line);margin-top:clamp(50px,8vw,86px)}
+.stat{background:var(--light);padding:32px 26px}
+.stat .n{font-family:var(--display);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;font-size:clamp(38px,6vw,60px);line-height:1;color:var(--l-ink);font-weight:400}
+.stat .n small{font-family:var(--sans);font-size:15px;font-weight:500;margin-left:4px}
+.stat .t{font-size:12.5px;letter-spacing:.1em;color:var(--l-ink-2);margin-top:10px}
+
+/* ============ services ============ */
+.svc-wrap{background:var(--bg);position:relative;overflow:hidden}
+.svc-wrap::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 8%,rgba(14,111,107,.30),transparent 70%),radial-gradient(50% 40% at 8% 88%,rgba(23,58,90,.35),transparent 70%);pointer-events:none}
+.svc-wrap .wrap{position:relative;z-index:1}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid var(--line);border-radius:16px;padding:34px 28px 30px;overflow:hidden;transition:.5s var(--ease);isolation:isolate}
+.card::after{content:"";position:absolute;inset:-1px;border-radius:16px;padding:1px;background:linear-gradient(140deg,var(--accent),transparent 45%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .5s;z-index:-1}
+.card:hover{transform:translateY(-6px);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02))}
+.card:hover::after{opacity:1}
+.card .no{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);opacity:.85}
+.card h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.03em;margin:16px 0 12px;line-height:1.6}
+.card p{font-size:14px;line-height:1.95;color:var(--ink-2);margin:0}
+.card .ic{position:absolute;right:-14px;top:-14px;font-family:var(--display);font-size:90px;line-height:1;color:rgba(255,255,255,.045);pointer-events:none}
+.note{margin-top:34px;border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:0 12px 12px 0;background:rgba(58,219,198,.045);padding:20px 24px;font-size:13.5px;line-height:1.95;color:var(--ink-2);max-width:78ch}
+
+/* ============ pricing ============ */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
+.plan{background:#fff;border:1px solid var(--l-line);border-radius:16px;padding:36px 30px 34px;display:flex;flex-direction:column;transition:.5s var(--ease)}
+.plan:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(11,15,18,.10)}
+.plan.feat{background:var(--l-ink);border-color:var(--l-ink);color:#fff;position:relative;box-shadow:0 30px 70px rgba(11,15,18,.22)}
+.plan.feat p,.plan.feat .sub{color:rgba(255,255,255,.72)}
+.plan .tag{position:absolute;top:-11px;left:30px;background:var(--accent);color:#04211E;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;padding:5px 14px;border-radius:100px}
+.plan .name{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.12em}
+.plan .amt{font-family:var(--display);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;font-size:clamp(38px,5vw,52px);line-height:1.1;margin:14px 0 2px;font-weight:400}
+.plan .amt b{font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:.04em;margin-left:2px}
+.plan .sub{font-size:12px;color:var(--l-ink-2);letter-spacing:.04em}
+.plan ul{list-style:none;margin:22px 0 0;padding:0;font-size:14px;line-height:1.8}
+.plan li{padding:9px 0 9px 26px;position:relative;border-top:1px solid var(--l-line);color:var(--l-ink-2)}
+.plan.feat li{border-top-color:rgba(255,255,255,.14);color:rgba(255,255,255,.78)}
+.plan li::before{content:"";position:absolute;left:2px;top:19px;width:9px;height:5px;border-left:1.5px solid var(--accent-deep);border-bottom:1.5px solid var(--accent-deep);transform:rotate(-45deg)}
+.plan.feat li::before{border-color:var(--accent)}
+.pnote{margin-top:26px;font-size:13.5px;color:var(--l-ink-2)}
+
+/* ============ flow ============ */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:20px}
+.flow::before{content:"";position:absolute;top:32px;left:0;right:0;height:1px;background:var(--line)}
+.flow .bar{position:absolute;top:32px;left:0;height:1px;background:linear-gradient(90deg,var(--accent-deep),var(--accent));width:0;transition:width 1.8s var(--ease) .2s}
+.flow.in .bar{width:100%}
+.step{padding:0 22px 0 0;position:relative}
+.step .dot{width:11px;height:11px;border-radius:50%;background:var(--bg);border:1px solid var(--accent);position:relative;top:27px;box-shadow:0 0 0 6px var(--bg)}
+.step .no{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);margin-top:34px}
+.step h3{font-family:var(--serif);font-weight:600;font-size:17px;margin:12px 0 10px;letter-spacing:.03em;line-height:1.6}
+.step p{font-size:13.5px;line-height:1.95;color:var(--ink-2);margin:0}
+
+/* ============ CTA ============ */
+.cta{padding:clamp(100px,15vw,180px) 0;text-align:center;overflow:hidden;background:var(--bg-2)}
+.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(52% 62% at 50% 50%,rgba(14,111,107,.42),transparent 70%);animation:pulse 9s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
+.cta .wrap{position:relative;z-index:1}
+.cta h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.6vw,50px);line-height:1.55;margin:20px auto 22px;max-width:18em}
+.cta .eyebrow{justify-content:center}
+.cta .btns{justify-content:center}
+.cta .lead{margin:0 auto 36px;text-align:center}
+.contact-lines{margin-top:44px;display:flex;flex-wrap:wrap;justify-content:center;gap:14px 40px;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--muted)}
+.contact-lines a{color:var(--ink-2);border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:.3s}
+.contact-lines a:hover{color:var(--accent);border-color:var(--accent)}
+
+/* ============ tables / accordion ============ */
+.acc{border-top:1px solid var(--l-line)}
+.acc details{border-bottom:1px solid var(--l-line)}
+.acc summary{list-style:none;cursor:pointer;padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;font-family:var(--serif);font-weight:600;font-size:clamp(16px,2.2vw,20px);letter-spacing:.06em}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary .pm{width:34px;height:34px;border:1px solid #CDD4D9;border-radius:50%;position:relative;flex:none;transition:.4s var(--ease)}
+.acc summary .pm::before,.acc summary .pm::after{content:"";position:absolute;background:var(--l-ink);transition:.4s var(--ease)}
+.acc summary .pm::before{left:10px;top:16px;width:13px;height:1px}
+.acc summary .pm::after{left:16px;top:10px;width:1px;height:13px}
+.acc details[open] summary .pm{background:var(--l-ink);border-color:var(--l-ink);transform:rotate(180deg)}
+.acc details[open] summary .pm::before,.acc details[open] summary .pm::after{background:#fff}
+.acc details[open] summary .pm::after{opacity:0}
+.tablewrap{overflow-x:auto;padding-bottom:26px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;line-height:1.85}
+th,td{padding:14px 18px;border-top:1px solid var(--l-line);text-align:left;vertical-align:top;color:var(--l-ink-2)}
+th{width:220px;font-weight:500;color:var(--l-ink);background:rgba(11,15,18,.028);letter-spacing:.06em}
+
+/* ============ footer ============ */
+footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px}
+.fgrid{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-start}
+.fnav{display:flex;flex-wrap:wrap;gap:12px 28px;font-size:13px;color:var(--ink-2)}
+.fnav a:hover{color:var(--accent)}
+.fbot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.9}
+
+/* ============ responsive ============ */
+@media (max-width:980px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .plans{grid-template-columns:1fr;gap:14px}
+  .about-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(2,1fr);gap:34px 0}
+  .flow::before,.flow .bar{display:none}
+  .step .dot{top:0}
+  .step .no{margin-top:16px}
+}
+@media (max-width:760px){
+  .menu,.nav-cta{display:none}
+  .burger{display:block}
+  .cards{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr;gap:30px 0}
+  .btn{min-width:100%}
+  .hero{padding:108px 0 64px}
+  .scrollcue{display:none}
+  .statement{margin-bottom:14px}
+  .hero .badges{margin-top:32px;gap:8px 20px}
+  .marquee{padding:14px 0}
+  body{font-size:15px}
+  th{width:130px;padding:12px 14px}
+  td{padding:12px 14px}
+  table{min-width:440px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  [data-rv]{opacity:1;transform:none}
+  .hero h1 .l span{transform:none}
+  .fadeup{opacity:1;transform:none}
+}
+
+/* ======== DEMO ======== */
+.demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.demo-card{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.demo-card .shot{position:relative;height:260px;background:radial-gradient(120% 90% at 50% 0%,rgba(58,219,198,.18),transparent 60%),var(--panel-2);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.demo-card .phone{width:200px;height:auto;max-height:100%;background:#8CABD9;border-radius:28px 28px 0 0;border:8px solid #111;border-bottom:0;padding:14px 10px 10px;display:flex;flex-direction:column;gap:8px;transform:translateY(16px);transition:.6s var(--ease)}
+.demo-card:hover .phone{transform:translateY(8px)}
+.demo-card .bub{background:#fff;color:#111;font-size:11px;line-height:1.45;padding:7px 9px;border-radius:12px;max-width:82%;font-family:var(--sans)}
+.demo-card .bub.me{background:#8DE055;align-self:flex-end}
+.demo-card .doc{width:220px;height:280px;background:#fff;color:#111;border-radius:6px 6px 0 0;padding:18px 18px 0;transform:translateY(30px);transition:.6s var(--ease);box-shadow:0 -10px 40px rgba(0,0,0,.35);font-family:var(--sans)}
+.demo-card:hover .doc{transform:translateY(12px)}
+.demo-card .doc b{display:block;font-size:12px;letter-spacing:.2em;text-align:center;margin-bottom:12px}
+.demo-card .doc i{display:block;height:7px;border-radius:4px;background:#E1E5E8;margin:7px 0}
+.demo-card .doc i.s{width:60%}.demo-card .doc i.g{background:var(--accent);width:40%}
+.demo-card .body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
+.demo-card h3{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.04em;margin:8px 0 8px;line-height:1.5}
+.demo-card p{font-size:13.5px;line-height:1.9;color:var(--ink-2);margin:0 0 20px}
+.demo-card .btn{min-width:0;width:100%;margin-top:auto;padding:14px 20px}
+.demo-card .who{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--accent);border:1px solid rgba(58,219,198,.35);border-radius:100px;padding:4px 10px}
+.demo-note{margin-top:22px;font-size:12.5px;color:var(--muted);text-align:center;letter-spacing:.04em}
+@media(max-width:900px){.demo-grid{grid-template-columns:1fr}.demo-card .shot{height:250px}}
+</style>
+</head>
+<body>
+
+<div id="pre"><div class="pl">H.I. Company</div><div class="bar"></div></div>
+
+<header id="hd">
+  <div class="nav">
+    <a class="brand" href="#top"><i></i>H.I. Company</a>
+    <nav class="menu">
+      <a href="line/" class="hl"><i></i>飲食店向け</a>
+      <a href="#demo">デモ</a>
+      <a href="#about">概要</a>
+      <a href="#service">サービス</a>
+      <a href="#price">料金</a>
+      <a href="#flow">進め方</a>
+      <a href="#company">会社情報</a>
+    </nav>
+    <a class="nav-cta" href="#contact">無料AI診断</a>
+    <button class="burger" id="bg" aria-label="メニュー" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</header>
+
+<nav class="drawer" id="dw">
+  <a href="line/" class="hl"><em>01</em>飲食店向け LINE AI受付</a>
+  <a href="#demo"><em>02</em>デモ</a>
+  <a href="#about"><em>03</em>概要</a>
+  <a href="#service"><em>04</em>サービス</a>
+  <a href="#price"><em>05</em>料金</a>
+  <a href="#flow"><em>06</em>進め方</a>
+  <a href="#contact"><em>07</em>お問い合わせ</a>
+  <a href="#company"><em>08</em>会社情報・特商法</a>
+</nav>
+
+<main id="top">
+
+<!-- ======== HERO ======== -->
+<section class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="aurora"></div><div class="grid"></div><div class="scan"></div><div class="vig"></div>
+  </div>
+  <div class="wrap">
+    <div class="eyebrow fadeup">AI Automation Advisory</div>
+    <h1>
+      <span class="l"><span>電話に出られない時間を、</span></span>
+      <span class="l"><span class="glow">AI受付係が引き受ける。</span></span>
+    </h1>
+    <p class="lead fadeup">店舗・中小企業（従業員5〜50名）向けに、公式LINEの一次対応、見積・報告書の自動作成、口コミ返信の下書きといった「毎日の繰り返し業務」をAIで自動化。月額の顧問サービスとして、運用まで伴走します。</p>
+    <div class="btns fadeup">
+      <a class="btn solid" href="#demo">30秒デモを触る<span class="ar">→</span></a>
+      <a class="btn ghost" href="#contact">無料AI診断を申し込む<span class="ar">→</span></a>
+    </div>
+    <div class="badges fadeup">
+      <span>24H <b>自動一次対応</b></span>
+      <span>1–2 WEEKS <b>で初回稼働</b></span>
+      <span>HUMAN-IN-THE-LOOP <b>最終判断は人</b></span>
+    </div>
+  </div>
+  <div class="scrollcue"><span>SCROLL</span><span class="ln"></span></div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>AI RECEPTION<i>／</i>DOCUMENT AUTOMATION<i>／</i>REVIEW REPLY<i>／</i>KNOWLEDGE BASE<i>／</i>MEETING NOTES<i>／</i>AI TRAINING<i>／</i></span>
+    <span>AI RECEPTION<i>／</i>DOCUMENT AUTOMATION<i>／</i>REVIEW REPLY<i>／</i>KNOWLEDGE BASE<i>／</i>MEETING NOTES<i>／</i>AI TRAINING<i>／</i></span>
+  </div>
+</div>
+
+<!-- ======== INDUSTRY PICK ======== -->
+<section class="pick" id="pick">
+  <div class="wrap">
+    <div class="eyebrow" data-rv>Choose Your Business</div>
+    <div class="ttl" data-rv style="--d:.06s">業種で選ぶ<small>ご自身の業種に近い方をお選びください。</small></div>
+    <div class="pick-grid">
+      <a class="tile food" href="line/" data-rv style="--d:.1s">
+        <span class="lab">飲食店の方はこちら</span>
+        <h3>LINE 24時間AI受付<br>初期10万円・月額3万円</h3>
+        <p>仕込み中・ピーク時・閉店後など、電話に出られない時間の予約と問い合わせに、公式LINEでAIが即答します。最短2週間で稼働、初月解約OK。</p>
+        <div class="tags"><span>予約の自動受付</span><span>よくある質問に即答</span><span>その場で触れるデモ</span></div>
+        <span class="go">飲食店向けページを見る<span class="ar">→</span></span>
+      </a>
+      <a class="tile" href="#demo" data-rv style="--d:.18s">
+        <span class="lab">美容室・整体院・不動産・その他</span>
+        <h3>業種別デモと<br>月額顧問プラン</h3>
+        <p>受付の自動化から書類作成、口コミ返信まで。まずはデモを触り、無料AI診断で自社に合う自動化をご確認ください。</p>
+        <div class="tags"><span>美容室・整体院</span><span>不動産・工務店</span><span>書類の自動作成</span></div>
+        <span class="go">デモと料金を見る<span class="ar">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======== DEMO ======== -->
+<section id="demo" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-rv>Demo</div>
+      <div class="en" data-rv="clip"><span>Try It Now</span></div>
+      <div class="jp" data-rv style="--d:.1s">30秒で触れるデモ。登録なし、その場で動きます。</div>
+    </div>
+    <div class="demo-grid">
+      <article class="card demo-card" data-rv>
+        <div class="shot"><div class="phone"><div class="bub">ご予約ありがとうございます！ご希望の日時を教えてください。</div><div class="bub me">9月20日 19時</div><div class="bub">何名様でしょうか？</div><div class="bub me">4名</div><div class="bub">✅ ご予約を承りました！前日にリマインドをお送りします。</div></div></div>
+        <div class="body"><span class="who">飲食店向け</span><h3>LINE 24時間AI受付</h3><p>予約・営業時間・駐車場・個室・アレルギー。電話に出られない時間の問い合わせに、AIが即答します。</p><a class="btn solid" href="line/">飲食店向けページを見る（料金・デモ）<span class="ar">→</span></a><a class="sub-link" href="line/demo.html">デモだけ試す →</a></div>
+      </article>
+      <article class="card demo-card" data-rv style="--d:.08s">
+        <div class="shot"><div class="phone"><div class="bub">施術中でもすぐ返信します。ご予約・変更はこちらからどうぞ。</div><div class="bub me">明日 11時 カット＋カラー</div><div class="bub">✅ 承りました。所要時間は約120分です。前日にリマインドをお送りします。</div></div></div>
+        <div class="body"><span class="who">美容室・整体院向け</span><h3>施術中の電話を、AIが受ける</h3><p>予約・変更・メニュー・所要時間の質問に24時間対応。ホットペッパー等の予約システムは併用できます。</p><a class="btn solid" href="sme/demo-salon.html">デモを触る<span class="ar">→</span></a></div>
+      </article>
+      <article class="card demo-card" data-rv style="--d:.16s">
+        <div class="shot"><div class="doc"><b>御 見 積 書</b><i class="s"></i><i></i><i></i><i class="s"></i><i></i><i class="g"></i><i></i><i class="s"></i></div></div>
+        <div class="body"><span class="who">不動産・工務店・全業種</span><h3>書類・文章の自動作成</h3><p>箇条書きを貼ると、物件紹介文・見積書・口コミ返信・求人票の初稿が5分で出ます。人は確認と修正だけ。</p><a class="btn solid" href="sme/demo-docs.html">デモを触る<span class="ar">→</span></a></div>
+      </article>
+    </div>
+    <p class="demo-note">デモはサンプルデータで動作します。実際の導入では、貴社の営業時間・メニュー・文体を学習させます。</p>
+  </div>
+</section>
+
+<!-- ======== ABOUT ======== -->
+<section id="about" class="sec light">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="eyebrow" data-rv>About</div>
+        <p class="statement" data-rv style="--d:.08s">AIを導入することが目的ではなく、<em>現場の一日が軽くなること</em>を成果とします。</p>
+      </div>
+      <div>
+        <p class="lead" data-rv style="--d:.16s">「人手が足りない」「営業時間外の問い合わせを取りこぼす」「毎回同じ書類を作っている」。中小企業の負担の多くは、判断ではなく“繰り返し”に費やされています。H.I. Companyは、その繰り返しだけを切り出してAIに任せ、人は最後の確認と判断に集中できる仕組みを設計します。</p>
+        <p class="lead" data-rv style="--d:.24s">つくって終わりにはしません。月額の顧問として毎月の改善まで並走し、使われ続ける自動化に育てます。</p>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat" data-rv><div class="n">24<small>時間</small></div><div class="t">公式LINEの一次対応が止まらない</div></div>
+      <div class="stat" data-rv style="--d:.1s"><div class="n">1–2<small>週間</small></div><div class="t">契約後、最初の自動化が稼働するまで</div></div>
+      <div class="stat" data-rv style="--d:.2s"><div class="n">24<small>時間以内</small></div><div class="t">無料診断後、設計書をお渡しするまで</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== SERVICE ======== -->
+<section id="service" class="sec svc-wrap">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-rv>Service</div>
+      <div class="en" data-rv="clip"><span>What We Automate</span></div>
+      <div class="jp" data-rv style="--d:.1s">できること</div>
+    </div>
+    <div class="cards">
+      <article class="card" data-rv><span class="ic">01</span><div class="no">01 ／ LINE</div><h3>公式LINEの<br>24時間AI受付係</h3><p>予約・空き確認・よくある質問への一次回答をAIが下書きし、担当者は承認するだけ。営業時間外の問い合わせを取りこぼしません。</p><a class="linkbtn" href="line/">飲食店向けページ（初期10万円・月額3万円）→</a><a class="sub-link" href="sme/demo-salon.html">美容室・整体院向けのデモを触る →</a></article>
+      <article class="card" data-rv style="--d:.08s"><span class="ic">02</span><div class="no">02 ／ DOCS</div><h3>書類・文章の<br>自動作成</h3><p>見積書、提案書、物件紹介文、報告書、求人票などを、社内データとテンプレートからAIが初稿を作成します。</p><p style="margin-top:10px"><a href="sme/demo-docs.html" style="color:var(--accent,#9BE7DC);font-size:13px;text-decoration:underline">物件紹介文・見積書・口コミ返信のデモを触る →</a></p></article>
+      <article class="card" data-rv style="--d:.16s"><span class="ic">03</span><div class="no">03 ／ SOCIAL</div><h3>口コミ・SNSの<br>運用補助</h3><p>Google口コミへの返信下書き、Instagram投稿文の生成、週次の投稿ルーティンを整えます。</p></article>
+      <article class="card" data-rv><span class="ic">04</span><div class="no">04 ／ KNOWLEDGE</div><h3>社内ナレッジの<br>AI化</h3><p>マニュアル・FAQ・過去のやり取りをAIに読み込ませ、社員が質問すると答えが返る仕組みを作ります。</p></article>
+      <article class="card" data-rv style="--d:.08s"><span class="ic">05</span><div class="no">05 ／ MEETING</div><h3>議事録・<br>タスク化</h3><p>会議の録音や議事録から、決定事項と担当・期限を自動で書き出します。</p></article>
+      <article class="card" data-rv style="--d:.16s"><span class="ic">06</span><div class="no">06 ／ TRAINING</div><h3>生成AI研修</h3><p>現場の業務に合わせた半日研修。人材開発支援助成金の対象となる場合があります（要件はご確認ください）。</p></article>
+    </div>
+    <p class="note" data-rv>使用するのは公式LINE、Claude／ChatGPT、Google Apps Script、Make などの一般的なツールです。AIの出力には誤りが含まれる可能性があるため、外部に出る文章は人が確認・送信する運用を前提に設計します。</p>
+  </div>
+</section>
+
+<!-- ======== PRICE ======== -->
+<section id="price" class="sec light">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-rv>Price</div>
+      <div class="en" data-rv="clip"><span>Monthly Advisory</span></div>
+      <div class="jp" data-rv style="--d:.1s">料金</div>
+    </div>
+    <div class="plans">
+      <div class="plan" data-rv>
+        <div class="name">LIGHT ／ ライト</div>
+        <div class="amt">55,000<b>円 / 月</b></div>
+        <div class="sub">税込（税別 50,000円）</div>
+        <ul><li>チャット相談 無制限</li><li>自動化1本の構築・改善</li><li>月1回30分のオンライン打合せ</li></ul>
+      </div>
+      <div class="plan feat" data-rv style="--d:.08s">
+        <span class="tag">RECOMMENDED</span>
+        <div class="name">STANDARD ／ スタンダード</div>
+        <div class="amt">110,000<b>円 / 月</b></div>
+        <div class="sub">税込（税別 100,000円）</div>
+        <ul><li>自動化2本</li><li>月2回の打合せ</li><li>運用保守（API変更・不具合対応）</li><li>四半期に1回の社内研修</li></ul>
+      </div>
+      <div class="plan" data-rv style="--d:.16s">
+        <div class="name">INITIAL ／ 初期設定費</div>
+        <div class="amt">110,000<b>円</b></div>
+        <div class="sub">税込（税別 100,000円）／ 先着3社は0円</div>
+        <ul><li>業務診断</li><li>初月の設計</li><li>アカウント設定</li><li>マニュアル作成</li></ul>
+      </div>
+    </div>
+    <p class="pnote" data-rv>最低契約期間は3ヶ月、以後は1ヶ月前の通知で解約できます。お支払いはクレジットカード（毎月自動課金）または請求書払い（銀行振込）です。初期設定費0円の適用は先着3社までとし、上限に達し次第終了します。</p>
+  </div>
+</section>
+
+<!-- ======== FLOW ======== -->
+<section id="flow" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-rv>Process</div>
+      <div class="en" data-rv="clip"><span>How It Works</span></div>
+      <div class="jp" data-rv style="--d:.1s">進め方</div>
+    </div>
+    <div class="flow" id="flowline">
+      <span class="bar"></span>
+      <div class="step" data-rv><span class="dot"></span><div class="no">STEP 01</div><h3>無料AI診断<br>（30分・オンライン）</h3><p>現在の業務と繰り返し作業をヒアリングします。</p></div>
+      <div class="step" data-rv style="--d:.1s"><span class="dot"></span><div class="no">STEP 02</div><h3>設計書のお渡し<br>（24時間以内）</h3><p>貴社向けの自動化3本の設計と、削減時間の試算方法をお送りします。導入の有無はその後ご判断ください。</p></div>
+      <div class="step" data-rv style="--d:.2s"><span class="dot"></span><div class="no">STEP 03</div><h3>契約・初月の構築</h3><p>1〜2週間で最初の自動化を稼働させ、マニュアルをお渡しします。</p></div>
+      <div class="step" data-rv style="--d:.3s"><span class="dot"></span><div class="no">STEP 04</div><h3>毎月の改善</h3><p>運用データを見ながら次の自動化を追加し、月次で効果を報告します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== CTA / CONTACT ======== -->
+<section id="contact" class="cta">
+  <div class="wrap">
+    <div class="eyebrow" data-rv>Contact</div>
+    <h2 data-rv style="--d:.08s">まずは30分。<br>その繰り返し業務、任せられるか診断します。</h2>
+    <p class="lead" data-rv style="--d:.16s">公式LINEで「診断希望」と送るか、メールで「会社名・業種・困っている業務」をお知らせください。1営業日以内にご返信し、診断の日程を調整します。</p>
+    <div class="btns" data-rv style="--d:.24s">
+      <a class="btn solid" href="https://line.me/R/ti/p/@966kahwj" target="_blank" rel="noopener">公式LINEで相談する<span class="ar">→</span></a>
+      <a class="btn ghost" href="mailto:h.ichikawa@hi-companyjapan.jp?subject=%E7%84%A1%E6%96%99AI%E8%A8%BA%E6%96%AD%E3%81%AE%E7%94%B3%E8%BE%BC">メールで申し込む<span class="ar">→</span></a>
+    </div>
+    <div class="contact-lines" data-rv style="--d:.32s">
+      <span>MAIL　<a href="mailto:h.ichikawa@hi-companyjapan.jp">h.ichikawa@hi-companyjapan.jp</a></span>
+      <span>TEL　070-4322-0341（原則メールでお願いします）</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======== COMPANY / LEGAL ======== -->
+<section id="company" class="sec light">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow" data-rv>Company</div>
+      <div class="en" data-rv="clip"><span>Information</span></div>
+      <div class="jp" data-rv style="--d:.1s">事業者情報</div>
+    </div>
+    <div class="acc" data-rv>
+      <details open>
+        <summary>事業者情報<span class="pm"></span></summary>
+        <div class="tablewrap"><table>
+          <tr><th>屋号</th><td>H.I. Company</td></tr>
+          <tr><th>代表者</th><td>市川 晴喜</td></tr>
+          <tr><th>事業内容</th><td>中小企業・店舗向けのAI業務自動化の導入支援および月額顧問サービス、生成AI研修、AI活用に関する教材の販売</td></tr>
+          <tr><th>連絡先</th><td>h.ichikawa@hi-companyjapan.jp</td></tr>
+        </table></div>
+      </details>
+      <details id="tokushoho">
+        <summary>特定商取引法に基づく表記<span class="pm"></span></summary>
+        <div class="tablewrap"><table>
+          <tr><th>事業者名</th><td>H.I. Company</td></tr>
+          <tr><th>代表者</th><td>市川 晴喜</td></tr>
+          <tr><th>所在地</th><td>〒111-0035 東京都台東区西浅草3-22-3-1306</td></tr>
+          <tr><th>電話番号</th><td>070-4322-0341（お問い合わせは原則メールでお願いします）</td></tr>
+          <tr><th>メールアドレス</th><td>h.ichikawa@hi-companyjapan.jp</td></tr>
+          <tr><th>販売価格</th><td>各サービス・商品ページに記載の金額（税込表示）。AI業務自動化顧問：ライト月額55,000円、スタンダード月額110,000円、初期設定費110,000円</td></tr>
+          <tr><th>販売価格以外に必要な料金</th><td>インターネット接続料金・通信料金、振込手数料（請求書払いの場合）。外部サービス（API等）の利用料は購入者のご負担となります</td></tr>
+          <tr><th>支払方法</th><td>クレジットカード決済（Stripe）、銀行振込（請求書払い）</td></tr>
+          <tr><th>支払時期</th><td>クレジットカード：申込時に初回課金、以後毎月同日に自動課金。銀行振込：請求書記載の期日まで</td></tr>
+          <tr><th>提供時期</th><td>デジタルコンテンツ：決済完了後、直ちに閲覧可能。顧問サービス：契約締結後、1週間以内に初回打合せの日程を調整し開始</td></tr>
+          <tr><th>返品・キャンセル</th><td>デジタルコンテンツは、その性質上、購入後の返品・返金・キャンセルには応じられません。顧問サービスは最低契約期間3ヶ月とし、以後は1ヶ月前の通知により解約できます。詳細は契約書によります</td></tr>
+          <tr><th>動作環境</th><td>インターネットに接続できるPC・スマートフォン、最新版のWebブラウザ、PDF閲覧ソフト。顧問サービスの利用にはZoom等のオンライン会議ツールおよびチャットツールが必要です</td></tr>
+          <tr><th>数量制限</th><td>初期設定費0円の適用は先着3社までとし、上限に達し次第終了します</td></tr>
+        </table></div>
+      </details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <a class="brand" href="#top"><i></i>H.I. Company</a>
+      <nav class="fnav">
+        <a href="#about">概要</a><a href="#service">サービス</a><a href="#price">料金</a><a href="#flow">進め方</a><a href="#contact">お問い合わせ</a><a href="#company">事業者情報</a><a href="#tokushoho">特定商取引法に基づく表記</a>
+      </nav>
+    </div>
+    <div class="fbot">© 2026 H.I. Company ／ 掲載している導入イメージは想定例であり、効果を保証するものではありません。</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var d=document,b=d.body;
+  // preloader
+  window.addEventListener('load',function(){setTimeout(function(){d.getElementById('pre').classList.add('done')},420)});
+  setTimeout(function(){d.getElementById('pre').classList.add('done')},2600);
+  // header state
+  var hd=d.getElementById('hd');
+  var onScroll=function(){hd.classList.toggle('scrolled',window.scrollY>30)};
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+  // drawer
+  var bg=d.getElementById('bg'),dw=d.getElementById('dw');
+  bg.addEventListener('click',function(){
+    var o=b.classList.toggle('open');
+    bg.setAttribute('aria-expanded',o?'true':'false');
+    b.style.overflow=o?'hidden':'';
+  });
+  dw.addEventListener('click',function(e){
+    if(e.target.closest('a')){b.classList.remove('open');bg.setAttribute('aria-expanded','false');b.style.overflow=''}
+  });
+  d.addEventListener('keydown',function(e){if(e.key==='Escape'&&b.classList.contains('open')){bg.click()}});
+  // reveal
+  var els=d.querySelectorAll('[data-rv],#flowline');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(en){
+      en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})
+    },{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+    els.forEach(function(el){io.observe(el)});
+  }else{els.forEach(function(el){el.classList.add('in')})}
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>書類・文章の自動作成 デモ｜H.I. Company</title>
+<link rel="canonical" href="https://hi-companyjapan.jp/sme/demo-docs.html">
+<meta name="robots" content="index,follow">
+<style>
+:root{--g:#06C755;--ink:#111;--mute:#5b6470;--line:#e6e9ec;--soft:#f4f7f5}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink);background:#eef1f5;line-height:1.8}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 20px}
+.tag{display:inline-block;background:var(--g);color:#fff;font-size:12px;padding:3px 10px;border-radius:99px}
+h1{font-size:24px;margin:8px 0 4px}
+.sub{color:var(--mute);font-size:14px;margin:0 0 18px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tabs button{border:1px solid var(--line);background:#fff;padding:8px 16px;border-radius:99px;cursor:pointer;font-size:14px}
+.tabs button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}
+.card h3{margin:0 0 8px;font-size:15px}
+.card .hint{font-size:12px;color:var(--mute);margin:0 0 8px}
+textarea{width:100%;min-height:260px;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:14px;line-height:1.7;font-family:inherit;resize:vertical}
+.btn{background:var(--g);color:#fff;border:none;padding:12px 22px;border-radius:99px;font-weight:700;font-size:15px;cursor:pointer;margin-top:10px}
+.btn:disabled{opacity:.6}
+.out{white-space:pre-wrap;background:var(--soft);border-radius:10px;padding:14px;min-height:260px;font-size:14px;line-height:1.8}
+.meta{font-size:12px;color:var(--mute);margin-top:8px;display:flex;justify-content:space-between}
+.note{font-size:12px;color:var(--mute);margin-top:18px;line-height:1.7}
+.timer{font-weight:700;color:var(--g)}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body><div class="wrap">
+<span class="tag">デモ（ブラウザ内で動作）</span>
+<h1>書類・文章の自動作成</h1>
+<p class="sub">箇条書きのメモを貼ると、初稿が出ます。人は確認と修正だけ。実際の導入では、御社の過去の書類を学習させて文体を揃えます。</p>
+<div class="tabs">
+  <button class="on" onclick="setType('bukken',this)">物件紹介文（不動産）</button>
+  <button onclick="setType('mitsumori',this)">見積書（工務店・リフォーム）</button>
+  <button onclick="setType('kuchikomi',this)">口コミ返信（全業種）</button>
+  <button onclick="setType('kyujin',this)">求人票（全業種）</button>
+</div>
+<div class="grid">
+  <div class="card"><h3>1. メモを貼る</h3><p class="hint" id="hint"></p><textarea id="inp"></textarea><button class="btn" id="go" onclick="gen()">初稿を作る</button></div>
+  <div class="card"><h3>2. 初稿が出る</h3><div class="out" id="out">左の「初稿を作る」を押してください。</div><div class="meta"><span id="len"></span><span id="time"></span></div></div>
+</div>
+<p class="note">※ このデモはサンプルの型で文章を組み立てています。実際の導入では Claude を使い、御社の文体・NG表現・法令上の注意（宅建業法の広告表示、医療広告ガイドライン等）を反映します。外に出る文章は必ず人が確認して送る運用です。</p>
+</div>
+<script>
+const P={
+bukken:{hint:'種別・駅・築年・広さ・家賃・設備を箇条書きで',
+ s:`種別: 1LDK マンション
+駅: ○○線 △△駅 徒歩7分
+築年: 2015年
+広さ: 42㎡ 5階/8階建 南向き
+家賃: 9.8万円 管理費 8,000円
+設備: オートロック、宅配ボックス、独立洗面台、追い焚き、ペット相談可
+周辺: スーパー徒歩2分、コンビニ徒歩1分
+備考: 2026年10月上旬入居可、初期費用相談可`},
+mitsumori:{hint:'工事内容・数量・単価・期間を箇条書きで',
+ s:`案件: 〇〇様邸 浴室リフォーム
+内容:
+- 既存ユニットバス解体・撤去 1式 45,000
+- ユニットバス（1616サイズ）本体 1台 480,000
+- 給排水・電気工事 1式 85,000
+- 内装補修（脱衣所クロス 8㎡）1式 32,000
+- 諸経費 1式 30,000
+工期: 4日間
+支払: 着手金30% 完了時70%
+有効期限: 発行から30日`},
+kuchikomi:{hint:'口コミの内容と、伝えたいことを箇条書きで',
+ s:`口コミ: ★2「予約の電話が全然つながらなかった。料理は美味しかったけど、また行くかは微妙」
+伝えたいこと:
+- 電話がつながらなかったことへの謝罪
+- 営業中は調理でどうしても出られないことがある
+- LINEから24時間予約できるようになった
+- 料理を褒めてもらったお礼`},
+kyujin:{hint:'職種・仕事内容・時給・時間・条件を箇条書きで',
+ s:`職種: ホールスタッフ（アルバイト）
+店: 炭火焼き 一心（△△駅 徒歩3分の居酒屋、18席）
+仕事: 注文・配膳・レジ・簡単な仕込み
+時給: 1,250円〜（22時以降 1,563円）
+時間: 17:00〜23:30 のうち4時間〜 週2日〜
+条件: 未経験OK、髪色自由、まかない付き、交通費支給
+求める人: 人と話すのが好きな方、土日入れる方歓迎`}
+};
+let type='bukken';
+const inp=document.getElementById('inp'),out=document.getElementById('out');
+function setType(t,btn){type=t;document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');document.getElementById('hint').textContent=P[t].hint;inp.value=P[t].s;out.textContent='左の「初稿を作る」を押してください。';document.getElementById('len').textContent='';document.getElementById('time').textContent=''}
+function kv(txt){const o={},lines=[];txt.split('\n').forEach(l=>{const m=l.match(/^\s*([^:：\-]+)[:：]\s*(.*)$/);if(m&&!/^[-・]/.test(l.trim())){o[m[1].trim()]=m[2].trim()}else if(/^\s*[-・]/.test(l)){lines.push(l.replace(/^\s*[-・]\s*/,'').trim())}});return{o,lines}}
+const yen=n=>Number(n).toLocaleString('ja-JP');
+function build(){
+ const {o,lines}=kv(inp.value);const g=(k,d='')=>o[k]||d;
+ if(type==='bukken'){
+  const eki=g('駅'),hiro=g('広さ'),setsubi=g('設備'),shuhen=g('周辺');
+  return `【${eki.split(' ')[1]||'駅近'}・${g('種別')}】${g('築年')}築、${hiro.split(' ')[0]}のゆとりある間取り
+
+${eki}。${hiro.includes('南')?'南向きで日当たり良好、':''}${hiro.split(' ').slice(1).filter(x=>!/向き/.test(x)).join(' ')}のお部屋です。
+家賃 ${g('家賃')}。
+
+■ 設備
+${setsubi.split(/[、,]/).map(x=>'・'+x.trim()).join('\n')}
+
+■ 周辺環境
+${shuhen.split(/[、,]/).map(x=>'・'+x.trim()).join('\n')}
+
+■ 備考
+${g('備考')}
+
+内見のご予約はLINEから24時間受け付けています。
+※ 掲載内容は現況を優先します。図面と現況が異なる場合は現況を優先します。`}
+ if(type==='mitsumori'){
+  let rows=[],total=0;lines.forEach(l=>{const m=l.match(/^(.+)\s+(\S+)\s+([\d,]+)$/);if(m){const amt=Number(m[3].replace(/,/g,''));total+=amt;rows.push(`・${m[1]}｜${m[2]}｜${yen(amt)}円`)}});
+  const tax=Math.round(total*0.1);
+  return `御 見 積 書
+
+${g('案件')} 御中
+
+下記の通りお見積り申し上げます。
+
+品目｜数量｜金額（税別）
+${rows.join('\n')}
+――――――――――――――――――――――――
+小計　${yen(total)}円
+消費税（10%）　${yen(tax)}円
+合計（税込）　${yen(total+tax)}円
+
+工期: ${g('工期')}
+お支払い条件: ${g('支払')}
+見積有効期限: ${g('有効期限')}
+
+備考: 解体時に下地の腐食等が見つかった場合は、別途お見積りのうえご相談いたします。`}
+ if(type==='kuchikomi'){
+  const rev=g('口コミ');const pts=lines;
+  return `この度はご来店いただき、また率直なご意見をお寄せいただき、ありがとうございます。
+
+${pts.some(p=>/謝罪|つながら/.test(p))?'ご予約のお電話がつながらず、ご不便をおかけして申し訳ございませんでした。':''}${pts.some(p=>/調理|出られない/.test(p))?'営業中は調理と接客に手を取られ、お電話に出られないことがございます。言い訳にはなりませんが、お客様にご迷惑をおかけしていたことを重く受け止めております。':''}
+
+${pts.some(p=>/LINE/.test(p))?'現在は、公式LINEから24時間いつでもご予約いただける仕組みを整えました。次回はぜひLINEからお申し付けください。':''}
+
+${pts.some(p=>/褒め|お礼/.test(p))?'お料理をお褒めいただき、スタッフ一同大変励みになりました。':''}またお越しいただける日を、心よりお待ちしております。
+
+（元の口コミ: ${rev}）`}
+ if(type==='kyujin'){
+  return `【${g('職種')}募集】${g('店').split('（')[0]}
+
+${g('店').replace(/^.+?（/,'').replace(/）$/,'')}で、一緒に働く仲間を募集します。
+
+■ 仕事内容
+${g('仕事')}
+${g('求める人').includes('未経験')||g('条件').includes('未経験')?'未経験の方も、先輩スタッフが一つずつお教えします。':''}
+
+■ 時給
+${g('時給')}
+
+■ 勤務時間
+${g('時間')}
+
+■ 待遇・条件
+${g('条件').split(/[、,]/).map(x=>'・'+x.trim()).join('\n')}
+
+■ こんな方を歓迎します
+${g('求める人').split(/[、,]/).map(x=>'・'+x.trim()).join('\n')}
+
+応募はLINEから「応募希望」と送ってください。24時間受け付けています。`}
+}
+async function gen(){const b=document.getElementById('go');b.disabled=true;out.textContent='作成中';const t0=Date.now();let dots=0;const iv=setInterval(()=>{out.textContent='作成中'+'.'.repeat(++dots%4)},250);await new Promise(r=>setTimeout(r,900));clearInterval(iv);const txt=build();out.textContent=txt;document.getElementById('len').textContent=`${txt.length}文字`;document.getElementById('time').innerHTML=`所要 <span class="timer">${((Date.now()-t0)/1000).toFixed(1)}秒</span>（手書きなら15〜30分）`;b.disabled=false}
+setType('bukken',document.querySelector('.tabs button'));
+</script>
+</body>
+</html>
