@@ -53,6 +53,15 @@
       "url": "https://hi-companyjapan.jp/line/",
       "areaServed": "JP",
       "offers": {"@type": "Offer", "price": "30000", "priceCurrency": "JPY", "description": "月額3万円（構築費10万円）"}
+    },
+    {
+      "@type": "Service",
+      "name": "美容室・整体院向け LINE 24時間AI受付",
+      "serviceType": "AI業務自動化",
+      "provider": {"@id": "https://hi-companyjapan.jp/#org"},
+      "url": "https://hi-companyjapan.jp/salon/",
+      "areaServed": "JP",
+      "offers": {"@type": "Offer", "price": "55000", "priceCurrency": "JPY", "description": "ライトプラン 月額55,000円（税込）"}
     }
   ]
 }
@@ -121,6 +130,7 @@ body.open .drawer a:nth-child(5){transition-delay:.3s}
 body.open .drawer a:nth-child(6){transition-delay:.36s}
 body.open .drawer a:nth-child(7){transition-delay:.42s}
 body.open .drawer a:nth-child(8){transition-delay:.48s}
+body.open .drawer a:nth-child(9){transition-delay:.54s}
 
 /* ============ layout ============ */
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
@@ -194,7 +204,7 @@ section{position:relative}
 .pick{padding:clamp(56px,8vw,84px) 0;background:var(--bg-2);border-bottom:1px solid var(--line)}
 .pick .ttl{font-family:var(--serif);font-weight:600;font-size:clamp(18px,2.4vw,24px);letter-spacing:.06em;margin:14px 0 26px}
 .pick .ttl small{display:block;font-family:var(--sans);font-weight:400;font-size:14px;color:var(--ink-2);letter-spacing:.02em;margin-top:6px}
-.pick-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}
+.pick-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
 .tile{position:relative;display:flex;flex-direction:column;gap:10px;padding:30px 30px 28px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));color:#fff;transition:.4s var(--ease);overflow:hidden}
 .tile:hover{transform:translateY(-4px);border-color:var(--line-2)}
 .tile .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
@@ -385,6 +395,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
     <a class="brand" href="#top"><img src="img/logo-circle-400.png" alt="H.I. Company ロゴ" width="28" height="28">H.I. Company</a>
     <nav class="menu">
       <a href="line/" class="hl"><i></i>飲食店向け</a>
+      <a href="salon/" class="hl"><i></i>美容・整体向け</a>
       <a href="#demo">デモ</a>
       <a href="#about">概要</a>
       <a href="#service">サービス</a>
@@ -399,13 +410,14 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
 
 <nav class="drawer" id="dw">
   <a href="line/" class="hl"><em>01</em>飲食店向け LINE AI受付</a>
-  <a href="#demo"><em>02</em>デモ</a>
-  <a href="#about"><em>03</em>概要</a>
-  <a href="#service"><em>04</em>サービス</a>
-  <a href="#price"><em>05</em>料金</a>
-  <a href="#flow"><em>06</em>進め方</a>
-  <a href="#contact"><em>07</em>お問い合わせ</a>
-  <a href="#company"><em>08</em>会社情報・特商法</a>
+  <a href="salon/" class="hl"><em>02</em>美容室・整体院向け LINE AI受付</a>
+  <a href="#demo"><em>03</em>デモ</a>
+  <a href="#about"><em>04</em>概要</a>
+  <a href="#service"><em>05</em>サービス</a>
+  <a href="#price"><em>06</em>料金</a>
+  <a href="#flow"><em>07</em>進め方</a>
+  <a href="#contact"><em>08</em>お問い合わせ</a>
+  <a href="#company"><em>09</em>会社情報・特商法</a>
 </nav>
 
 <main id="top">
@@ -455,11 +467,18 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
         <div class="tags"><span>予約の自動受付</span><span>よくある質問に即答</span><span>その場で触れるデモ</span></div>
         <span class="go">飲食店向けページを見る<span class="ar">→</span></span>
       </a>
-      <a class="tile" href="#demo" data-rv style="--d:.18s">
-        <span class="lab">美容室・整体院・不動産・その他</span>
+      <a class="tile food" href="salon/" data-rv style="--d:.18s">
+        <span class="lab">美容室・整体院の方はこちら</span>
+        <h3>施術中の電話を<br>AIが代わりに対応</h3>
+        <p>美容室・ネイル・エステ・整体院・接骨院・鍼灸院・パーソナルジム向け。予約・変更・メニューの質問に公式LINEで24時間即答。ホットペッパー等と併用できます。</p>
+        <div class="tags"><span>予約・変更の受付</span><span>予約サイトと併用OK</span><span>先着3社 初期0円</span></div>
+        <span class="go">美容・整体向けページを見る<span class="ar">→</span></span>
+      </a>
+      <a class="tile" href="#demo" data-rv style="--d:.26s">
+        <span class="lab">不動産・工務店・その他</span>
         <h3>業種別デモと<br>月額顧問プラン</h3>
         <p>受付の自動化から書類作成、口コミ返信まで。まずはデモを触り、無料AI診断で自社に合う自動化をご確認ください。</p>
-        <div class="tags"><span>美容室・整体院</span><span>不動産・工務店</span><span>書類の自動作成</span></div>
+        <div class="tags"><span>不動産・工務店</span><span>書類の自動作成</span><span>無料AI診断</span></div>
         <span class="go">デモと料金を見る<span class="ar">→</span></span>
       </a>
     </div>
@@ -481,7 +500,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
       </article>
       <article class="card demo-card" data-rv style="--d:.08s">
         <div class="shot"><div class="phone"><div class="bub">施術中でもすぐ返信します。ご予約・変更はこちらからどうぞ。</div><div class="bub me">明日 11時 カット＋カラー</div><div class="bub">✅ 承りました。所要時間は約120分です。前日にリマインドをお送りします。</div></div></div>
-        <div class="body"><span class="who">美容室・整体院向け</span><h3>施術中の電話を、AIが受ける</h3><p>予約・変更・メニュー・所要時間の質問に24時間対応。ホットペッパー等の予約システムは併用できます。</p><a class="btn solid" href="sme/demo-salon.html">デモを触る<span class="ar">→</span></a></div>
+        <div class="body"><span class="who">美容室・整体院向け</span><h3>施術中の電話を、AIが受ける</h3><p>予約・変更・メニュー・所要時間の質問に24時間対応。ホットペッパー等の予約システムは併用できます。</p><a class="btn solid" href="salon/">美容・整体向けページを見る（料金・デモ）<span class="ar">→</span></a><a class="sub-link" href="sme/demo-salon.html">デモだけ試す →</a></div>
       </article>
       <article class="card demo-card" data-rv style="--d:.16s">
         <div class="shot"><div class="doc"><b>御 見 積 書</b><i class="s"></i><i></i><i></i><i class="s"></i><i></i><i class="g"></i><i></i><i class="s"></i></div></div>
@@ -522,7 +541,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
       <div class="jp" data-rv style="--d:.1s">できること</div>
     </div>
     <div class="cards">
-      <article class="card" data-rv><span class="ic">01</span><div class="no">01 ／ LINE</div><h3>公式LINEの<br>24時間AI受付係</h3><p>予約・空き確認・よくある質問への一次回答をAIが下書きし、担当者は承認するだけ。営業時間外の問い合わせを取りこぼしません。</p><a class="linkbtn" href="line/">飲食店向けページ（初期10万円・月額3万円）→</a><a class="sub-link" href="sme/demo-salon.html">美容室・整体院向けのデモを触る →</a></article>
+      <article class="card" data-rv><span class="ic">01</span><div class="no">01 ／ LINE</div><h3>公式LINEの<br>24時間AI受付係</h3><p>予約・空き確認・よくある質問への一次回答をAIが下書きし、担当者は承認するだけ。営業時間外の問い合わせを取りこぼしません。</p><a class="linkbtn" href="line/">飲食店向けページ（初期10万円・月額3万円）→</a><a class="sub-link" href="salon/">美容室・整体院向けページ（月額55,000円〜）→</a></article>
       <article class="card" data-rv style="--d:.08s"><span class="ic">02</span><div class="no">02 ／ DOCS</div><h3>書類・文章の<br>自動作成</h3><p>見積書、提案書、物件紹介文、報告書、求人票などを、社内データとテンプレートからAIが初稿を作成します。</p><p style="margin-top:10px"><a href="sme/demo-docs.html" style="color:var(--accent,#9BE7DC);font-size:13px;text-decoration:underline">物件紹介文・見積書・口コミ返信のデモを触る →</a></p></article>
       <article class="card" data-rv style="--d:.16s"><span class="ic">03</span><div class="no">03 ／ SOCIAL</div><h3>口コミ・SNSの<br>運用補助</h3><p>Google口コミへの返信下書き、Instagram投稿文の生成、週次の投稿ルーティンを整えます。</p></article>
       <article class="card" data-rv><span class="ic">04</span><div class="no">04 ／ KNOWLEDGE</div><h3>社内ナレッジの<br>AI化</h3><p>マニュアル・FAQ・過去のやり取りをAIに読み込ませ、社員が質問すると答えが返る仕組みを作ります。</p></article>
@@ -648,7 +667,7 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
     <div class="fgrid">
       <a class="brand" href="#top"><i></i>H.I. Company</a>
       <nav class="fnav">
-        <a href="#about">概要</a><a href="#service">サービス</a><a href="#price">料金</a><a href="#flow">進め方</a><a href="#contact">お問い合わせ</a><a href="#company">事業者情報</a><a href="#tokushoho">特定商取引法に基づく表記</a><a href="privacy.html">プライバシーポリシー</a>
+        <a href="line/">飲食店向け</a><a href="salon/">美容・整体向け</a><a href="#about">概要</a><a href="#service">サービス</a><a href="#price">料金</a><a href="#flow">進め方</a><a href="#contact">お問い合わせ</a><a href="#company">事業者情報</a><a href="#tokushoho">特定商取引法に基づく表記</a><a href="privacy.html">プライバシーポリシー</a>
       </nav>
     </div>
     <div class="fbot">© 2026 H.I. Company ／ 掲載している導入イメージは想定例であり、効果を保証するものではありません。</div>
