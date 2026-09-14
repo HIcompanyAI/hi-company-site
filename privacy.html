@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー｜H.I. Company</title>
+<meta name="description" content="H.I. Company の個人情報の取り扱いについて。取得する情報、利用目的、外部サービスへの委託、開示・訂正・削除の窓口を記載しています。">
+<meta name="theme-color" content="#050607">
+<meta property="og:title" content="プライバシーポリシー｜H.I. Company">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hi-companyjapan.jp/privacy.html">
+<meta property="og:image" content="https://hi-companyjapan.jp/img/logo-circle-1080.png">
+<meta property="og:site_name" content="H.I. Company">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<link rel="apple-touch-icon" href="/img/logo-circle-400.png">
+<link rel="canonical" href="https://hi-companyjapan.jp/privacy.html">
+<meta name="robots" content="index,follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* トップページと同じ配色・書体 */
+:root{
+  --bg:#050607;--line:rgba(255,255,255,.10);--line-2:rgba(255,255,255,.16);
+  --ink:#F2F5F6;--ink-2:#A9B2B9;--muted:#6E777E;
+  --accent:#3ADBC6;
+  --light:#F4F6F7;--l-ink:#0B0F12;--l-ink-2:#4B555C;--l-line:#E1E5E8;
+  --serif:"Shippori Mincho",serif;
+  --display:"Cormorant Garamond","Shippori Mincho",serif;
+  --sans:"Noto Sans JP",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --max:1180px;--ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.9;letter-spacing:.02em;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#04211E}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* ヘッダー */
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(5,6,7,.72);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom:1px solid var(--line)}
+.nav{max-width:var(--max);margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:baseline;gap:9px;font-family:var(--display);font-size:19px;letter-spacing:.14em;color:#fff}
+.brand i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);font-style:normal;flex:none;transform:translateY(-2px)}
+.brand img{width:28px;height:28px;border-radius:50%;flex:none;align-self:center}
+.menu{display:flex;align-items:center;gap:30px;font-size:13px;letter-spacing:.06em;color:var(--ink-2)}
+.menu a{position:relative;padding:4px 0;transition:color .3s}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);transition:width .35s var(--ease)}
+.menu a:hover{color:#fff}.menu a:hover::after{width:100%}
+.nav-cta{font-size:12.5px;letter-spacing:.08em;padding:10px 20px;border-radius:100px;border:1px solid var(--line-2);color:#fff;transition:.35s var(--ease)}
+.nav-cta:hover{background:#fff;color:#0B0F12;border-color:#fff}
+
+/* 本文（トップの明色セクションと同じ） */
+main{background:var(--light);color:var(--l-ink);padding:140px 0 110px}
+.sec-head{margin-bottom:48px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--accent);text-transform:uppercase}
+h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,40px);letter-spacing:.08em;margin:10px 0 14px;line-height:1.4}
+.lead{color:var(--l-ink-2);font-size:15px;max-width:720px}
+.pp{max-width:820px}
+.pp h2{font-family:var(--serif);font-weight:600;font-size:clamp(17px,2.2vw,21px);letter-spacing:.06em;margin:44px 0 12px;padding-top:24px;border-top:1px solid var(--l-line)}
+.pp p,.pp li{color:var(--l-ink-2);font-size:15px}
+.pp ul{padding-left:1.3em;margin:0}
+.pp li{margin:4px 0}
+.pp a{color:var(--l-ink);border-bottom:1px solid #B9C3C9;transition:.3s}
+.pp a:hover{color:#0E6F6B;border-color:#0E6F6B}
+.pp .meta{margin-top:52px;padding-top:24px;border-top:1px solid var(--l-line);font-family:var(--mono);font-size:12.5px;letter-spacing:.06em;color:var(--l-ink-2);line-height:2}
+
+/* フッター */
+footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px}
+.fgrid{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-start}
+.fnav{display:flex;flex-wrap:wrap;gap:12px 28px;font-size:13px;color:var(--ink-2)}
+.fnav a:hover{color:var(--accent)}
+.fbot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.9}
+
+@media (max-width:760px){
+  .menu{display:none}
+  main{padding:110px 0 80px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="brand" href="/"><img src="img/logo-circle-400.png" alt="H.I. Company ロゴ" width="28" height="28">H.I. Company</a>
+    <nav class="menu">
+      <a href="/line/">飲食店向け</a>
+      <a href="/#service">サービス</a>
+      <a href="/#price">料金</a>
+      <a href="/#company">会社情報</a>
+    </nav>
+    <a class="nav-cta" href="/#contact">無料AI診断</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Privacy Policy</div>
+      <h1>プライバシーポリシー</h1>
+      <p class="lead">H.I. Company（代表: 市川 晴喜。以下「当社」）は、お客様からお預かりする個人情報を次のとおり取り扱います。</p>
+    </div>
+
+    <div class="pp">
+      <h2>1. 取得する情報</h2>
+      <ul>
+        <li>お問い合わせ・お申し込み・ご契約の際にいただく情報（会社名・店名、担当者名、メールアドレス、LINEの表示名やID、ご相談内容）</li>
+        <li>サービスの構築・運用に必要な情報（店舗の営業情報、公式LINEアカウントの設定情報）</li>
+        <li>当社が構築した公式LINEのAI受付を通じて、導入店舗に届くお客様の予約・お問い合わせの内容</li>
+      </ul>
+
+      <h2>2. 導入店舗のお客様の情報について</h2>
+      <p>当社が構築した公式LINEのAI受付に届いたお客様の予約情報・お問い合わせ内容は、導入店舗からの委託に基づき当社が処理します。当社はこれらの情報を、AI受付の運用・回答の改善・月次レポートの作成の目的にのみ使用し、それ以外の目的には使用しません。契約終了時は、店舗のご要望に応じて削除します。</p>
+
+      <h2>3. 利用目的</h2>
+      <ul>
+        <li>お問い合わせへの返信、無料相談・デモの日程調整</li>
+        <li>サービスの構築・運用・改善、月次レポートの作成</li>
+        <li>請求書の発行、入金の確認、契約に関するご連絡</li>
+        <li>当社サービスのご案内（ご希望がない場合はお送りしません）</li>
+      </ul>
+
+      <h2>4. 第三者への提供</h2>
+      <p>法令に基づく場合、および次の「外部サービスへの委託」の場合を除き、ご本人の同意なく個人情報を第三者に提供しません。</p>
+
+      <h2>5. 外部サービスへの委託</h2>
+      <p>サービスの提供にあたり、次のような基盤サービスに、必要な範囲で情報を送信・保管することがあります。各社での取り扱いは、各社のプライバシーポリシーによります。</p>
+      <ul>
+        <li>LINEヤフー株式会社（公式LINE・メッセージ配信）</li>
+        <li>Anthropic（AIモデル。AI受付の回答生成）</li>
+        <li>Google（スプレッドシート・カレンダー等。予約台帳やレポートの保管）</li>
+        <li>GitHub（当サイトの公開）</li>
+        <li>Stripe（クレジットカード決済をご利用の場合）</li>
+      </ul>
+
+      <h2>6. 安全管理</h2>
+      <p>個人情報への不正アクセス、紛失、漏えいを防ぐため、アクセス権限の管理、APIキー等の認証情報の分離管理など、合理的な安全対策を行います。</p>
+
+      <h2>7. 開示・訂正・利用停止・削除</h2>
+      <p>ご本人からの開示・訂正・利用停止・削除のご請求には、ご本人確認のうえ速やかに対応します。導入店舗のお客様の情報については、委託元である店舗を通じてご請求ください。</p>
+      <p>窓口: <a href="mailto:h.ichikawa@hi-companyjapan.jp">h.ichikawa@hi-companyjapan.jp</a></p>
+
+      <h2>8. Cookie・アクセス解析</h2>
+      <p>当サイトでは、アクセス解析ツール（Google Analytics 等）を使用しておらず、当社が発行するCookieもありません。文字の表示のために Google Fonts を読み込んでおり、その際にお使いの端末のIPアドレス等が Google に送信されます。解析ツールを導入する場合は、本ポリシーを改定してお知らせします。</p>
+
+      <h2>9. 改定</h2>
+      <p>本ポリシーは、法令の変更やサービス内容の変更に応じて改定することがあります。改定後のポリシーは、当サイトに掲載した時点で効力を生じます。</p>
+
+      <div class="meta">
+        制定日: 2026年9月15日<br>
+        H.I. Company　代表 市川 晴喜<br>
+        お問い合わせ: h.ichikawa@hi-companyjapan.jp
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <a class="brand" href="/"><i></i>H.I. Company</a>
+      <nav class="fnav">
+        <a href="/#about">概要</a><a href="/#service">サービス</a><a href="/#price">料金</a><a href="/#flow">進め方</a><a href="/#contact">お問い合わせ</a><a href="/#company">事業者情報</a><a href="/#tokushoho">特定商取引法に基づく表記</a><a href="/privacy.html">プライバシーポリシー</a>
+      </nav>
+    </div>
+    <div class="fbot">© 2026 H.I. Company</div>
+  </div>
+</footer>
+
+</body>
+</html>
