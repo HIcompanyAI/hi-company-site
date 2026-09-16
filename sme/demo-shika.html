@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LINE 24時間AI受付 デモ（歯科医院）｜H.I. Company</title>
+<link rel="canonical" href="https://hi-companyjapan.jp/sme/demo-shika.html">
+<meta name="robots" content="index,follow">
+<link rel="icon" type="image/png" href="/img/favicon.png">
+<meta property="og:title" content="LINE 24時間AI受付 デモ（歯科医院）｜H.I. Company">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hi-companyjapan.jp/sme/demo-shika.html">
+<meta property="og:image" content="https://hi-companyjapan.jp/img/logo-circle-1080.png">
+<meta property="og:site_name" content="H.I. Company">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hi-companyjapan.jp/img/logo-circle-1080.png">
+<style>
+:root{--g:#06C755;--bg:#8CABD9;--bub:#fff;--me:#8DE055;--ink:#1a1a1a}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:#eef1f5;color:var(--ink);display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px;gap:32px;flex-wrap:wrap}
+.side{max-width:360px}
+.side h1{font-size:22px;margin:0 0 8px}
+.side p{font-size:14px;line-height:1.8;color:#444}
+.side .tag{display:inline-block;background:var(--g);color:#fff;font-size:12px;padding:3px 10px;border-radius:99px;margin-bottom:12px}
+.side ul{font-size:13px;color:#444;line-height:1.9;padding-left:18px}
+.side .store{margin-top:16px;font-size:13px}
+.side input{width:100%;padding:8px 10px;border:1px solid #ccc;border-radius:8px;font-size:14px}
+.phone{width:375px;height:740px;background:#000;border-radius:44px;padding:12px;box-shadow:0 30px 60px rgba(0,0,0,.25);flex-shrink:0}
+.screen{background:var(--bg);border-radius:34px;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.head{background:#fff;padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e5e5e5}
+.head .av{width:36px;height:36px;border-radius:50%;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.head b{font-size:15px}
+.head small{display:block;color:#888;font-size:11px}
+.log{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:78%;padding:10px 12px;border-radius:16px;font-size:14px;line-height:1.6;white-space:pre-wrap;animation:pop .2s ease}
+.bot{background:var(--bub);align-self:flex-start;border-top-left-radius:4px}
+.me{background:var(--me);align-self:flex-end;border-top-right-radius:4px}
+/* 受付スタッフ（人）の返信。AIから人に渡ったことが分かるように色を変える */
+.staff{background:#fff6d6;align-self:flex-start;border-top-left-radius:4px;border:1px solid #f0d98a}
+.staff::before{content:"👩‍⚕️ 受付スタッフ（人が対応）";display:block;font-size:10px;color:#8a6d1a;margin-bottom:4px}
+.time{font-size:10px;color:#e8f0ff;align-self:flex-end;margin-top:-6px}
+.qr{display:flex;flex-wrap:wrap;gap:6px;padding:0 12px 8px}
+.qr button{background:#fff;border:1px solid var(--g);color:var(--g);border-radius:99px;padding:6px 12px;font-size:12px;cursor:pointer}
+.qr button:hover{background:var(--g);color:#fff}
+.input{background:#fff;padding:10px;display:flex;gap:8px;border-top:1px solid #e5e5e5}
+.input input{flex:1;border:1px solid #ddd;border-radius:20px;padding:9px 14px;font-size:14px;outline:none}
+.input button{background:var(--g);color:#fff;border:none;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:16px}
+.typing span{display:inline-block;width:6px;height:6px;background:#bbb;border-radius:50%;margin:0 2px;animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:scale(1);opacity:1}}
+.note{font-size:11px;color:#666;margin-top:14px;line-height:1.7}
+@media(max-width:430px){body{padding:12px}.phone{width:100%;height:78vh;min-height:560px;border-radius:28px;padding:8px}.screen{border-radius:22px}}
+/* 埋め込みモード（LPの iframe から ?embed=1 で呼び出す） */
+body.embed{padding:0;background:transparent;min-height:0;height:100vh;align-items:stretch}
+body.embed .side{display:none}
+body.embed .phone{width:100%;max-width:none;height:100%;max-height:none;border-radius:18px;padding:0;box-shadow:none;background:transparent}
+body.embed .screen{border-radius:14px}
+</style>
+</head>
+<body>
+<div class="side">
+  <span class="tag">デモ（ブラウザ内で動作）</span>
+  <h1>LINE 24時間AI受付</h1>
+  <p>診療中で受付が電話に出きれない時間も、予約・変更・キャンセル、持ち物や保険証の質問にAIが即答します。電話は自動音声でLINEへご案内し、LINE上でAIが受けます。今お使いの予約システムはそのまま併用できます。</p>
+  <ul>
+    <li>初診・再診の予約受付（日時・ご相談の種類・お名前を自動でヒアリング）</li>
+    <li>診療時間・持ち物・保険証・駐車場などのFAQ即答</li>
+    <li>予約変更・キャンセルの受付（診療の合間に折り返す必要がなくなる）</li>
+    <li>急患や判断が要るものは受付スタッフに転送。人が引き継ぐ</li>
+  </ul>
+  <div class="store">医院名を変えて試す：<input id="storeName" value="つばさ野歯科クリニック" oninput="renameStore()"></div>
+  <p class="note">自動化するのは受付業務だけです。治療内容・効果・費用の説明はAIにさせず、「診察時に歯科医師からご説明します」で止めて受付に転送します（医療広告ガイドラインに配慮）。実際の導入では、診療時間・休診日・持ち物・予約経路を学習させ、公式LINEアカウントに接続します。</p>
+  <p class="note"><a href="https://hi-companyjapan.jp/">H.I. Company 公式サイト</a> ｜ <a href="https://hi-companyjapan.jp/privacy.html">プライバシーポリシー</a></p>
+</div>
+<div class="phone"><div class="screen">
+  <div class="head"><div class="av">つ</div><div><b id="hName">つばさ野歯科クリニック</b><small>AI受付 · 24時間対応</small></div></div>
+  <div class="log" id="log"></div>
+  <div class="qr" id="qr"></div>
+  <div class="input"><input id="inp" placeholder="メッセージを入力" onkeydown="if(event.key==='Enter')send()"><button onclick="send()">➤</button></div>
+</div></div>
+<script>
+if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+let store='つばさ野歯科クリニック';
+const log=document.getElementById('log'),qr=document.getElementById('qr'),inp=document.getElementById('inp');
+let flow=null,rsv={};
+const now=()=>{const d=new Date();return d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0')};
+function add(t,who){const m=document.createElement('div');m.className='msg '+who;m.textContent=t;log.appendChild(m);const s=document.createElement('div');s.className='time';s.textContent=now();log.appendChild(s);log.scrollTop=log.scrollHeight}
+function bot(t,delay=700,who='bot'){return new Promise(r=>{const ty=document.createElement('div');ty.className='msg bot typing';ty.innerHTML='<span></span><span></span><span></span>';log.appendChild(ty);log.scrollTop=log.scrollHeight;setTimeout(()=>{ty.remove();add(t,who);r()},delay)})}
+function quick(list){qr.innerHTML='';list.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>{inp.value=t;send()};qr.appendChild(b)})}
+const HOME=['初診の予約を取りたい','予約を変更したい','初診の持ち物は？','急に歯が痛い、今日診てもらえますか','診療時間は？','駐車場はある？'];
+function renameStore(){store=document.getElementById('storeName').value||'医院名';document.getElementById('hName').textContent=store}
+async function send(){const t=inp.value.trim();if(!t)return;inp.value='';qr.innerHTML='';add(t,'me');await reply(t)}
+async function reply(t){
+  if(flow){return step(t)}
+  // 急患 → AIは判断せず、受付スタッフ（人）に転送する
+  if(/痛い|痛み|腫れ|取れた|欠けた|出血|今日|急/.test(t)){await bot('お辛いところ恐れ入ります。\n本日の受け入れ可否は受付が判断しますので、受付に転送します。少々お待ちください。\n\n【受付に転送しました ✅】');await bot('受付です。ご連絡ありがとうございます。\n本日は 16:30 でしたらご案内できます。ご来院いただけますか？\n\nご来院の際は保険証（またはマイナ保険証）をお持ちください。',1800,'staff');quick(['16:30に行きます','別の日にしたい']);flow='urgent';return}
+  if(/変更|キャンセル|ずらし/.test(t)){flow='cancel';await bot('ご予約の変更・キャンセルを承ります。\nご予約時のお名前と、現在の予約日時・ご希望の日時を教えてください。\n例）山田／9月20日 14時 → 9月22日 15時');return}
+  if(/持ち物|保険証|マイナ|持って|必要/.test(t)){await bot('初診の際の持ち物です。\n\n・保険証 または マイナ保険証\n・お薬手帳（お持ちの方）\n・医療証（お持ちの方）\n・他院からの紹介状（お持ちの方）\n\n初診は問診票のご記入があるため、ご予約の10分前にお越しください。');quick(['初診の予約を取りたい','診療時間は？']);return}
+  if(/予約|初診|取りたい|診てもら/.test(t)){flow='date';rsv={};await bot('ご予約ありがとうございます。\nご希望の日時を教えてください。\n例）9月20日 14時');quick(['9月20日 14時','明日 11時','今週土曜 10時']);return}
+  if(/診療時間|営業時間|何時|やって|休診|休み/.test(t)){await bot('診療時間はこちらです。\n\n月・火・水・金 9:30〜13:00 / 14:30〜19:00\n土 9:30〜13:00 / 14:30〜17:00\n休診日：木曜・日曜・祝日\n\nこのLINEは24時間受け付けています。休診日のご予約は翌診療日に受付からご連絡します。');quick(HOME);return}
+  if(/駐車|パーキング|車|アクセス|場所/.test(t)){await bot('医院前に3台分の駐車場がございます。満車の場合は、隣接のコインパーキングをご利用ください（受付で駐車券をお渡しします）。\n\n最寄駅からは徒歩5分です。');quick(HOME);return}
+  if(/料金|費用|いくら|値段|治療|効果|治る|矯正|ホワイトニング|インプラント|何回/.test(t)){await bot('治療の内容・費用については、診察のうえ歯科医師から直接ご説明しています。LINEではお答えしておりません。\n\nご希望でしたら、ご相談の予約をお取りします。');quick(['初診の予約を取りたい','診療時間は？']);return}
+  if(/ありがとう|助かる/.test(t)){await bot('こちらこそありがとうございます。\nお気をつけてお越しください。');quick(HOME);return}
+  await bot('申し訳ありません、その内容はAIでは判断が難しいため、受付に転送しました。診療時間内に受付からお返事します。\n\n【受付に転送しました ✅】\n\n他にご質問があればどうぞ。');quick(HOME);
+}
+async function step(t){
+  if(flow==='urgent'){flow=null;if(/行きます|お願い|はい/.test(t)){await bot('承知しました。16:30 にお待ちしております。\n受付にてお名前をお伝えください。',900,'staff')}else{await bot('承知しました。ご都合のよい日時をお知らせいただければ、こちらで調整します。',900,'staff')}quick(HOME);return}
+  if(flow==='date'){rsv.date=t;flow='kind';await bot(`${t} ですね。\nご相談の種類を教えてください。`);quick(['検診・クリーニング','気になるところがある','詰め物が取れた','その他']);return}
+  if(flow==='kind'){rsv.kind=t;flow='name';await bot('ありがとうございます。\nお名前（フルネーム）と、初診か再診かをお願いします。\n例）山田 太郎／初診');return}
+  if(flow==='name'){rsv.name=t;flow='confirm';await bot(`以下の内容でお間違いないでしょうか？\n\n📅 日時：${rsv.date}\n🦷 ご相談：${rsv.kind}\n👤 お名前：${rsv.name}\n\n「はい」で受付に送ります。`);quick(['はい','やり直す']);return}
+  if(flow==='confirm'){
+    if(/はい|OK|お願い/.test(t)){flow=null;await bot(`✅ ご予約を受け付けました。\n\n📅 ${rsv.date}\n🦷 ${rsv.kind}\n👤 ${rsv.name}\n\n受付が予約状況を確認のうえ、確定のご連絡をこのLINEでお送りします。前日にはリマインドも届きます。\n初診の方は保険証（またはマイナ保険証）をお持ちのうえ、10分前にお越しください。\n\n【予約システムに仮登録済み・受付に通知済み】`);quick(HOME)}
+    else{flow='date';await bot('かしこまりました。ご希望の日時からもう一度お願いします。');quick(['9月20日 14時','明日 11時'])}
+    return}
+  if(flow==='cancel'){flow=null;await bot(`承知しました。\n「${t}」の件、受付が予約状況を確認のうえ、このLINEでご連絡します。\n\n【受付に転送しました ✅】`);quick(HOME);return}
+}
+(async()=>{await bot(`${store} 公式LINEへようこそ。\nAI受付です。ご予約・変更・キャンセルや、持ち物などのご質問に24時間お答えします。診療中でもすぐ返信します。\n\n※ 治療の内容や費用は、診察時に歯科医師からご説明します。\n\n下のボタンか、メッセージでお気軽にどうぞ。`,300);quick(HOME)})();
+</script>
+</body>
+</html>

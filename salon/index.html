@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1B2A4A">
 <title>美容室・整体院向け LINE 24時間AI受付｜施術中の電話をAIが代わりに対応｜H.I. Company</title>
 <meta name="description" content="美容室・ネイル・エステ・整体院・接骨院・鍼灸院・パーソナルジム向け。施術中に出られない電話と、夜にまとめて返すLINEの予約返信を、AIと当社がまるごと引き受けます。予約・変更・メニューの質問に公式LINEで24時間即答。ホットペッパー等と併用可。月額55,000円（税込）、先着3社は初期費用0円。">
 <link rel="canonical" href="https://hi-companyjapan.jp/salon/">
@@ -46,219 +47,15 @@
   ]
 }
 </script>
-<style>
-:root{--g:#06C755;--gd:#059c43;--gl:#e8f9ee;--ink:#15181c;--mute:#5b6470;--bg:#fff;--soft:#f4f7f5;--line:#e3e7ea;--dark:#15181c}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:70px;-webkit-text-size-adjust:100%}
-body{margin:0;font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink);background:var(--bg);line-height:1.8;overflow-x:hidden;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-p{margin:0}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-
-/* header */
-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-header .wrap{display:flex;justify-content:space-between;align-items:center;height:60px;gap:12px}
-.brand{text-decoration:none;font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;white-space:nowrap}
-.brand img{width:28px;height:28px;border-radius:50%;flex:none}
-.brand .pk{font-size:12px;font-weight:600;color:var(--mute);background:var(--soft);padding:3px 10px;border-radius:99px}
-.hnav{display:flex;gap:6px;align-items:center}
-.hnav a{font-size:13px;color:var(--mute);text-decoration:none;padding:8px 10px;border-radius:8px}
-.hnav a:hover{background:var(--soft);color:var(--ink)}
-
-/* buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--g);color:#fff;text-decoration:none;padding:15px 26px;border-radius:99px;font-weight:700;font-size:16px;box-shadow:0 8px 20px rgba(6,199,85,.22);border:2px solid var(--g);transition:.2s;line-height:1.3;white-space:nowrap}
-.btn:hover{background:var(--gd);border-color:var(--gd);transform:translateY(-1px)}
-.btn.ghost{background:#fff;color:var(--ink);border-color:var(--line);box-shadow:none}
-.btn.ghost:hover{background:var(--soft);border-color:#cfd5da}
-.btn.sm{padding:9px 16px;font-size:13px;box-shadow:none}
-
-/* hero */
-.hero{padding:56px 0 48px;background:radial-gradient(1200px 500px at 80% -10%,#dff7e8,transparent 60%),linear-gradient(180deg,#f3fbf6,#fff 80%)}
-.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
-.hero .tag{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid #cdeedb;color:var(--gd);font-weight:700;font-size:13px;padding:6px 14px;border-radius:99px}
-.hero .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--g)}
-.hero h1{font-size:clamp(28px,4.2vw,42px);line-height:1.35;margin:16px 0 14px;letter-spacing:.01em;font-weight:800}
-.hero h1 .em{color:var(--gd)}
-.hero h1 br.m,.sec-h h2 br.m{display:none}
-.hero .sub{font-size:16px;color:var(--mute);max-width:540px}
-.facts{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 24px;padding:0;list-style:none}
-.facts li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;font-size:13px;color:var(--mute)}
-.facts li b{display:block;color:var(--ink);font-size:17px;line-height:1.2}
-.hero .cta{display:flex;gap:10px;flex-wrap:wrap}
-.hero .note{margin-top:12px;font-size:12px;color:var(--mute)}
-.hero .gnote{margin-top:14px;display:inline-block;background:#fff;border:1px solid #cdeedb;border-left:4px solid var(--g);border-radius:10px;padding:10px 14px;font-size:13px;line-height:1.6}
-.hero .gnote b{color:var(--gd)}
-
-/* chat mock */
-.mock{background:#8CABD9;border-radius:22px;padding:14px;box-shadow:0 24px 50px rgba(20,40,60,.18);position:relative;max-width:360px;margin:0 auto;width:100%}
-.mock .mh{background:#fff;border-radius:12px 12px 0 0;padding:10px 14px;display:flex;align-items:center;gap:10px;margin:-14px -14px 12px;border-bottom:1px solid #dde3ea}
-.mock .mh .av{width:32px;height:32px;border-radius:50%;background:var(--g);color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px}
-.mock .mh b{font-size:14px;display:block;line-height:1.2}
-.mock .mh small{font-size:11px;color:#777}
-.mock .m{max-width:82%;padding:9px 12px;border-radius:14px;font-size:13px;line-height:1.55;margin-bottom:8px;white-space:pre-line}
-.mock .b{background:#fff;border-top-left-radius:4px}
-.mock .u{background:#8DE055;margin-left:auto;border-top-right-radius:4px}
-.mock .t{font-size:10px;color:#eef3ff;text-align:right;margin:-4px 0 8px}
-.mock .badge{position:absolute;top:-12px;right:-8px;background:var(--dark);color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px;box-shadow:0 6px 16px rgba(0,0,0,.2)}
-
-/* sections */
-section{padding:64px 0}
-.sec-h{text-align:center;margin-bottom:32px}
-.sec-h .eyebrow{color:var(--gd);font-weight:700;font-size:13px;letter-spacing:.08em}
-.sec-h h2{font-size:clamp(22px,3.4vw,30px);margin:6px 0 10px;line-height:1.4}
-.sec-h p{color:var(--mute);font-size:15px;max-width:640px;margin:0 auto}
-.soft{background:var(--soft)}
-
-/* summary 3 */
-.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.sum>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 20px}
-.sum .k{font-size:12px;font-weight:700;color:var(--gd);letter-spacing:.06em}
-.sum .v{font-size:22px;font-weight:800;margin:6px 0 4px;line-height:1.3}
-.sum p{font-size:13px;color:var(--mute)}
-
-/* pain / cards */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
-.card .n{font-size:30px;font-weight:800;color:var(--g);line-height:1.1}
-.card h3{margin:10px 0 6px;font-size:16px}
-.card p{font-size:14px;color:var(--mute)}
-.card .ico{display:inline-block;background:var(--gl);color:var(--gd);font-weight:700;font-size:12px;letter-spacing:.08em;padding:2px 10px;border-radius:99px;margin-bottom:4px}
-.fine{text-align:center;margin-top:18px;color:var(--mute);font-size:12px}
-
-/* 丸投げ（オーナー vs 当社） */
-.split{display:grid;grid-template-columns:1fr 1.5fr;gap:14px;align-items:stretch}
-.split>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
-.split h3{margin:0 0 4px;font-size:16px}
-.split .h{font-size:28px;font-weight:800;color:var(--gd);line-height:1.2;margin-bottom:8px}
-.split ul{list-style:none;margin:0;padding:0;font-size:14px}
-.split li{padding:6px 0 6px 24px;position:relative;border-bottom:1px dashed var(--line)}
-.split li:last-child{border-bottom:0}
-.split li::before{content:"✓";position:absolute;left:0;color:var(--g);font-weight:700}
-.split .us{border-color:#bfe9d0;background:linear-gradient(180deg,#fff,#f3fbf6)}
-
-/* demo */
-.demo-box{display:grid;grid-template-columns:400px 1fr;gap:32px;align-items:start}
-.demo-frame{background:#eef1f5;border:1px solid var(--line);border-radius:22px;padding:12px;width:100%}
-.demo-frame iframe{width:100%;height:740px;border:0;border-radius:14px;display:block;background:#eef1f5}
-.try{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px}
-.try h3{margin:0 0 6px;font-size:17px}
-.try p{font-size:14px;color:var(--mute)}
-.try ol{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:8px}
-.try li{display:flex;gap:10px;align-items:flex-start;font-size:14px}
-.try li i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--g);color:#fff;font-style:normal;font-weight:700;font-size:12px;display:grid;place-items:center;margin-top:2px}
-.try .alt{margin-top:16px;font-size:13px}
-.try .alt a{color:var(--gd)}
-
-/* flow */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:s}
-.flow>div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 18px 18px;position:relative}
-.flow>div::before{counter-increment:s;content:"STEP " counter(s);display:inline-block;background:var(--gl);color:var(--gd);border-radius:99px;padding:2px 10px;font-weight:700;font-size:11px;letter-spacing:.06em;margin-bottom:8px}
-.flow b{display:block;font-size:16px;margin-bottom:4px}
-.flow .d{font-size:12px;color:var(--gd);font-weight:700;margin-bottom:6px}
-.flow p{font-size:13px;color:var(--mute)}
-
-/* price（2プラン） */
-.price{background:var(--dark);color:#fff}
-.price .sec-h h2{color:#fff}
-.price .sec-h p{color:#b8bec5}
-.price .sec-h .eyebrow{color:#8de055}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:stretch}
-.plan{background:#1f2327;border:1px solid #33393f;border-radius:18px;padding:28px;display:flex;flex-direction:column}
-.plan.rec{border-color:#8de055;box-shadow:0 0 0 1px #8de055 inset}
-.ptag{display:inline-block;background:#8de055;color:#0d2a17;font-weight:700;font-size:12px;padding:3px 10px;border-radius:99px;margin-bottom:10px;align-self:flex-start}
-.ptag.gray{background:#33393f;color:#c9cfd5}
-.plan h3{margin:0;font-size:20px;color:#fff}
-.plan .who{font-size:13px;color:#8a929a;margin:4px 0 12px}
-.plan .amt{font-size:34px;font-weight:800;line-height:1.2;white-space:nowrap}
-.plan .amt small{font-size:13px;font-weight:400;color:#aaa;margin-left:4px}
-.plan .amt.rec{color:#8de055}
-.plan .tax{font-size:12px;color:#8a929a;margin-bottom:14px}
-.plan ul{list-style:none;margin:0;padding:14px 0 0;font-size:14px;color:#e6e9ec;border-top:1px solid #33393f}
-.plan li{padding:6px 0 6px 26px;position:relative}
-.plan li::before{content:"✓";position:absolute;left:0;color:#8de055;font-weight:700}
-.plan .cmp{margin-top:auto;padding-top:14px;font-size:13px;color:#c9cfd5}
-.init{margin-top:18px;background:#0f2a1a;border:1px solid #8de055;border-radius:14px;padding:18px 22px;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:center}
-.init .gt{background:#8de055;color:#0d2a17;font-weight:800;font-size:13px;padding:4px 12px;border-radius:99px;white-space:nowrap}
-.init b{font-size:17px;color:#fff}
-.init b s{color:#8a929a;font-weight:400;font-size:15px;margin-right:6px}
-.init p{font-size:13px;color:#c9cfd5;grid-column:2}
-.pnotes{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.pnotes div{background:#1f2327;border-radius:12px;padding:12px 14px;font-size:13px;color:#c9cfd5}
-.pnotes b{display:block;color:#fff;font-size:14px;margin-bottom:2px}
-.pnotes a{color:#8de055}
-
-/* roi */
-.roi{background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
-.roi .big{font-size:clamp(24px,3.5vw,32px);font-weight:800;line-height:1.35}
-.roi .big span{color:var(--gd)}
-.roi .cond{font-size:13px;color:var(--mute);margin-top:8px}
-.roi table{width:100%;border-collapse:collapse;font-size:14px}
-.roi td{padding:9px 4px;border-bottom:1px solid var(--line)}
-.roi td:last-child{text-align:right;font-weight:700;white-space:nowrap}
-.roi tr.hl td{color:var(--gd)}
-
-/* faq */
-.faq{max-width:760px;margin:0 auto}
-.faq details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:0 18px;margin-bottom:10px}
-.faq summary{cursor:pointer;font-weight:700;padding:15px 0;list-style:none;display:flex;justify-content:space-between;gap:12px;font-size:15px}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"＋";color:var(--g);flex:none}
-.faq details[open] summary::after{content:"－"}
-.faq p{color:var(--mute);font-size:14px;padding:0 0 16px}
-
-/* final */
-.final{text-align:center;padding:70px 0 80px;background:linear-gradient(180deg,#fff,#eefaf3)}
-.final h2{font-size:clamp(22px,3.4vw,30px);margin:0 0 10px}
-.final p{color:var(--mute)}
-.final .two{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:720px;margin:24px auto 0;text-align:left}
-.final .two div{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
-.final .two b{display:block;font-size:16px;margin-bottom:4px}
-.final .two p{font-size:13px}
-.final .cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:24px 0 16px}
-.final .other{font-size:13px;color:var(--mute)}
-.final .other a{color:var(--ink)}
-footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid var(--line);text-align:center}
-
-/* mobile sticky bar */
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px}
-.bar .btn{flex:1;padding:12px 10px;font-size:14px;box-shadow:none}
-
-@media(max-width:860px){
-  .hero .wrap{grid-template-columns:1fr;gap:28px}
-  .mock{max-width:340px}
-  .demo-box{grid-template-columns:1fr}
-  .flow{grid-template-columns:1fr 1fr}
-  .pgrid{grid-template-columns:1fr}
-  .roi{grid-template-columns:1fr}
-  .pnotes{grid-template-columns:1fr}
-  .split{grid-template-columns:1fr}
-  .init{grid-template-columns:1fr}
-  .init p{grid-column:1}
-  .final .two{grid-template-columns:1fr}
-}
-@media(max-width:640px){
-  section{padding:48px 0}
-  .hero{padding:32px 0 36px}
-  .hero h1{font-size:25px}
-  .hero h1 br.m,.sec-h h2 br.m{display:inline}
-  .hnav .lk{display:none}
-  .brand .pk{display:none}
-  .sum{grid-template-columns:1fr}
-  .flow{grid-template-columns:1fr}
-  .hero .cta .btn{width:100%}
-  .final .cta .btn{width:100%}
-  .demo-frame{padding:8px;border-radius:18px}
-  .plan .amt{font-size:30px}
-  .demo-frame iframe{height:640px}
-  .bar{display:flex}
-  .mock{display:none}
-}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&family=Shippori+Mincho:wght@500;600&display=swap">
+<link rel="stylesheet" href="../lp.css">
 </head>
 <body>
 
 <header><div class="wrap">
-  <a class="brand" href="https://hi-companyjapan.jp/"><img src="https://hi-companyjapan.jp/img/logo-circle-400.png" alt="H.I. Company ロゴ" width="28" height="28">H.I. Company <span class="pk">美容室・整体院向け 受付まるごとAI</span></a>
+  <a class="brand" href="https://hi-companyjapan.jp/" aria-label="H.I. Company トップへ"><img src="https://hi-companyjapan.jp/img/logo-mark-512.png" alt="H.I. Company ロゴ" width="34" height="34"><span><span class="nm">H.I. Company</span><span class="pk">美容室・整体院向け 受付まるごとAI</span></span></a>
   <nav class="hnav">
     <a class="lk" href="#demo">デモ</a>
     <a class="lk" href="#features">できること</a>
@@ -298,7 +95,7 @@ footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid
     <div class="t">13:02</div>
     <div class="m u">佐藤です。駐車場はありますか？</div>
     <div class="t">13:03</div>
-    <div class="m b">佐藤様 明日14:00 カットで承りました。
+    <div class="m b ok">佐藤様 明日14:00 カットで承りました。
 店舗裏に専用駐車場が2台分ございます。前日にリマインドをお送りします。</div>
     <div class="t">13:03</div>
   </div>
@@ -409,7 +206,7 @@ footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid
         <li>答えられなかった質問への回答追加（毎月）</li>
         <li>AI利用料・サーバー費・LINEでのサポート込み</li>
       </ul>
-      <p class="cmp">受付スタッフ1人分（月25万円前後）の約1/5。</p>
+      <p class="vs">受付スタッフ1人分（月25万円前後）の約1/5。</p>
     </div>
     <div class="plan">
       <span class="ptag gray">受付以外も任せたい方</span>
@@ -423,7 +220,7 @@ footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid
         <li>四半期に1回のスタッフ向け研修</li>
         <li>ライトの内容をすべて含む</li>
       </ul>
-      <p class="cmp">事務スタッフ0.5人分ほどの費用です。</p>
+      <p class="vs">事務スタッフ0.5人分ほどの費用です。</p>
     </div>
   </div>
   <div class="init">
@@ -480,7 +277,7 @@ footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid
     <div><b>無料AI診断</b><p>今の受付と事務の流れを伺い、自動化できる業務3本を設計書にまとめて24時間以内にお送りします。費用はかかりません。</p></div>
   </div>
   <div class="cta">
-    <a class="btn" href="https://line.me/R/ti/p/@966kahwj">LINEで相談する</a>
+    <a class="btn line" href="https://line.me/R/ti/p/@966kahwj">LINEで相談する</a>
     <a class="btn ghost" href="mailto:h.ichikawa@hi-companyjapan.jp">メールで相談する</a>
   </div>
   <p class="other">公式LINE：@966kahwj ｜ メール：h.ichikawa@hi-companyjapan.jp ｜ Instagram：<a href="https://www.instagram.com/hi_company_ai/" target="_blank" rel="noopener">@hi_company_ai</a> のDMでも受け付けています</p>
@@ -490,7 +287,7 @@ footer{padding:22px 0 90px;font-size:12px;color:var(--mute);border-top:1px solid
 
 <div class="bar">
   <a class="btn ghost" href="#demo">デモを触る</a>
-  <a class="btn" href="https://line.me/R/ti/p/@966kahwj">LINEで相談</a>
+  <a class="btn line" href="https://line.me/R/ti/p/@966kahwj">LINEで相談</a>
 </div>
 </body>
 </html>
