@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="fWRvwcWYxadZOtSgO8fPazTxa93fsA8ORGu89gfC3q0" />
 <title>H.I. Company｜店舗・中小企業のAI業務自動化</title>
-<meta name="description" content="H.I. Companyは、店舗・中小企業向けに公式LINEの24時間AI受付係や業務自動化ツールを構築し、月額の顧問サービスとして提供します。">
-<meta name="theme-color" content="#050607">
+<meta name="description" content="H.I. Companyは、店舗・中小企業向けに公式LINEの24時間AI受付、書類の自動作成、口コミ返信、生成AI研修を提供する会社です。構築から毎月の改善までをまるごと引き受けます。">
+<meta name="theme-color" content="#1B2A4A">
 <meta property="og:title" content="H.I. Company｜店舗・中小企業のAI業務自動化">
-<meta property="og:description" content="電話に出られない時間を、AI受付係が引き受ける。公式LINEの一次対応から書類作成まで、月額の顧問サービスで運用まで伴走します。">
+<meta property="og:description" content="電話に出られない時間の受付を、公式LINEのAIが引き受ける。構築から毎月の改善までをまるごと任せられる、店舗・中小企業のためのAI業務自動化。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hi-companyjapan.jp/">
 <meta property="og:image" content="https://hi-companyjapan.jp/img/logo-circle-1080.png">
@@ -68,565 +68,723 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Noto+Sans+JP:wght@300;400;500;700&family=Shippori+Mincho:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&family=Shippori+Mincho:wght@500;600&display=swap">
 <style>
-/* ============ tokens ============ */
+/* =========================================================
+   H.I. Company 公式サイト（2026-09-17 刷新）
+   設計の基準は黄金比 φ = 1.618
+   - 文字サイズ: 16px を基準に φ^(n/2) で拡大縮小
+       12.6 / 16 / 20.4 / 25.9 / 32.9 / 41.9 / 53.3 / 67.8
+   - 余白: フィボナッチ数列 8 / 13 / 21 / 34 / 55 / 89 / 144
+   - 2カラム比: 1.618 : 1（横幅 61.8% : 38.2%）
+   - 行間: 見出し 1.382（= 2 − 0.618）／本文 1.809
+   - 画像・モック領域: 縦横比 1.618 : 1
+   ========================================================= */
 :root{
-  --bg:#050607;--bg-2:#0A0C0E;--panel:#0F1316;--panel-2:#141A1E;
-  --line:rgba(255,255,255,.10);--line-2:rgba(255,255,255,.16);
-  --ink:#F2F5F6;--ink-2:#A9B2B9;--muted:#6E777E;
-  --accent:#3ADBC6;--accent-deep:#0E6F6B;--accent-glow:rgba(58,219,198,.28);
-  --light:#F4F6F7;--light-2:#FFFFFF;--l-ink:#0B0F12;--l-ink-2:#4B555C;--l-line:#E1E5E8;
-  --serif:"Shippori Mincho",serif;
-  --display:"Cormorant Garamond","Shippori Mincho",serif;
-  --sans:"Noto Sans JP",system-ui,-apple-system,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --max:1180px;
-  --ease:cubic-bezier(.22,.61,.36,1);
+  --navy:#1B2A4A;          /* ブランド紺 */
+  --navy-2:#24365E;
+  --ink:#1B2A4A;           /* 見出し */
+  --body:#3D4A63;          /* 本文 */
+  --muted:#7A8497;         /* 補足 */
+  --line:#E3E7EE;          /* 罫線 */
+  --bg:#FFFFFF;
+  --surface:#F6F8FA;       /* 淡いグレー面 */
+  --teal:#3ADBC6;          /* ブランド青緑（装飾） */
+  --teal-deep:#129C8C;     /* 文字・リンク用の青緑（白地で読める濃さ） */
+  --teal-soft:#E6FAF6;
+  --line-green:#06C755;    /* LINE 商品色（LINE の話題だけに使う） */
+  --white:#FFFFFF;
+
+  --serif:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:"Noto Sans JP","Hiragino Sans",system-ui,-apple-system,sans-serif;
+
+  /* 文字サイズ（φ の平方根 1.272 刻み） */
+  --t-1:12.6px; --t0:16px; --t1:20.4px; --t2:25.9px; --t3:32.9px; --t4:41.9px; --t5:53.3px; --t6:67.8px;
+  /* 余白（フィボナッチ） */
+  --s1:8px; --s2:13px; --s3:21px; --s4:34px; --s5:55px; --s6:89px; --s7:144px;
+
+  --lh-tight:1.382; --lh-body:1.809;
+  --max:1144px;            /* 8 × 143 */
+  --r:4px;
+  --ease:cubic-bezier(.25,.1,.25,1);
+  --shadow:0 21px 55px rgba(27,42,74,.10);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.9;letter-spacing:.02em;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;scroll-padding-top:89px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);font-size:var(--t0);font-weight:400;line-height:var(--lh-body);letter-spacing:.02em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
-::selection{background:var(--accent);color:#04211E}
+p{margin:0}
+h1,h2,h3{margin:0;color:var(--ink);font-weight:600;line-height:var(--lh-tight)}
+::selection{background:var(--teal);color:var(--navy)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--s3)}
 
-/* ============ preloader ============ */
-#pre{position:fixed;inset:0;z-index:999;background:var(--bg);display:grid;place-items:center;transition:opacity .7s var(--ease),visibility .7s}
-#pre.done{opacity:0;visibility:hidden}
-#pre .pl{font-family:var(--display);font-size:clamp(22px,5vw,34px);letter-spacing:.18em;color:var(--ink);opacity:.9}
-#pre .bar{position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--accent-deep),var(--accent));animation:load 1.1s var(--ease) forwards}
-@keyframes load{to{width:100%}}
+/* ---------- 共通の見出し ---------- */
+.label{display:inline-flex;align-items:center;gap:var(--s2);font-size:var(--t-1);font-weight:500;letter-spacing:.2em;color:var(--teal-deep)}
+.label::before{content:"";width:var(--s4);height:1px;background:var(--teal-deep)}
+.sec{padding:var(--s7) 0}
+.sec.tone{background:var(--surface)}
+.sec-head{margin-bottom:var(--s5)}
+.sec-head h2{font-family:var(--serif);font-size:clamp(var(--t2),3.4vw,var(--t4));letter-spacing:.06em;margin-top:var(--s3)}
+.sec-head .sub{margin-top:var(--s2);color:var(--muted);font-size:var(--t0);max-width:34em}
+.sec-head.center{text-align:center}
+.sec-head.center .label{justify-content:center}
+.sec-head.center .sub{margin-left:auto;margin-right:auto}
+.serif{font-family:var(--serif)}
 
-/* ============ nav ============ */
-header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s var(--ease),border-color .4s var(--ease),backdrop-filter .4s}
-header{border-bottom:1px solid transparent}
-header.scrolled{background:rgba(5,6,7,.72);backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);border-bottom-color:var(--line)}
-.nav{max-width:var(--max);margin:0 auto;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.brand{display:flex;align-items:baseline;gap:9px;font-family:var(--display);font-size:19px;letter-spacing:.14em;color:#fff}
-.brand i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);font-style:normal;flex:none;transform:translateY(-2px)}
-.brand img{width:28px;height:28px;border-radius:50%;flex:none;align-self:center}
-.menu{display:flex;align-items:center;gap:30px;font-size:13px;letter-spacing:.06em;color:var(--ink-2)}
-.menu a{position:relative;padding:4px 0;transition:color .3s}
-.menu a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--accent);transition:width .35s var(--ease)}
-.menu a:hover{color:#fff}.menu a:hover::after{width:100%}
-.nav-cta{font-size:12.5px;letter-spacing:.08em;padding:10px 20px;border-radius:100px;border:1px solid var(--line-2);color:#fff;transition:.35s var(--ease)}
-.nav-cta:hover{background:#fff;color:#0B0F12;border-color:#fff}
-.burger{display:none;width:42px;height:42px;border:1px solid var(--line-2);border-radius:50%;background:none;cursor:pointer;position:relative}
-.burger span{position:absolute;left:12px;width:18px;height:1px;background:#fff;transition:.35s var(--ease)}
-.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:23px}
-body.open .burger span:nth-child(1){transform:translateY(3px) rotate(45deg)}
-body.open .burger span:nth-child(2){transform:translateY(-3px) rotate(-45deg)}
-.drawer{position:fixed;inset:0;z-index:99;background:rgba(5,6,7,.97);backdrop-filter:blur(20px);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:0 32px;opacity:0;visibility:hidden;transition:.45s var(--ease)}
+/* ---------- ボタン ---------- */
+.btns{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--s2);padding:var(--s2) var(--s4);min-height:55px;border-radius:var(--r);font-size:15px;font-weight:500;letter-spacing:.06em;border:1px solid var(--navy);transition:.35s var(--ease);line-height:1.4}
+.btn.solid{background:var(--navy);color:#fff}
+.btn.solid:hover{background:var(--navy-2);transform:translateY(-1px);box-shadow:var(--shadow)}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn.ghost:hover{background:var(--surface)}
+.btn.line{background:var(--line-green);border-color:var(--line-green);color:#fff}
+.btn.line:hover{background:#05B34C;border-color:#05B34C;transform:translateY(-1px)}
+.btn .ar{font-family:var(--sans);transition:transform .35s var(--ease)}
+.btn:hover .ar{transform:translateX(4px)}
+.tlink{display:inline-flex;align-items:center;gap:var(--s1);color:var(--teal-deep);font-weight:500;font-size:15px;letter-spacing:.04em;border-bottom:1px solid transparent;transition:.3s}
+.tlink:hover{border-color:var(--teal-deep)}
+.tlink .ar{transition:transform .3s var(--ease)}
+.tlink:hover .ar{transform:translateX(4px)}
+
+/* ---------- ヘッダー ---------- */
+header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);border-bottom:1px solid var(--line)}
+.nav{max-width:var(--max);margin:0 auto;padding:0 var(--s3);height:89px;display:flex;align-items:center;justify-content:space-between;gap:var(--s4)}
+.brand{display:flex;align-items:center;gap:var(--s2);color:var(--navy)}
+.brand img{width:34px;height:34px;flex:none}
+.brand .nm{font-family:var(--serif);font-size:var(--t1);letter-spacing:.1em;line-height:1}
+.brand .tg{display:block;font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;color:var(--muted);margin-top:5px}
+.menu{display:flex;align-items:center;gap:var(--s4);font-size:14px;letter-spacing:.06em;color:var(--body)}
+.menu a{position:relative;padding:6px 0;transition:color .3s}
+.menu a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--navy);transition:width .35s var(--ease)}
+.menu a:hover{color:var(--navy)}.menu a:hover::after{width:100%}
+.nav-cta{font-size:13.5px;letter-spacing:.08em;padding:var(--s2) var(--s3);border-radius:var(--r);background:var(--navy);color:#fff;transition:.3s var(--ease);white-space:nowrap}
+.nav-cta:hover{background:var(--navy-2)}
+.burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:var(--r);background:#fff;cursor:pointer;position:relative}
+.burger span{position:absolute;left:13px;width:18px;height:1.5px;background:var(--navy);transition:.35s var(--ease)}
+.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:25px}
+body.open .burger span:nth-child(1){transform:translateY(4px) rotate(45deg)}
+body.open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
+.drawer{position:fixed;inset:89px 0 0 0;z-index:99;background:#fff;display:flex;flex-direction:column;padding:var(--s3) var(--s3) var(--s5);opacity:0;visibility:hidden;transition:.4s var(--ease);overflow:auto}
 body.open .drawer{opacity:1;visibility:visible}
-.drawer a{font-family:var(--serif);font-size:24px;padding:14px 0;border-bottom:1px solid var(--line);opacity:0;transform:translateY(14px);transition:.5s var(--ease)}
-.drawer a em{font-family:var(--mono);font-style:normal;font-size:11px;color:var(--accent);margin-right:14px;letter-spacing:.1em}
-body.open .drawer a{opacity:1;transform:none}
-body.open .drawer a:nth-child(1){transition-delay:.06s}
-body.open .drawer a:nth-child(2){transition-delay:.12s}
-body.open .drawer a:nth-child(3){transition-delay:.18s}
-body.open .drawer a:nth-child(4){transition-delay:.24s}
-body.open .drawer a:nth-child(5){transition-delay:.3s}
-body.open .drawer a:nth-child(6){transition-delay:.36s}
-body.open .drawer a:nth-child(7){transition-delay:.42s}
-body.open .drawer a:nth-child(8){transition-delay:.48s}
-body.open .drawer a:nth-child(9){transition-delay:.54s}
+.drawer a{font-size:var(--t1);font-family:var(--serif);color:var(--navy);padding:var(--s3) 0;border-bottom:1px solid var(--line);letter-spacing:.06em}
+.drawer a small{display:block;font-family:var(--sans);font-size:var(--t-1);color:var(--muted);letter-spacing:.06em;margin-top:4px}
+.drawer .btns{margin-top:var(--s4)}
+.drawer .btn{width:100%}
 
-/* ============ layout ============ */
-.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
-section{position:relative}
-.sec{padding:clamp(90px,13vw,160px) 0}
-.light{background:var(--light);color:var(--l-ink)}
-.light p{color:var(--l-ink-2)}
-.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px}
-.eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);opacity:.7}
-.light .eyebrow{color:var(--accent-deep)}
-.light .eyebrow::before{background:var(--accent-deep)}
-.sec-head{margin-bottom:clamp(40px,6vw,64px)}
-.sec-head .en{font-family:var(--display);font-weight:300;font-variant-numeric:lining-nums;font-size:clamp(46px,8vw,86px);line-height:1;letter-spacing:.01em;margin:18px 0 10px}
-.sec-head .jp{font-family:var(--serif);font-weight:600;font-size:clamp(17px,2.2vw,22px);letter-spacing:.08em;color:var(--ink-2)}
-.light .sec-head .jp{color:var(--l-ink-2)}
-.lead{max-width:60ch;color:var(--ink-2);font-size:15.5px;line-height:2.05}
-.light .lead{color:var(--l-ink-2)}
+/* ---------- ヒーロー ---------- */
+.hero{padding:var(--s6) 0 var(--s6);background:linear-gradient(180deg,#fff 0%,var(--surface) 100%);overflow:hidden}
+.hero .grid{display:grid;grid-template-columns:1.618fr 1fr;gap:var(--s6);align-items:center}
+.hero .kicker{display:inline-flex;align-items:center;gap:var(--s2);font-size:var(--t-1);letter-spacing:.22em;color:var(--teal-deep);font-weight:500}
+.hero .kicker::before{content:"";width:var(--s4);height:1px;background:var(--teal-deep)}
+.hero h1{font-family:var(--serif);font-size:clamp(var(--t2),3.6vw,var(--t4));letter-spacing:.04em;margin:var(--s3) 0 var(--s4);line-height:1.5}
+.hero h1 .ac{color:var(--teal-deep)}
+.hero h1 br.m{display:none}
+.hero .lead{font-size:var(--t0);color:var(--body);max-width:32em;margin-bottom:var(--s4)}
+.hero .lead b{color:var(--ink);font-weight:500}
+.hero .facts{margin-top:var(--s5);display:flex;flex-wrap:wrap;gap:var(--s3) var(--s5)}
+.hero .facts div{display:flex;flex-direction:column;gap:2px}
+.hero .facts .n{font-family:var(--serif);font-size:var(--t2);color:var(--ink);letter-spacing:.04em;line-height:1.2}
+.hero .facts .n small{font-family:var(--sans);font-size:var(--t-1);margin-left:3px;letter-spacing:.06em}
+.hero .facts .t{font-size:var(--t-1);color:var(--muted);letter-spacing:.06em}
 
-/* ============ buttons ============ */
-.btns{display:flex;flex-wrap:wrap;gap:12px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-width:250px;padding:16px 30px;border-radius:100px;font-size:14px;font-weight:500;letter-spacing:.06em;transition:.4s var(--ease);border:1px solid transparent;position:relative;overflow:hidden}
-.btn.solid{background:#fff;color:#0B0F12}
-.btn.solid:hover{background:var(--accent);color:#04211E;transform:translateY(-2px);box-shadow:0 14px 40px var(--accent-glow)}
-.btn.ghost{background:rgba(255,255,255,.06);color:#fff;border-color:var(--line-2);backdrop-filter:blur(6px)}
-.btn.ghost:hover{background:rgba(255,255,255,.14);transform:translateY(-2px)}
-.light .btn.solid{background:var(--l-ink);color:#fff}
-.light .btn.solid:hover{background:var(--accent-deep);color:#fff;box-shadow:0 14px 40px rgba(14,111,107,.28)}
-.light .btn.ghost{background:transparent;color:var(--l-ink);border-color:#C9D0D5}
-.light .btn.ghost:hover{background:rgba(0,0,0,.05)}
-.btn .ar{transition:transform .4s var(--ease)}
-.btn:hover .ar{transform:translateX(5px)}
+/* スマホの LINE 画面（CSS だけで描く） */
+.device{position:relative;margin:0 auto;width:min(100%,312px);aspect-ratio:1/1.618;background:#fff;border:1px solid var(--line);border-radius:34px;box-shadow:var(--shadow);padding:13px;display:flex;flex-direction:column}
+.device .screen{flex:1;background:#EEF2F7;border-radius:24px;overflow:hidden;display:flex;flex-direction:column}
+.device .top{background:#fff;padding:13px 21px 8px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.device .top .av{width:21px;height:21px;border-radius:50%;background:var(--navy);display:grid;place-items:center;color:#fff;font-size:9px;font-weight:600}
+.device .top b{font-size:12px;color:var(--ink);font-weight:500}
+.device .top i{font-style:normal;font-size:10px;color:var(--teal-deep);margin-left:auto}
+.device .chat{padding:13px;display:flex;flex-direction:column;gap:8px;font-size:11.5px;line-height:1.5}
+.device .bub{max-width:80%;padding:8px 11px;border-radius:13px;background:#fff;color:#1F2937;border-bottom-left-radius:4px}
+.device .bub.me{align-self:flex-end;background:#C9F5D8;border-bottom-left-radius:13px;border-bottom-right-radius:4px}
+.device .bub.ok{background:var(--navy);color:#fff}
+.device .stamp{align-self:center;font-size:9.5px;color:var(--muted);letter-spacing:.08em;margin-top:4px}
+.device .note{position:absolute;right:-21px;bottom:55px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:var(--r);padding:8px 13px;font-size:11px;color:var(--ink);box-shadow:var(--shadow);white-space:nowrap}
+.device .note small{display:block;color:var(--muted);font-size:9.5px;letter-spacing:.06em}
+.typing{opacity:0;animation:pop .5s var(--ease) forwards}
+.chat>:nth-child(1){animation-delay:.3s}.chat>:nth-child(2){animation-delay:1s}.chat>:nth-child(3){animation-delay:1.7s}.chat>:nth-child(4){animation-delay:2.4s}.chat>:nth-child(5){animation-delay:3.1s}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ============ hero ============ */
-.hero{min-height:100svh;display:flex;align-items:center;padding:120px 0 90px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-.hero-bg .aurora{position:absolute;inset:-30%;background:
-  radial-gradient(38% 42% at 22% 32%,rgba(14,111,107,.55),transparent 65%),
-  radial-gradient(34% 38% at 76% 26%,rgba(58,219,198,.22),transparent 62%),
-  radial-gradient(46% 46% at 62% 78%,rgba(23,58,90,.55),transparent 66%);
-  filter:blur(28px);animation:drift 22s ease-in-out infinite alternate}
-@keyframes drift{0%{transform:translate3d(-2%,-1%,0) scale(1)}100%{transform:translate3d(3%,2%,0) scale(1.12)}}
-.hero-bg .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:78px 78px;mask-image:radial-gradient(72% 68% at 50% 42%,#000 15%,transparent 78%);-webkit-mask-image:radial-gradient(72% 68% at 50% 42%,#000 15%,transparent 78%)}
-.hero-bg .vig{position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 0%,transparent 40%,var(--bg) 88%)}
-.hero-bg .scan{position:absolute;inset:0;opacity:.35;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 4px)}
-.hero .wrap{position:relative;z-index:1}
-.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(34px,6.6vw,76px);line-height:1.28;letter-spacing:.01em;margin:22px 0 26px;max-width:16em}
-.hero h1 .l{display:block;overflow:hidden}
-.hero h1 .l span{display:block;transform:translateY(105%);animation:rise 1s var(--ease) forwards}
-.hero h1 .l:nth-child(1) span{animation-delay:.75s}
-.hero h1 .l:nth-child(2) span{animation-delay:.87s}
-@keyframes rise{to{transform:none}}
-.hero .glow{color:transparent;background:linear-gradient(100deg,#fff 12%,var(--accent) 52%,#9BE7DC 78%);-webkit-background-clip:text;background-clip:text}
-.fadeup{opacity:0;transform:translateY(18px);animation:fu .9s var(--ease) forwards}
-.hero .eyebrow{animation-delay:.6s}
-.hero .lead{animation-delay:1.05s;margin-bottom:34px}
-.hero .btns{animation-delay:1.2s}
-.hero .badges{animation-delay:1.35s;margin-top:40px;display:flex;flex-wrap:wrap;gap:10px 26px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;color:var(--muted)}
-.hero .badges b{color:var(--ink-2);font-weight:400}
-@keyframes fu{to{opacity:1;transform:none}}
-.scrollcue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:2;font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fu 1s var(--ease) 1.6s forwards}
-.scrollcue .ln{width:1px;height:44px;background:linear-gradient(var(--accent),transparent);animation:cue 2.1s ease-in-out infinite}
-@keyframes cue{0%,100%{transform:scaleY(.35);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+/* ---------- 3行でわかる ---------- */
+.glance{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.glance .grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.glance .cell{padding:var(--s5) var(--s4);border-left:1px solid var(--line)}
+.glance .cell:first-child{border-left:0;padding-left:0}
+.glance .q{font-size:var(--t-1);letter-spacing:.2em;color:var(--teal-deep);font-weight:500}
+.glance .a{font-family:var(--serif);font-size:var(--t1);color:var(--ink);margin:var(--s2) 0 var(--s1);letter-spacing:.04em}
+.glance p{font-size:14.5px;color:var(--body)}
 
-/* ============ marquee ============ */
-/* ======== nav highlight & industry picker ======== */
-.menu a.hl{color:#fff;padding:6px 14px;border:1px solid rgba(6,199,85,.55);border-radius:100px;background:rgba(6,199,85,.10)}
-.menu a.hl::after{display:none}
-.menu a.hl:hover{background:rgba(6,199,85,.22);border-color:#06C755}
-.menu a.hl i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#06C755;margin-right:8px;transform:translateY(-1px);box-shadow:0 0 10px #06C755}
-.drawer a.hl{color:#9BE7DC}
-.pick{padding:clamp(56px,8vw,84px) 0;background:var(--bg-2);border-bottom:1px solid var(--line)}
-.pick .ttl{font-family:var(--serif);font-weight:600;font-size:clamp(18px,2.4vw,24px);letter-spacing:.06em;margin:14px 0 26px}
-.pick .ttl small{display:block;font-family:var(--sans);font-weight:400;font-size:14px;color:var(--ink-2);letter-spacing:.02em;margin-top:6px}
-.pick-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.tile{position:relative;display:flex;flex-direction:column;gap:10px;padding:30px 30px 28px;border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));color:#fff;transition:.4s var(--ease);overflow:hidden}
-.tile:hover{transform:translateY(-4px);border-color:var(--line-2)}
-.tile .lab{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-2)}
-.tile h3{font-family:var(--serif);font-weight:600;font-size:clamp(20px,2.6vw,26px);letter-spacing:.04em;margin:0;line-height:1.5}
-.tile p{font-size:14px;line-height:1.9;color:var(--ink-2);margin:0}
-.tile .go{margin-top:auto;padding-top:14px;display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:.06em}
-.tile .go .ar{transition:transform .4s var(--ease)}
-.tile:hover .go .ar{transform:translateX(5px)}
-.tile.food{border-color:rgba(6,199,85,.45);background:radial-gradient(90% 80% at 100% 0%,rgba(6,199,85,.22),transparent 60%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015))}
-.tile.food:hover{border-color:#06C755;box-shadow:0 18px 50px rgba(6,199,85,.18)}
-.tile.food .lab{color:#5fe08f}
-.tile.food .go{color:#8de055}
-.tile .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
-.tile .tags span{font-size:12px;padding:5px 11px;border-radius:100px;border:1px solid var(--line-2);color:var(--ink);background:rgba(255,255,255,.04)}
-.tile.food .tags span{border-color:rgba(6,199,85,.45)}
-@media (max-width:860px){.pick-grid{grid-template-columns:1fr}}
-.card .linkbtn{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:10px 18px;border-radius:100px;font-size:13px;font-weight:500;letter-spacing:.04em;color:#fff;border:1px solid rgba(6,199,85,.55);background:rgba(6,199,85,.12);transition:.35s var(--ease)}
-.card .linkbtn:hover{background:#06C755;color:#04211E;border-color:#06C755}
-.card .sub-link{display:block;margin-top:10px;font-size:12.5px;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
-.demo-card .sub-link{margin-top:12px;text-align:center}
+/* ---------- 事業内容 ---------- */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3)}
+.pillar{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:var(--s4);display:flex;flex-direction:column;transition:.4s var(--ease);position:relative}
+.pillar:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+.pillar .no{font-family:var(--serif);font-size:var(--t-1);letter-spacing:.2em;color:var(--teal-deep)}
+.pillar .ico{width:55px;height:55px;border-radius:50%;background:var(--teal-soft);display:grid;place-items:center;margin:var(--s3) 0}
+.pillar .ico svg{width:26px;height:26px;stroke:var(--navy);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.pillar h3{font-family:var(--serif);font-size:var(--t1);letter-spacing:.04em;margin-bottom:var(--s2)}
+.pillar p{font-size:14.5px;color:var(--body);flex:1}
+.pillar .price{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--line);font-size:13px;color:var(--muted);letter-spacing:.04em}
+.pillar .price b{display:block;font-family:var(--serif);font-size:var(--t1);color:var(--ink);font-weight:600;letter-spacing:.02em;margin-bottom:2px}
+.pillar .tlink{margin-top:var(--s3)}
+.pillar.main{border-top:3px solid var(--teal)}
+.pillar .tag{position:absolute;top:var(--s3);right:var(--s3);font-size:10.5px;letter-spacing:.16em;color:var(--teal-deep);border:1px solid var(--teal-deep);border-radius:var(--r);padding:3px 8px}
+.more{margin-top:var(--s5);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3) var(--s5);border-top:1px solid var(--line);padding-top:var(--s4)}
+.more>div{display:flex;gap:var(--s2);align-items:flex-start}
+.more .dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--teal);margin-top:11px}
+.more b{display:block;font-size:15px;color:var(--ink);font-weight:500;letter-spacing:.04em}
+.more p{font-size:13.5px;color:var(--muted)}
+.disclaimer{margin-top:var(--s4);font-size:13px;color:var(--muted);max-width:66em;line-height:1.9}
 
-.marquee{border-block:1px solid var(--line);background:var(--bg-2);padding:20px 0;overflow:hidden;white-space:nowrap}
-.marquee .track{display:inline-flex;gap:52px;animation:mv 34s linear infinite;will-change:transform}
-.marquee span{font-family:var(--display);font-size:clamp(20px,3vw,32px);letter-spacing:.06em;color:rgba(255,255,255,.34)}
-.marquee span i{font-style:normal;color:var(--accent);margin-right:52px}
-@keyframes mv{to{transform:translateX(-50%)}}
+/* ---------- 業種で選ぶ ---------- */
+.industry{display:grid;grid-template-columns:1.618fr 1fr;gap:var(--s3)}
+.ind{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:var(--s4);transition:.4s var(--ease);position:relative;overflow:hidden}
+.ind:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+.ind .who{font-size:var(--t-1);letter-spacing:.2em;color:var(--teal-deep);font-weight:500}
+.ind h3{font-family:var(--serif);font-size:var(--t2);letter-spacing:.04em;margin:var(--s2) 0 var(--s2);line-height:1.45}
+.ind p{font-size:14.5px;color:var(--body)}
+.ind .tags{display:flex;flex-wrap:wrap;gap:var(--s1);margin:var(--s3) 0}
+.ind .tags span{font-size:12.5px;padding:5px 11px;border-radius:var(--r);background:var(--surface);color:var(--ink);letter-spacing:.02em}
+.ind .tlink{margin-top:auto}
+.ind.food{grid-row:span 2}
+.ind.food .who{color:#05963F}
+.ind.food h3{font-size:var(--t3)}
+.ind.food .inner{display:grid;grid-template-columns:1.618fr 1fr;gap:var(--s4);flex:1}
+.ind.food .side{border-left:1px solid var(--line);padding-left:var(--s4);display:flex;flex-direction:column}
+.ind.food .side ul{list-style:none;margin:var(--s3) 0 0;padding:0;font-size:13.5px}
+.ind.food .side li{padding:var(--s1) 0 var(--s1) var(--s3);border-top:1px solid var(--line);position:relative;color:var(--body)}
+.ind.food .side li::before{content:"";position:absolute;left:1px;top:15px;width:8px;height:4px;border-left:1.5px solid #05963F;border-bottom:1.5px solid #05963F;transform:rotate(-45deg)}
+.ind.food .side .tlink{margin-top:auto;padding-top:var(--s3)}
+.ind .pr{display:flex;gap:var(--s4);margin-top:0}
+.ind .pr div{display:flex;flex-direction:column}
+.ind .pr .n{font-family:var(--serif);font-size:var(--t2);color:var(--ink);line-height:1.2}
+.ind .pr .n small{font-family:var(--sans);font-size:var(--t-1);margin-left:2px}
+.ind .pr .t{font-size:var(--t-1);color:var(--muted);letter-spacing:.06em}
 
-/* ============ reveal ============ */
-[data-rv]{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
-[data-rv].in{opacity:1;transform:none}
-[data-rv="clip"]{opacity:1;transform:none;overflow:hidden;padding-bottom:.12em}
-[data-rv="clip"] > span{display:block;transform:translateY(108%);transition:transform 1.05s var(--ease);transition-delay:var(--d,0s)}
-[data-rv="clip"].in > span{transform:none}
+/* ---------- デモ ---------- */
+.demos{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3)}
+.demo{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.4s var(--ease)}
+.demo:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
+.demo .shot{aspect-ratio:1.618/1;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;padding:var(--s3) var(--s3) 0}
+.demo .mini{width:180px;background:#EEF2F7;border:6px solid #fff;border-bottom:0;border-radius:21px 21px 0 0;padding:10px 8px 6px;display:flex;flex-direction:column;gap:6px;font-size:10px;line-height:1.45;box-shadow:0 -8px 34px rgba(27,42,74,.08)}
+.demo .mini .bub{background:#fff;color:#1F2937;padding:6px 8px;border-radius:10px;max-width:84%}
+.demo .mini .bub.me{background:#C9F5D8;align-self:flex-end}
+.demo .doc{width:180px;background:#fff;border:1px solid var(--line);border-bottom:0;border-radius:var(--r) var(--r) 0 0;padding:14px 16px 0;box-shadow:0 -8px 34px rgba(27,42,74,.08)}
+.demo .doc b{display:block;font-family:var(--serif);font-size:11px;letter-spacing:.3em;text-align:center;color:var(--ink);margin-bottom:10px}
+.demo .doc i{display:block;height:5px;border-radius:3px;background:var(--line);margin:6px 0}
+.demo .doc i.s{width:55%}.demo .doc i.g{background:var(--teal);width:38%}
+.demo .body{padding:var(--s3) var(--s3) var(--s4);display:flex;flex-direction:column;flex:1;gap:var(--s2)}
+.demo .who{font-size:var(--t-1);letter-spacing:.18em;color:var(--teal-deep);font-weight:500}
+.demo h3{font-family:var(--serif);font-size:var(--t1);letter-spacing:.04em}
+.demo p{font-size:14px;color:var(--body);flex:1}
+.demo .links{display:flex;flex-direction:column;gap:var(--s1);margin-top:var(--s2)}
+.demo .btn{width:100%;min-height:48px;font-size:14px}
+.demo .sub{font-size:13px;color:var(--muted);text-align:center}
+.demo .sub a{color:var(--teal-deep);border-bottom:1px solid currentColor}
+.demo-note{margin-top:var(--s4);text-align:center;font-size:13px;color:var(--muted);letter-spacing:.04em}
 
-/* ============ about / stats ============ */
-.statement{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3.6vw,40px);line-height:1.75;letter-spacing:.02em;max-width:20em;margin:0 0 40px;color:var(--l-ink)}
-.statement em{font-style:normal;background:linear-gradient(transparent 62%,rgba(58,219,198,.42) 62%)}
-.about-grid{display:grid;grid-template-columns:1fr .85fr;gap:clamp(30px,6vw,80px);align-items:start}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--l-line);border:1px solid var(--l-line);margin-top:clamp(50px,8vw,86px)}
-.stat{background:var(--light);padding:32px 26px}
-.stat .n{font-family:var(--display);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;font-size:clamp(38px,6vw,60px);line-height:1;color:var(--l-ink);font-weight:400}
-.stat .n small{font-family:var(--sans);font-size:15px;font-weight:500;margin-left:4px}
-.stat .t{font-size:12.5px;letter-spacing:.1em;color:var(--l-ink-2);margin-top:10px}
+/* ---------- 考え方 ---------- */
+.about{display:grid;grid-template-columns:1fr 1.618fr;gap:var(--s6);align-items:start}
+.about .statement{font-family:var(--serif);font-size:clamp(var(--t1),2.6vw,var(--t3));color:var(--ink);line-height:1.7;letter-spacing:.04em;margin-top:var(--s3)}
+.about .statement em{font-style:normal;background:linear-gradient(transparent 68%,rgba(58,219,198,.45) 68%)}
+.about .text p{font-size:15.5px;color:var(--body);margin-bottom:var(--s3)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:var(--s6);border-top:1px solid var(--line)}
+.stat{padding:var(--s4) var(--s4) var(--s4) 0;border-right:1px solid var(--line);padding-left:var(--s4)}
+.stat:first-child{padding-left:0}.stat:last-child{border-right:0}
+.stat .n{font-family:var(--serif);font-size:var(--t4);color:var(--ink);line-height:1.1;letter-spacing:.02em}
+.stat .n small{font-family:var(--sans);font-size:var(--t-1);margin-left:4px;letter-spacing:.08em}
+.stat .t{font-size:13.5px;color:var(--muted);margin-top:var(--s2);letter-spacing:.04em}
 
-/* ============ services ============ */
-.svc-wrap{background:var(--bg);position:relative;overflow:hidden}
-.svc-wrap::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 80% 8%,rgba(14,111,107,.30),transparent 70%),radial-gradient(50% 40% at 8% 88%,rgba(23,58,90,.35),transparent 70%);pointer-events:none}
-.svc-wrap .wrap{position:relative;z-index:1}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.card{position:relative;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012));border:1px solid var(--line);border-radius:16px;padding:34px 28px 30px;overflow:hidden;transition:.5s var(--ease);isolation:isolate}
-.card::after{content:"";position:absolute;inset:-1px;border-radius:16px;padding:1px;background:linear-gradient(140deg,var(--accent),transparent 45%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .5s;z-index:-1}
-.card:hover{transform:translateY(-6px);background:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.02))}
-.card:hover::after{opacity:1}
-.card .no{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);opacity:.85}
-.card h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.03em;margin:16px 0 12px;line-height:1.6}
-.card p{font-size:14px;line-height:1.95;color:var(--ink-2);margin:0}
-.card .ic{position:absolute;right:-14px;top:-14px;font-family:var(--display);font-size:90px;line-height:1;color:rgba(255,255,255,.045);pointer-events:none}
-.note{margin-top:34px;border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:0 12px 12px 0;background:rgba(58,219,198,.045);padding:20px 24px;font-size:13.5px;line-height:1.95;color:var(--ink-2);max-width:78ch}
+/* ---------- 料金 ---------- */
+.price-grid{display:grid;grid-template-columns:1fr 1.618fr;gap:var(--s3);align-items:start}
+.pkg{background:var(--navy);color:#fff;border-radius:var(--r);padding:var(--s4);display:flex;flex-direction:column;height:100%}
+.pkg .who{font-size:var(--t-1);letter-spacing:.2em;color:var(--teal);font-weight:500}
+.pkg h3{color:#fff;font-family:var(--serif);font-size:var(--t2);letter-spacing:.04em;margin:var(--s2) 0 var(--s3)}
+.pkg .amt{display:flex;gap:var(--s4);flex-wrap:wrap}
+.pkg .amt div{display:flex;flex-direction:column}
+.pkg .amt .n{font-family:var(--serif);font-size:var(--t3);line-height:1.15;letter-spacing:.02em}
+.pkg .amt .n small{font-family:var(--sans);font-size:var(--t-1);margin-left:3px;letter-spacing:.06em}
+.pkg .amt .t{font-size:var(--t-1);color:rgba(255,255,255,.66);letter-spacing:.08em;margin-top:4px}
+.pkg ul{list-style:none;margin:var(--s3) 0 0;padding:0;font-size:14px}
+.pkg li{padding:var(--s2) 0 var(--s2) var(--s3);border-top:1px solid rgba(255,255,255,.14);position:relative;color:rgba(255,255,255,.86)}
+.pkg li::before{content:"";position:absolute;left:1px;top:21px;width:8px;height:4px;border-left:1.5px solid var(--teal);border-bottom:1.5px solid var(--teal);transform:rotate(-45deg)}
+.pkg .btns{margin-top:var(--s4)}
+.pkg .btn{width:100%;background:#fff;color:var(--navy);border-color:#fff}
+.pkg .btn:hover{background:var(--teal);border-color:var(--teal)}
+.pkg .fine{font-size:12px;color:rgba(255,255,255,.6);margin-top:var(--s2);line-height:1.8}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2)}
+.plans-head{grid-column:1/-1;display:flex;align-items:baseline;gap:var(--s2);margin-bottom:var(--s1)}
+.plans-head .who{font-size:var(--t-1);letter-spacing:.2em;color:var(--teal-deep);font-weight:500}
+.plans-head h3{font-family:var(--serif);font-size:var(--t1);letter-spacing:.04em}
+.plan{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:var(--s4) var(--s3);display:flex;flex-direction:column;position:relative;transition:.4s var(--ease)}
+.plan:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.plan.feat{border-color:var(--navy)}
+.plan .tag{position:absolute;top:-11px;left:var(--s3);background:var(--navy);color:#fff;font-size:10.5px;letter-spacing:.16em;padding:4px 10px;border-radius:var(--r)}
+.plan .name{font-size:13px;letter-spacing:.14em;color:var(--muted);font-weight:500}
+.plan .amt{font-family:var(--serif);font-size:var(--t3);color:var(--ink);line-height:1.15;margin:var(--s2) 0 2px;letter-spacing:.02em}
+.plan .amt b{font-family:var(--sans);font-size:var(--t-1);font-weight:500;margin-left:3px;letter-spacing:.06em}
+.plan .sub{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.plan ul{list-style:none;margin:var(--s3) 0 0;padding:0;font-size:13.5px}
+.plan li{padding:var(--s1) 0 var(--s1) var(--s3);border-top:1px solid var(--line);position:relative;color:var(--body)}
+.plan li::before{content:"";position:absolute;left:1px;top:15px;width:8px;height:4px;border-left:1.5px solid var(--teal-deep);border-bottom:1.5px solid var(--teal-deep);transform:rotate(-45deg)}
+.pnote{margin-top:var(--s4);font-size:13.5px;color:var(--muted);line-height:1.9;max-width:66em}
+.pnote a{color:var(--teal-deep);border-bottom:1px solid currentColor}
 
-/* ============ pricing ============ */
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:stretch}
-.plan{background:#fff;border:1px solid var(--l-line);border-radius:16px;padding:36px 30px 34px;display:flex;flex-direction:column;transition:.5s var(--ease)}
-.plan:hover{transform:translateY(-6px);box-shadow:0 26px 60px rgba(11,15,18,.10)}
-.plan.feat{background:var(--l-ink);border-color:var(--l-ink);color:#fff;position:relative;box-shadow:0 30px 70px rgba(11,15,18,.22)}
-.plan.feat p,.plan.feat .sub{color:rgba(255,255,255,.72)}
-.plan .tag{position:absolute;top:-11px;left:30px;background:var(--accent);color:#04211E;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;padding:5px 14px;border-radius:100px}
-.plan .name{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.12em}
-.plan .amt{font-family:var(--display);font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1;font-size:clamp(38px,5vw,52px);line-height:1.1;margin:14px 0 2px;font-weight:400}
-.plan .amt b{font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:.04em;margin-left:2px}
-.plan .sub{font-size:12px;color:var(--l-ink-2);letter-spacing:.04em}
-.plan ul{list-style:none;margin:22px 0 0;padding:0;font-size:14px;line-height:1.8}
-.plan li{padding:9px 0 9px 26px;position:relative;border-top:1px solid var(--l-line);color:var(--l-ink-2)}
-.plan.feat li{border-top-color:rgba(255,255,255,.14);color:rgba(255,255,255,.78)}
-.plan li::before{content:"";position:absolute;left:2px;top:19px;width:9px;height:5px;border-left:1.5px solid var(--accent-deep);border-bottom:1.5px solid var(--accent-deep);transform:rotate(-45deg)}
-.plan.feat li::before{border-color:var(--accent)}
-.pnote{margin-top:26px;font-size:13.5px;color:var(--l-ink-2)}
+/* ---------- 進め方 ---------- */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);position:relative;counter-reset:step}
+.flow::before{content:"";position:absolute;left:0;right:0;top:21px;height:1px;background:var(--line)}
+.step{position:relative;padding-top:var(--s5)}
+.step::before{counter-increment:step;content:"0" counter(step);position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid var(--navy);color:var(--navy);display:grid;place-items:center;font-family:var(--serif);font-size:13px;letter-spacing:.06em}
+.step h3{font-family:var(--serif);font-size:var(--t1);letter-spacing:.04em;margin-bottom:var(--s2)}
+.step h3 small{display:block;font-family:var(--sans);font-size:var(--t-1);color:var(--teal-deep);letter-spacing:.14em;margin-bottom:6px;font-weight:500}
+.step p{font-size:14px;color:var(--body)}
 
-/* ============ flow ============ */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-top:20px}
-.flow::before{content:"";position:absolute;top:32px;left:0;right:0;height:1px;background:var(--line)}
-.flow .bar{position:absolute;top:32px;left:0;height:1px;background:linear-gradient(90deg,var(--accent-deep),var(--accent));width:0;transition:width 1.8s var(--ease) .2s}
-.flow.in .bar{width:100%}
-.step{padding:0 22px 0 0;position:relative}
-.step .dot{width:11px;height:11px;border-radius:50%;background:var(--bg);border:1px solid var(--accent);position:relative;top:27px;box-shadow:0 0 0 6px var(--bg)}
-.step .no{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent);margin-top:34px}
-.step h3{font-family:var(--serif);font-weight:600;font-size:17px;margin:12px 0 10px;letter-spacing:.03em;line-height:1.6}
-.step p{font-size:13.5px;line-height:1.95;color:var(--ink-2);margin:0}
+/* ---------- お問い合わせ ---------- */
+.contact{background:var(--navy);color:#fff;padding:var(--s7) 0}
+.contact .grid{display:grid;grid-template-columns:1.618fr 1fr;gap:var(--s6);align-items:center}
+.contact .label{color:var(--teal)}.contact .label::before{background:var(--teal)}
+.contact h2{color:#fff;font-family:var(--serif);font-size:clamp(var(--t2),3.4vw,var(--t4));letter-spacing:.06em;margin:var(--s3) 0 var(--s3);line-height:1.5}
+.contact p{color:rgba(255,255,255,.78);font-size:15.5px;max-width:34em}
+.contact .card{background:#fff;color:var(--ink);border-radius:var(--r);padding:var(--s4)}
+.contact .card .btns{flex-direction:column}
+.contact .card .btn{width:100%}
+.contact .card .btn.ghost{color:var(--navy)}
+.contact .card .how{font-size:13px;color:var(--muted);margin-top:var(--s3);line-height:1.9}
+.contact .card .how b{color:var(--ink);font-weight:500}
+.contact .card .addr{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--line);font-size:13px;color:var(--body);line-height:2;letter-spacing:.02em}
+.contact .card .addr a{color:var(--teal-deep);border-bottom:1px solid currentColor}
 
-/* ============ CTA ============ */
-.cta{padding:clamp(100px,15vw,180px) 0;text-align:center;overflow:hidden;background:var(--bg-2)}
-.cta::before{content:"";position:absolute;inset:0;background:radial-gradient(52% 62% at 50% 50%,rgba(14,111,107,.42),transparent 70%);animation:pulse 9s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:.65;transform:scale(1)}50%{opacity:1;transform:scale(1.08)}}
-.cta .wrap{position:relative;z-index:1}
-.cta h2{font-family:var(--serif);font-weight:700;font-size:clamp(26px,4.6vw,50px);line-height:1.55;margin:20px auto 22px;max-width:18em}
-.cta .eyebrow{justify-content:center}
-.cta .btns{justify-content:center}
-.cta .lead{margin:0 auto 36px;text-align:center}
-.contact-lines{margin-top:44px;display:flex;flex-wrap:wrap;justify-content:center;gap:14px 40px;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;color:var(--muted)}
-.contact-lines a{color:var(--ink-2);border-bottom:1px solid var(--line-2);padding-bottom:2px;transition:.3s}
-.contact-lines a:hover{color:var(--accent);border-color:var(--accent)}
-
-/* ============ tables / accordion ============ */
-.acc{border-top:1px solid var(--l-line)}
-.acc details{border-bottom:1px solid var(--l-line)}
-.acc summary{list-style:none;cursor:pointer;padding:26px 0;display:flex;align-items:center;justify-content:space-between;gap:20px;font-family:var(--serif);font-weight:600;font-size:clamp(16px,2.2vw,20px);letter-spacing:.06em}
+/* ---------- 会社情報 ---------- */
+.acc{border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;cursor:pointer;padding:var(--s3) 0;display:flex;align-items:center;justify-content:space-between;gap:var(--s3);font-family:var(--serif);font-size:var(--t1);letter-spacing:.06em;color:var(--ink)}
 .acc summary::-webkit-details-marker{display:none}
-.acc summary .pm{width:34px;height:34px;border:1px solid #CDD4D9;border-radius:50%;position:relative;flex:none;transition:.4s var(--ease)}
-.acc summary .pm::before,.acc summary .pm::after{content:"";position:absolute;background:var(--l-ink);transition:.4s var(--ease)}
+.acc summary .pm{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;position:relative;flex:none;transition:.4s var(--ease)}
+.acc summary .pm::before,.acc summary .pm::after{content:"";position:absolute;background:var(--navy);transition:.4s var(--ease)}
 .acc summary .pm::before{left:10px;top:16px;width:13px;height:1px}
 .acc summary .pm::after{left:16px;top:10px;width:1px;height:13px}
-.acc details[open] summary .pm{background:var(--l-ink);border-color:var(--l-ink);transform:rotate(180deg)}
-.acc details[open] summary .pm::before,.acc details[open] summary .pm::after{background:#fff}
+.acc details[open] summary .pm{background:var(--navy);border-color:var(--navy)}
+.acc details[open] summary .pm::before{background:#fff}
 .acc details[open] summary .pm::after{opacity:0}
-.tablewrap{overflow-x:auto;padding-bottom:26px}
-table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:560px;line-height:1.85}
-th,td{padding:14px 18px;border-top:1px solid var(--l-line);text-align:left;vertical-align:top;color:var(--l-ink-2)}
-th{width:220px;font-weight:500;color:var(--l-ink);background:rgba(11,15,18,.028);letter-spacing:.06em}
+.tablewrap{overflow-x:auto;padding-bottom:var(--s4)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px;line-height:1.85}
+th,td{padding:var(--s2) var(--s3);border-top:1px solid var(--line);text-align:left;vertical-align:top;color:var(--body)}
+th{width:233px;font-weight:500;color:var(--ink);background:var(--surface);letter-spacing:.04em}
+td a{color:var(--teal-deep);border-bottom:1px solid currentColor}
 
-/* ============ footer ============ */
-footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px}
-.fgrid{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-start}
-.fnav{display:flex;flex-wrap:wrap;gap:12px 28px;font-size:13px;color:var(--ink-2)}
-.fnav a:hover{color:var(--accent)}
-.fbot{margin-top:44px;padding-top:22px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted);line-height:1.9}
+/* ---------- フッター ---------- */
+footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background:#fff}
+.fgrid{display:grid;grid-template-columns:1fr 1.618fr;gap:var(--s4);align-items:start}
+.fgrid .brand .nm{font-size:var(--t1)}
+.fdesc{font-size:13.5px;color:var(--muted);margin-top:var(--s2);max-width:30em}
+.fnav{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s1) var(--s3);font-size:13.5px;color:var(--body)}
+.fnav a{padding:4px 0}
+.fnav a:hover{color:var(--teal-deep)}
+.fbot{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:var(--s2);flex-wrap:wrap}
 
-/* ============ responsive ============ */
-@media (max-width:980px){
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .plans{grid-template-columns:1fr;gap:14px}
-  .about-grid{grid-template-columns:1fr}
-  .flow{grid-template-columns:repeat(2,1fr);gap:34px 0}
-  .flow::before,.flow .bar{display:none}
-  .step .dot{top:0}
-  .step .no{margin-top:16px}
+/* ---------- 表示アニメーション（控えめ） ---------- */
+[data-rv]{opacity:0;transform:translateY(13px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+[data-rv].in{opacity:1;transform:none}
+
+/* ---------- レスポンシブ ---------- */
+@media (max-width:1040px){
+  .menu{gap:var(--s3);font-size:13px}
 }
-@media (max-width:760px){
+@media (max-width:920px){
   .menu,.nav-cta{display:none}
   .burger{display:block}
-  .cards{grid-template-columns:1fr}
+  .hero .grid{grid-template-columns:1fr;gap:var(--s5)}
+  .hero{padding:var(--s5) 0}
+  .device{width:min(100%,280px)}
+  .device .note{right:0}
+  .glance .grid{grid-template-columns:1fr}
+  .glance .cell{border-left:0;border-top:1px solid var(--line);padding:var(--s3) 0}
+  .glance .cell:first-child{border-top:0}
+  .pillars,.demos,.more{grid-template-columns:1fr}
+  .industry{grid-template-columns:1fr}
+  .ind.food{grid-row:auto}
+  .ind.food .inner{grid-template-columns:1fr}
+  .ind.food .side{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:var(--s3)}
+  .about{grid-template-columns:1fr;gap:var(--s4)}
+  .price-grid{grid-template-columns:1fr}
+  .plans{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr 1fr}
+  .flow::before{display:none}
+  .contact .grid{grid-template-columns:1fr;gap:var(--s4)}
+  .fgrid{grid-template-columns:1fr}
+  .fnav{grid-template-columns:1fr 1fr}
   .stats{grid-template-columns:1fr}
-  .flow{grid-template-columns:1fr;gap:30px 0}
-  .btn{min-width:100%}
-  .hero{padding:108px 0 64px}
-  .scrollcue{display:none}
-  .statement{margin-bottom:14px}
-  .hero .badges{margin-top:32px;gap:8px 20px}
-  .marquee{padding:14px 0}
-  body{font-size:15px}
-  th{width:130px;padding:12px 14px}
-  td{padding:12px 14px}
+  .stat{border-right:0;border-bottom:1px solid var(--line);padding-left:0}
+  .stat:last-child{border-bottom:0}
+}
+@media (max-width:600px){
+  .sec{padding:var(--s6) 0}
+  .nav{height:68px}
+  .drawer{inset:68px 0 0 0}
+  html{scroll-padding-top:68px}
+  .brand .tg{display:none}
+  .hero h1 br.m{display:inline}
+  .device .note{right:8px;bottom:34px}
+  .btn{width:100%}
+  .flow{grid-template-columns:1fr}
+  .hero .facts{gap:var(--s3) var(--s4)}
+  th{width:120px;padding:var(--s2)}
+  td{padding:var(--s2)}
   table{min-width:440px}
+  .fnav{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  [data-rv]{opacity:1;transform:none}
-  .hero h1 .l span{transform:none}
-  .fadeup{opacity:1;transform:none}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  [data-rv],.typing{opacity:1;transform:none}
 }
-
-/* ======== DEMO ======== */
-.demo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.demo-card{display:flex;flex-direction:column;padding:0;overflow:hidden}
-.demo-card .shot{position:relative;height:260px;background:radial-gradient(120% 90% at 50% 0%,rgba(58,219,198,.18),transparent 60%),var(--panel-2);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
-.demo-card .phone{width:200px;height:auto;max-height:100%;background:#8CABD9;border-radius:28px 28px 0 0;border:8px solid #111;border-bottom:0;padding:14px 10px 10px;display:flex;flex-direction:column;gap:8px;transform:translateY(16px);transition:.6s var(--ease)}
-.demo-card:hover .phone{transform:translateY(8px)}
-.demo-card .bub{background:#fff;color:#111;font-size:11px;line-height:1.45;padding:7px 9px;border-radius:12px;max-width:82%;font-family:var(--sans)}
-.demo-card .bub.me{background:#8DE055;align-self:flex-end}
-.demo-card .doc{width:220px;height:280px;background:#fff;color:#111;border-radius:6px 6px 0 0;padding:18px 18px 0;transform:translateY(30px);transition:.6s var(--ease);box-shadow:0 -10px 40px rgba(0,0,0,.35);font-family:var(--sans)}
-.demo-card:hover .doc{transform:translateY(12px)}
-.demo-card .doc b{display:block;font-size:12px;letter-spacing:.2em;text-align:center;margin-bottom:12px}
-.demo-card .doc i{display:block;height:7px;border-radius:4px;background:#E1E5E8;margin:7px 0}
-.demo-card .doc i.s{width:60%}.demo-card .doc i.g{background:var(--accent);width:40%}
-.demo-card .body{padding:26px 26px 28px;display:flex;flex-direction:column;flex:1}
-.demo-card h3{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.04em;margin:8px 0 8px;line-height:1.5}
-.demo-card p{font-size:13.5px;line-height:1.9;color:var(--ink-2);margin:0 0 20px}
-.demo-card .btn{min-width:0;width:100%;margin-top:auto;padding:14px 20px}
-.demo-card .who{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;color:var(--accent);border:1px solid rgba(58,219,198,.35);border-radius:100px;padding:4px 10px}
-.demo-note{margin-top:22px;font-size:12.5px;color:var(--muted);text-align:center;letter-spacing:.04em}
-@media(max-width:900px){.demo-grid{grid-template-columns:1fr}.demo-card .shot{height:250px}}
 </style>
 </head>
 <body>
 
-<div id="pre"><div class="pl">H.I. Company</div><div class="bar"></div></div>
-
-<header id="hd">
+<header>
   <div class="nav">
-    <a class="brand" href="#top"><img src="img/logo-circle-400.png" alt="H.I. Company ロゴ" width="28" height="28">H.I. Company</a>
-    <nav class="menu">
-      <a href="line/" class="hl"><i></i>飲食店向け</a>
-      <a href="salon/" class="hl"><i></i>美容・整体向け</a>
+    <a class="brand" href="#top" aria-label="H.I. Company トップへ">
+      <img src="img/logo-mark-512.png" alt="H.I. Company ロゴ" width="34" height="34">
+      <span><span class="nm">H.I. Company</span><span class="tg">店舗・中小企業のAI業務自動化</span></span>
+    </a>
+    <nav class="menu" aria-label="メインメニュー">
+      <a href="#service">事業内容</a>
+      <a href="#industry">業種別サービス</a>
       <a href="#demo">デモ</a>
-      <a href="#about">概要</a>
-      <a href="#service">サービス</a>
       <a href="#price">料金</a>
       <a href="#flow">進め方</a>
       <a href="#company">会社情報</a>
     </nav>
-    <a class="nav-cta" href="#contact">無料AI診断</a>
+    <a class="nav-cta" href="#contact">無料AI診断を申し込む</a>
     <button class="burger" id="bg" aria-label="メニュー" aria-expanded="false"><span></span><span></span></button>
   </div>
 </header>
 
-<nav class="drawer" id="dw">
-  <a href="line/" class="hl"><em>01</em>飲食店向け LINE AI受付</a>
-  <a href="salon/" class="hl"><em>02</em>美容室・整体院向け LINE AI受付</a>
-  <a href="#demo"><em>03</em>デモ</a>
-  <a href="#about"><em>04</em>概要</a>
-  <a href="#service"><em>05</em>サービス</a>
-  <a href="#price"><em>06</em>料金</a>
-  <a href="#flow"><em>07</em>進め方</a>
-  <a href="#contact"><em>08</em>お問い合わせ</a>
-  <a href="#company"><em>09</em>会社情報・特商法</a>
+<nav class="drawer" id="dw" aria-label="モバイルメニュー">
+  <a href="#service">事業内容<small>3つの柱と、できること</small></a>
+  <a href="line/">飲食店向け<small>LINE 24時間AI受付　初期10万円・月額3万円</small></a>
+  <a href="salon/">美容室・整体院向け<small>施術中の電話をAIが代わりに対応</small></a>
+  <a href="#demo">デモ<small>登録なし・30秒で触れます</small></a>
+  <a href="#price">料金</a>
+  <a href="#flow">進め方</a>
+  <a href="#company">会社情報・特定商取引法に基づく表記</a>
+  <div class="btns"><a class="btn solid" href="#contact">無料AI診断を申し込む</a></div>
 </nav>
 
 <main id="top">
 
-<!-- ======== HERO ======== -->
+<!-- ======== ヒーロー ======== -->
 <section class="hero">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="aurora"></div><div class="grid"></div><div class="scan"></div><div class="vig"></div>
-  </div>
   <div class="wrap">
-    <div class="eyebrow fadeup">AI Automation Advisory</div>
-    <h1>
-      <span class="l"><span>電話に出られない時間を、</span></span>
-      <span class="l"><span class="glow">AI受付係が引き受ける。</span></span>
-    </h1>
-    <p class="lead fadeup">店舗・中小企業（従業員5〜50名）向けに、公式LINEの一次対応、見積・報告書の自動作成、口コミ返信の下書きといった「毎日の繰り返し業務」をAIで自動化。月額の顧問サービスとして、運用まで伴走します。</p>
-    <div class="btns fadeup">
-      <a class="btn solid" href="#demo">30秒デモを触る<span class="ar">→</span></a>
-      <a class="btn ghost" href="#contact">無料AI診断を申し込む<span class="ar">→</span></a>
-    </div>
-    <div class="badges fadeup">
-      <span>24H <b>自動一次対応</b></span>
-      <span>1–2 WEEKS <b>で初回稼働</b></span>
-      <span>HUMAN-IN-THE-LOOP <b>最終判断は人</b></span>
-    </div>
-  </div>
-  <div class="scrollcue"><span>SCROLL</span><span class="ln"></span></div>
-</section>
-
-<div class="marquee" aria-hidden="true">
-  <div class="track">
-    <span>AI RECEPTION<i>／</i>DOCUMENT AUTOMATION<i>／</i>REVIEW REPLY<i>／</i>KNOWLEDGE BASE<i>／</i>MEETING NOTES<i>／</i>AI TRAINING<i>／</i></span>
-    <span>AI RECEPTION<i>／</i>DOCUMENT AUTOMATION<i>／</i>REVIEW REPLY<i>／</i>KNOWLEDGE BASE<i>／</i>MEETING NOTES<i>／</i>AI TRAINING<i>／</i></span>
-  </div>
-</div>
-
-<!-- ======== INDUSTRY PICK ======== -->
-<section class="pick" id="pick">
-  <div class="wrap">
-    <div class="eyebrow" data-rv>Choose Your Business</div>
-    <div class="ttl" data-rv style="--d:.06s">業種で選ぶ<small>ご自身の業種に近い方をお選びください。</small></div>
-    <div class="pick-grid">
-      <a class="tile food" href="line/" data-rv style="--d:.1s">
-        <span class="lab">飲食店の方はこちら</span>
-        <h3>LINE 24時間AI受付<br>初期10万円・月額3万円</h3>
-        <p>仕込み中・ピーク時・閉店後など、電話に出られない時間の予約と問い合わせに、公式LINEでAIが即答します。最短2週間で稼働、初月解約OK。</p>
-        <div class="tags"><span>予約の自動受付</span><span>よくある質問に即答</span><span>その場で触れるデモ</span></div>
-        <span class="go">飲食店向けページを見る<span class="ar">→</span></span>
-      </a>
-      <a class="tile food" href="salon/" data-rv style="--d:.18s">
-        <span class="lab">美容室・整体院の方はこちら</span>
-        <h3>施術中の電話を<br>AIが代わりに対応</h3>
-        <p>美容室・ネイル・エステ・整体院・接骨院・鍼灸院・パーソナルジム向け。予約・変更・メニューの質問に公式LINEで24時間即答。ホットペッパー等と併用できます。</p>
-        <div class="tags"><span>予約・変更の受付</span><span>予約サイトと併用OK</span><span>先着3社 初期0円</span></div>
-        <span class="go">美容・整体向けページを見る<span class="ar">→</span></span>
-      </a>
-      <a class="tile" href="#demo" data-rv style="--d:.26s">
-        <span class="lab">不動産・工務店・その他</span>
-        <h3>業種別デモと<br>月額顧問プラン</h3>
-        <p>受付の自動化から書類作成、口コミ返信まで。まずはデモを触り、無料AI診断で自社に合う自動化をご確認ください。</p>
-        <div class="tags"><span>不動産・工務店</span><span>書類の自動作成</span><span>無料AI診断</span></div>
-        <span class="go">デモと料金を見る<span class="ar">→</span></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ======== DEMO ======== -->
-<section id="demo" class="sec">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow" data-rv>Demo</div>
-      <div class="en" data-rv="clip"><span>Try It Now</span></div>
-      <div class="jp" data-rv style="--d:.1s">30秒で触れるデモ。登録なし、その場で動きます。</div>
-    </div>
-    <div class="demo-grid">
-      <article class="card demo-card" data-rv>
-        <div class="shot"><div class="phone"><div class="bub">ご予約ありがとうございます！ご希望の日時を教えてください。</div><div class="bub me">9月20日 19時</div><div class="bub">何名様でしょうか？</div><div class="bub me">4名</div><div class="bub">✅ ご予約を承りました！前日にリマインドをお送りします。</div></div></div>
-        <div class="body"><span class="who">飲食店向け</span><h3>LINE 24時間AI受付</h3><p>予約・営業時間・駐車場・個室・アレルギー。電話に出られない時間の問い合わせに、AIが即答します。</p><a class="btn solid" href="line/">飲食店向けページを見る（料金・デモ）<span class="ar">→</span></a><a class="sub-link" href="line/demo.html">デモだけ試す →</a></div>
-      </article>
-      <article class="card demo-card" data-rv style="--d:.08s">
-        <div class="shot"><div class="phone"><div class="bub">施術中でもすぐ返信します。ご予約・変更はこちらからどうぞ。</div><div class="bub me">明日 11時 カット＋カラー</div><div class="bub">✅ 承りました。所要時間は約120分です。前日にリマインドをお送りします。</div></div></div>
-        <div class="body"><span class="who">美容室・整体院向け</span><h3>施術中の電話を、AIが受ける</h3><p>予約・変更・メニュー・所要時間の質問に24時間対応。ホットペッパー等の予約システムは併用できます。</p><a class="btn solid" href="salon/">美容・整体向けページを見る（料金・デモ）<span class="ar">→</span></a><a class="sub-link" href="sme/demo-salon.html">デモだけ試す →</a></div>
-      </article>
-      <article class="card demo-card" data-rv style="--d:.16s">
-        <div class="shot"><div class="doc"><b>御 見 積 書</b><i class="s"></i><i></i><i></i><i class="s"></i><i></i><i class="g"></i><i></i><i class="s"></i></div></div>
-        <div class="body"><span class="who">不動産・工務店・全業種</span><h3>書類・文章の自動作成</h3><p>箇条書きを貼ると、物件紹介文・見積書・口コミ返信・求人票の初稿が5分で出ます。人は確認と修正だけ。</p><a class="btn solid" href="sme/demo-docs.html">デモを触る<span class="ar">→</span></a></div>
-      </article>
-    </div>
-    <p class="demo-note">デモはサンプルデータで動作します。実際の導入では、貴社の営業時間・メニュー・文体を学習させます。</p>
-  </div>
-</section>
-
-<!-- ======== ABOUT ======== -->
-<section id="about" class="sec light">
-  <div class="wrap">
-    <div class="about-grid">
+    <div class="grid">
       <div>
-        <div class="eyebrow" data-rv>About</div>
-        <p class="statement" data-rv style="--d:.08s">AIを導入することが目的ではなく、<em>現場の一日が軽くなること</em>を成果とします。</p>
+        <p class="kicker">店舗・中小企業のためのAI業務自動化</p>
+        <h1>電話に出られない時間の<br>受付を、<br class="m"><span class="ac">AIが引き受けます。</span></h1>
+        <p class="lead">H.I. Companyは、飲食店・美容室・整体院・中小企業向けに、<b>公式LINEの24時間AI受付</b>や書類の自動作成をつくり、毎月の改善まで丸ごと引き受ける会社です。お店の作業は合計1時間。あとはこちらで運用します。</p>
+        <div class="btns">
+          <a class="btn solid" href="#demo">30秒でデモを触る<span class="ar">→</span></a>
+          <a class="btn ghost" href="#contact">無料AI診断を申し込む<span class="ar">→</span></a>
+        </div>
+        <div class="facts">
+          <div><span class="n">24<small>時間</small></span><span class="t">予約・質問にAIが即答</span></div>
+          <div><span class="n">2<small>週間</small></span><span class="t">ご契約から稼働まで最短</span></div>
+          <div><span class="n">1<small>時間</small></span><span class="t">お店側の作業は合計</span></div>
+        </div>
       </div>
       <div>
-        <p class="lead" data-rv style="--d:.16s">「人手が足りない」「営業時間外の問い合わせを取りこぼす」「毎回同じ書類を作っている」。中小企業の負担の多くは、判断ではなく“繰り返し”に費やされています。H.I. Companyは、その繰り返しだけを切り出してAIに任せ、人は最後の確認と判断に集中できる仕組みを設計します。</p>
-        <p class="lead" data-rv style="--d:.24s">つくって終わりにはしません。月額の顧問として毎月の改善まで並走し、使われ続ける自動化に育てます。</p>
+        <div class="device" aria-hidden="true">
+          <div class="screen">
+            <div class="top"><span class="av">Hi</span><b>〇〇食堂 公式LINE</b><i>AI受付中</i></div>
+            <div class="chat">
+              <div class="bub me typing">今日の19時、4名で予約できますか？</div>
+              <div class="bub typing">お問い合わせありがとうございます。本日19時、4名様でご案内できます。お名前をお願いします。</div>
+              <div class="bub me typing">田中です</div>
+              <div class="bub ok typing">田中様、本日19時・4名様でご予約を承りました。当日お待ちしております。</div>
+              <div class="stamp typing">22:41　営業時間外でも受付完了</div>
+            </div>
+          </div>
+          <div class="note">閉店後の予約も取りこぼしなし<small>返信は数秒・24時間</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 3行でわかる ======== -->
+<section class="glance">
+  <div class="wrap">
+    <div class="grid">
+      <div class="cell" data-rv>
+        <div class="q">何をする会社？</div>
+        <div class="a">お店の「受付」と「書類」をAIで自動化</div>
+        <p>公式LINEでの予約・問い合わせ対応、見積書や口コミ返信の下書きなど、毎日の繰り返し作業をAIに任せる仕組みをつくります。</p>
+      </div>
+      <div class="cell" data-rv style="--d:.1s">
+        <div class="q">誰のため？</div>
+        <div class="a">飲食店・美容室・整体院・中小企業</div>
+        <p>人手が足りず電話に出られない、営業時間外の問い合わせを取りこぼしている、従業員5〜50名の店舗と会社が対象です。</p>
+      </div>
+      <div class="cell" data-rv style="--d:.2s">
+        <div class="q">何が違う？</div>
+        <div class="a">道具を渡すのではなく、運用まで引き受ける</div>
+        <p>設定・更新・改善は毎月こちらが行い、月次レポートで効果を報告します。お店側の作業は最初の1時間だけです。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== 事業内容 ======== -->
+<section id="service" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label" data-rv>事業内容</span>
+      <h2 data-rv style="--d:.06s">3つの柱で、お店と会社の時間を取り戻す。</h2>
+      <p class="sub" data-rv style="--d:.12s">主力は公式LINEの24時間AI受付。加えて、書類・文章の自動作成、生成AIの研修と顧問で、現場の繰り返し作業を減らします。</p>
+    </div>
+    <div class="pillars">
+      <article class="pillar main" data-rv>
+        <span class="tag">主力</span>
+        <span class="no">01</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
+        <h3>公式LINEの<br>24時間AI受付</h3>
+        <p>予約・空き確認・営業時間・メニューなどの問い合わせに、公式LINE上でAIが即答します。電話は自動音声でLINEへご案内するので、仕込み中や閉店後の取りこぼしがなくなります。</p>
+        <div class="price"><b>初期10万円・月額3万円</b>飲食店向けパッケージ（税別）／美容室・整体院向けは月額55,000円〜</div>
+        <a class="tlink" href="line/">飲食店向けページを見る<span class="ar">→</span></a>
+        <a class="tlink" href="salon/" style="margin-top:8px">美容室・整体院向けページを見る<span class="ar">→</span></a>
+      </article>
+      <article class="pillar" data-rv style="--d:.08s">
+        <span class="no">02</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg></div>
+        <h3>書類・文章の<br>自動作成</h3>
+        <p>見積書、提案書、物件紹介文、報告書、求人票、口コミへの返信。箇条書きを貼るだけで、社内データとテンプレートからAIが初稿をつくります。人は確認と修正だけです。</p>
+        <div class="price"><b>月額顧問プランに含む</b>ライト 55,000円／スタンダード 110,000円（税込）</div>
+        <a class="tlink" href="sme/demo-docs.html">書類作成のデモを触る<span class="ar">→</span></a>
+      </article>
+      <article class="pillar" data-rv style="--d:.16s">
+        <span class="no">03</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+        <h3>生成AI研修と<br>月額顧問</h3>
+        <p>現場の業務に合わせた半日研修と、毎月の打合せ・チャット相談。つくって終わりにせず、使われ続ける自動化に育てます。研修は人材開発支援助成金の対象となる場合があります。</p>
+        <div class="price"><b>月額 55,000円〜</b>最低3ヶ月、以後1ヶ月前の通知で解約可（税込）</div>
+        <a class="tlink" href="#price">料金の詳細を見る<span class="ar">→</span></a>
+      </article>
+    </div>
+    <div class="more" data-rv>
+      <div><span class="dot"></span><div><b>口コミ・SNSの運用補助</b><p>Google口コミへの返信下書き、Instagram投稿文の生成、週次の投稿ルーティン。</p></div></div>
+      <div><span class="dot"></span><div><b>社内ナレッジのAI化</b><p>マニュアル・FAQ・過去のやり取りを読み込ませ、社員が質問すると答えが返る仕組み。</p></div></div>
+      <div><span class="dot"></span><div><b>議事録・タスク化</b><p>会議の録音や議事録から、決定事項と担当・期限を自動で書き出します。</p></div></div>
+    </div>
+    <p class="disclaimer" data-rv>使用するのは公式LINE、Claude／ChatGPT、Google Apps Script、Make などの一般的なツールです。AIの出力には誤りが含まれる可能性があるため、外部に出る文章は人が確認・送信する運用を前提に設計します。AIが電話に直接出る仕組みは提供していません。</p>
+  </div>
+</section>
+
+<!-- ======== 業種で選ぶ ======== -->
+<section id="industry" class="sec tone">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label" data-rv>業種別サービス</span>
+      <h2 data-rv style="--d:.06s">ご自身の業種に近いページへ。</h2>
+      <p class="sub" data-rv style="--d:.12s">業種ごとに、料金・導入の流れ・その場で触れるデモをまとめています。</p>
+    </div>
+    <div class="industry">
+      <a class="ind food" href="line/" data-rv>
+        <span class="who">飲食店の方はこちら</span>
+        <h3>受付の仕事を、<br>まるごとお任せください。</h3>
+        <div class="inner">
+          <div>
+            <p>仕込み中・ピーク時・閉店後など、電話に出られない時間の予約と問い合わせに、公式LINEでAIが即答します。設定・更新・改善は毎月こちらが行い、月次レポートで効果を報告。最短2週間で稼働、初月解約OKです。</p>
+            <div class="tags"><span>予約の自動受付</span><span>よくある質問に即答</span><span>先着3社 成果保証</span><span>初月解約OK</span></div>
+            <p>電話は自動音声でLINEへご案内し、LINE上でAIが受け付けます。LINE公式の無料「LINE AI予約」の導入代行も含みます。</p>
+          </div>
+          <div class="side">
+            <div class="pr">
+              <div><span class="n">10<small>万円</small></span><span class="t">初期費用（税別）</span></div>
+              <div><span class="n">3<small>万円</small></span><span class="t">月額（税別）</span></div>
+            </div>
+            <ul><li>お店側の作業は合計1時間</li><li>設定・更新・改善は毎月こちら</li><li>月次改善レポートつき</li><li>最低契約期間なし・違約金なし</li></ul>
+            <span class="tlink">飲食店向けページを見る<span class="ar">→</span></span>
+          </div>
+        </div>
+      </a>
+      <a class="ind" href="salon/" data-rv style="--d:.08s">
+        <span class="who">美容室・整体院の方はこちら</span>
+        <h3>施術中の電話を、<br>AIが代わりに対応。</h3>
+        <p>美容室・ネイル・エステ・整体院・接骨院・鍼灸院・パーソナルジム向け。予約・変更・メニューの質問に24時間即答。ホットペッパー等の予約サイトと併用できます。</p>
+        <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
+        <span class="tlink">美容・整体向けページを見る<span class="ar">→</span></span>
+      </a>
+      <a class="ind" href="#demo" data-rv style="--d:.16s">
+        <span class="who">不動産・工務店・その他の方はこちら</span>
+        <h3>業種別のデモと、<br>月額顧問プラン。</h3>
+        <p>受付の自動化から書類作成、口コミ返信まで。まずはデモを触り、無料AI診断で自社に合う自動化をご確認ください。</p>
+        <div class="tags"><span>書類の自動作成</span><span>無料AI診断</span></div>
+        <span class="tlink">デモと料金を見る<span class="ar">→</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ======== デモ ======== -->
+<section id="demo" class="sec">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="label" data-rv>デモ</span>
+      <h2 data-rv style="--d:.06s">登録なし。30秒で、その場で動きます。</h2>
+      <p class="sub" data-rv style="--d:.12s">実際に導入するものと同じ仕組みを、サンプルデータで体験できます。</p>
+    </div>
+    <div class="demos">
+      <article class="demo" data-rv>
+        <div class="shot" aria-hidden="true"><div class="mini"><div class="bub">ご予約ありがとうございます。ご希望の日時を教えてください。</div><div class="bub me">9月20日 19時</div><div class="bub">何名様でしょうか？</div><div class="bub me">4名</div><div class="bub">ご予約を承りました。前日にリマインドをお送りします。</div></div></div>
+        <div class="body">
+          <span class="who">飲食店向け</span>
+          <h3>LINE 24時間AI受付</h3>
+          <p>予約・営業時間・駐車場・個室・アレルギー。電話に出られない時間の問い合わせに、AIが即答します。</p>
+          <div class="links"><a class="btn solid" href="line/">料金とデモを見る<span class="ar">→</span></a><span class="sub"><a href="line/demo.html">デモだけ試す</a></span></div>
+        </div>
+      </article>
+      <article class="demo" data-rv style="--d:.08s">
+        <div class="shot" aria-hidden="true"><div class="mini"><div class="bub">施術中でもすぐ返信します。ご予約・変更はこちらからどうぞ。</div><div class="bub me">明日 11時 カット＋カラー</div><div class="bub">承りました。所要時間は約120分です。前日にリマインドをお送りします。</div></div></div>
+        <div class="body">
+          <span class="who">美容室・整体院向け</span>
+          <h3>施術中の電話を、AIが受ける</h3>
+          <p>予約・変更・メニュー・所要時間の質問に24時間対応。ホットペッパー等の予約システムは併用できます。</p>
+          <div class="links"><a class="btn solid" href="salon/">料金とデモを見る<span class="ar">→</span></a><span class="sub"><a href="sme/demo-salon.html">デモだけ試す</a></span></div>
+        </div>
+      </article>
+      <article class="demo" data-rv style="--d:.16s">
+        <div class="shot" aria-hidden="true"><div class="doc"><b>御見積書</b><i class="s"></i><i></i><i></i><i class="s"></i><i></i><i class="g"></i><i></i><i class="s"></i></div></div>
+        <div class="body">
+          <span class="who">不動産・工務店・全業種</span>
+          <h3>書類・文章の自動作成</h3>
+          <p>箇条書きを貼ると、物件紹介文・見積書・口コミ返信・求人票の初稿が5分で出ます。人は確認と修正だけ。</p>
+          <div class="links"><a class="btn solid" href="sme/demo-docs.html">デモを触る<span class="ar">→</span></a></div>
+        </div>
+      </article>
+    </div>
+    <p class="demo-note" data-rv>デモはサンプルデータで動作します。実際の導入では、貴社の営業時間・メニュー・文体を学習させます。</p>
+  </div>
+</section>
+
+<!-- ======== 考え方 ======== -->
+<section id="about" class="sec tone">
+  <div class="wrap">
+    <div class="about">
+      <div>
+        <span class="label" data-rv>私たちの考え方</span>
+        <p class="statement" data-rv style="--d:.08s">AIを入れることが目的ではなく、<em>現場の一日が軽くなること</em>を成果とします。</p>
+      </div>
+      <div class="text">
+        <p data-rv style="--d:.16s">「人手が足りない」「営業時間外の問い合わせを取りこぼす」「毎回同じ書類を作っている」。店舗と中小企業の負担の多くは、判断ではなく“繰り返し”に費やされています。H.I. Companyは、その繰り返しだけを切り出してAIに任せ、人は最後の確認と判断に集中できる仕組みを設計します。</p>
+        <p data-rv style="--d:.24s">つくって終わりにはしません。設定・更新・改善は毎月こちらが行い、月次レポートで効果を報告します。お店側の作業は、最初のヒアリングとテストの合計1時間だけです。</p>
       </div>
     </div>
     <div class="stats">
       <div class="stat" data-rv><div class="n">24<small>時間</small></div><div class="t">公式LINEの一次対応が止まらない</div></div>
-      <div class="stat" data-rv style="--d:.1s"><div class="n">1–2<small>週間</small></div><div class="t">契約後、最初の自動化が稼働するまで</div></div>
+      <div class="stat" data-rv style="--d:.1s"><div class="n">1–2<small>週間</small></div><div class="t">ご契約後、最初の自動化が稼働するまで</div></div>
       <div class="stat" data-rv style="--d:.2s"><div class="n">24<small>時間以内</small></div><div class="t">無料診断後、設計書をお渡しするまで</div></div>
     </div>
   </div>
 </section>
 
-<!-- ======== SERVICE ======== -->
-<section id="service" class="sec svc-wrap">
+<!-- ======== 料金 ======== -->
+<section id="price" class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow" data-rv>Service</div>
-      <div class="en" data-rv="clip"><span>What We Automate</span></div>
-      <div class="jp" data-rv style="--d:.1s">できること</div>
+      <span class="label" data-rv>料金</span>
+      <h2 data-rv style="--d:.06s">わかりやすい2つの料金体系。</h2>
+      <p class="sub" data-rv style="--d:.12s">飲食店向けは定額パッケージ、それ以外は月額顧問プランです。いずれも違約金はありません。</p>
     </div>
-    <div class="cards">
-      <article class="card" data-rv><span class="ic">01</span><div class="no">01 ／ LINE</div><h3>公式LINEの<br>24時間AI受付係</h3><p>予約・空き確認・よくある質問への一次回答をAIが下書きし、担当者は承認するだけ。営業時間外の問い合わせを取りこぼしません。</p><a class="linkbtn" href="line/">飲食店向けページ（初期10万円・月額3万円）→</a><a class="sub-link" href="salon/">美容室・整体院向けページ（月額55,000円〜）→</a></article>
-      <article class="card" data-rv style="--d:.08s"><span class="ic">02</span><div class="no">02 ／ DOCS</div><h3>書類・文章の<br>自動作成</h3><p>見積書、提案書、物件紹介文、報告書、求人票などを、社内データとテンプレートからAIが初稿を作成します。</p><p style="margin-top:10px"><a href="sme/demo-docs.html" style="color:var(--accent,#9BE7DC);font-size:13px;text-decoration:underline">物件紹介文・見積書・口コミ返信のデモを触る →</a></p></article>
-      <article class="card" data-rv style="--d:.16s"><span class="ic">03</span><div class="no">03 ／ SOCIAL</div><h3>口コミ・SNSの<br>運用補助</h3><p>Google口コミへの返信下書き、Instagram投稿文の生成、週次の投稿ルーティンを整えます。</p></article>
-      <article class="card" data-rv><span class="ic">04</span><div class="no">04 ／ KNOWLEDGE</div><h3>社内ナレッジの<br>AI化</h3><p>マニュアル・FAQ・過去のやり取りをAIに読み込ませ、社員が質問すると答えが返る仕組みを作ります。</p></article>
-      <article class="card" data-rv style="--d:.08s"><span class="ic">05</span><div class="no">05 ／ MEETING</div><h3>議事録・<br>タスク化</h3><p>会議の録音や議事録から、決定事項と担当・期限を自動で書き出します。</p></article>
-      <article class="card" data-rv style="--d:.16s"><span class="ic">06</span><div class="no">06 ／ TRAINING</div><h3>生成AI研修</h3><p>現場の業務に合わせた半日研修。人材開発支援助成金の対象となる場合があります（要件はご確認ください）。</p></article>
-    </div>
-    <p class="note" data-rv>使用するのは公式LINE、Claude／ChatGPT、Google Apps Script、Make などの一般的なツールです。AIの出力には誤りが含まれる可能性があるため、外部に出る文章は人が確認・送信する運用を前提に設計します。</p>
-  </div>
-</section>
-
-<!-- ======== PRICE ======== -->
-<section id="price" class="sec light">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="eyebrow" data-rv>Price</div>
-      <div class="en" data-rv="clip"><span>Monthly Advisory</span></div>
-      <div class="jp" data-rv style="--d:.1s">料金</div>
-    </div>
-    <div class="plans">
-      <div class="plan" data-rv>
-        <div class="name">LIGHT ／ ライト</div>
-        <div class="amt">55,000<b>円 / 月</b></div>
-        <div class="sub">税込（税別 50,000円）</div>
-        <ul><li>チャット相談 無制限</li><li>自動化1本の構築・改善</li><li>月1回30分のオンライン打合せ</li></ul>
+    <div class="price-grid">
+      <div class="pkg" data-rv>
+        <span class="who">飲食店向けパッケージ</span>
+        <h3>LINE 24時間AI受付</h3>
+        <div class="amt">
+          <div><span class="n">100,000<small>円</small></span><span class="t">初期費用（税別・税込110,000円）</span></div>
+          <div><span class="n">30,000<small>円</small></span><span class="t">月額（税別・税込33,000円）</span></div>
+        </div>
+        <ul>
+          <li>予約・問い合わせのAI受付を構築</li>
+          <li>設定・更新・改善は毎月こちらで実施</li>
+          <li>月次レポートで効果を報告</li>
+          <li>最低契約期間なし・初月解約OK</li>
+          <li>先着3社：稼働後30日でLINE経由の予約が1.5組未満なら、その月の月額無料</li>
+        </ul>
+        <div class="btns"><a class="btn" href="line/">飲食店向けページで詳しく見る<span class="ar">→</span></a></div>
+        <p class="fine">2店舗目以降は初期5万円・月額2万円（税別）。</p>
       </div>
-      <div class="plan feat" data-rv style="--d:.08s">
-        <span class="tag">RECOMMENDED</span>
-        <div class="name">STANDARD ／ スタンダード</div>
-        <div class="amt">110,000<b>円 / 月</b></div>
-        <div class="sub">税込（税別 100,000円）</div>
-        <ul><li>自動化2本</li><li>月2回の打合せ</li><li>運用保守（API変更・不具合対応）</li><li>四半期に1回の社内研修</li></ul>
-      </div>
-      <div class="plan" data-rv style="--d:.16s">
-        <div class="name">INITIAL ／ 初期設定費</div>
-        <div class="amt">110,000<b>円</b></div>
-        <div class="sub">税込（税別 100,000円）／ 先着3社は0円</div>
-        <ul><li>業務診断</li><li>初月の設計</li><li>アカウント設定</li><li>マニュアル作成</li></ul>
+      <div>
+        <div class="plans">
+          <div class="plans-head" data-rv><span class="who">月額顧問プラン</span><h3>美容室・整体院・中小企業向け</h3></div>
+          <div class="plan" data-rv>
+            <div class="name">ライト</div>
+            <div class="amt">55,000<b>円 / 月</b></div>
+            <div class="sub">税込（税別 50,000円）</div>
+            <ul><li>チャット相談 無制限</li><li>自動化1本の構築・改善</li><li>月1回30分のオンライン打合せ</li></ul>
+          </div>
+          <div class="plan feat" data-rv style="--d:.08s">
+            <span class="tag">おすすめ</span>
+            <div class="name">スタンダード</div>
+            <div class="amt">110,000<b>円 / 月</b></div>
+            <div class="sub">税込（税別 100,000円）</div>
+            <ul><li>自動化2本</li><li>月2回の打合せ</li><li>運用保守（API変更・不具合対応）</li><li>四半期に1回の社内研修</li></ul>
+          </div>
+          <div class="plan" data-rv style="--d:.16s">
+            <div class="name">初期設定費</div>
+            <div class="amt">110,000<b>円</b></div>
+            <div class="sub">税込（税別 100,000円）／ 先着3社は0円</div>
+            <ul><li>業務診断</li><li>初月の設計</li><li>アカウント設定</li><li>マニュアル作成</li></ul>
+          </div>
+        </div>
       </div>
     </div>
-    <p class="pnote" data-rv>月額顧問プラン（ライト・スタンダード）は最低契約期間3ヶ月、以後は1ヶ月前の通知で解約できます（違約金なし）。飲食店向け <a href="line/" style="text-decoration:underline">LINE 24時間AI受付</a>（初期10万円・月額3万円）は最低契約期間なし・初月解約OK・違約金なしです。お支払いはクレジットカード（毎月自動課金）または請求書払い（銀行振込）です。初期設定費0円の適用は先着3社までとし、上限に達し次第終了します。</p>
+    <p class="pnote" data-rv>月額顧問プラン（ライト・スタンダード）は最低契約期間3ヶ月、以後は1ヶ月前の通知で解約できます（違約金なし）。飲食店向け <a href="line/">LINE 24時間AI受付</a>（初期10万円・月額3万円）は最低契約期間なし・初月解約OK・違約金なしです。お支払いはクレジットカード（毎月自動課金）または請求書払い（銀行振込）です。初期設定費0円の適用は先着3社までとし、上限に達し次第終了します。</p>
   </div>
 </section>
 
-<!-- ======== FLOW ======== -->
-<section id="flow" class="sec">
+<!-- ======== 進め方 ======== -->
+<section id="flow" class="sec tone">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow" data-rv>Process</div>
-      <div class="en" data-rv="clip"><span>How It Works</span></div>
-      <div class="jp" data-rv style="--d:.1s">進め方</div>
+      <span class="label" data-rv>進め方</span>
+      <h2 data-rv style="--d:.06s">無料診断から稼働まで、4つのステップ。</h2>
     </div>
-    <div class="flow" id="flowline">
-      <span class="bar"></span>
-      <div class="step" data-rv><span class="dot"></span><div class="no">STEP 01</div><h3>無料AI診断<br>（30分・オンライン）</h3><p>現在の業務と繰り返し作業をヒアリングします。</p></div>
-      <div class="step" data-rv style="--d:.1s"><span class="dot"></span><div class="no">STEP 02</div><h3>設計書のお渡し<br>（24時間以内）</h3><p>貴社向けの自動化3本の設計と、削減時間の試算方法をお送りします。導入の有無はその後ご判断ください。</p></div>
-      <div class="step" data-rv style="--d:.2s"><span class="dot"></span><div class="no">STEP 03</div><h3>契約・初月の構築</h3><p>1〜2週間で最初の自動化を稼働させ、マニュアルをお渡しします。</p></div>
-      <div class="step" data-rv style="--d:.3s"><span class="dot"></span><div class="no">STEP 04</div><h3>毎月の改善</h3><p>運用データを見ながら次の自動化を追加し、月次で効果を報告します。</p></div>
+    <div class="flow">
+      <div class="step" data-rv><h3><small>STEP 01</small>無料AI診断</h3><p>30分・オンライン。現在の業務と繰り返し作業をヒアリングします。</p></div>
+      <div class="step" data-rv style="--d:.1s"><h3><small>STEP 02</small>設計書のお渡し</h3><p>24時間以内に、貴社向けの自動化3本の設計と削減時間の試算方法をお送りします。導入の有無はその後ご判断ください。</p></div>
+      <div class="step" data-rv style="--d:.2s"><h3><small>STEP 03</small>ご契約・初月の構築</h3><p>1〜2週間で最初の自動化を稼働させ、マニュアルをお渡しします。</p></div>
+      <div class="step" data-rv style="--d:.3s"><h3><small>STEP 04</small>毎月の改善</h3><p>運用データを見ながら次の自動化を追加し、月次で効果を報告します。</p></div>
     </div>
   </div>
 </section>
 
-<!-- ======== CTA / CONTACT ======== -->
-<section id="contact" class="cta">
+<!-- ======== お問い合わせ ======== -->
+<section id="contact" class="contact">
   <div class="wrap">
-    <div class="eyebrow" data-rv>Contact</div>
-    <h2 data-rv style="--d:.08s">まずは30分。<br>その繰り返し業務、任せられるか診断します。</h2>
-    <p class="lead" data-rv style="--d:.16s">公式LINEで「診断希望」と送るか、メールで「会社名・業種・困っている業務」をお知らせください。1営業日以内にご返信し、診断の日程を調整します。</p>
-    <div class="btns" data-rv style="--d:.24s">
-      <a class="btn solid" href="https://line.me/R/ti/p/@966kahwj" target="_blank" rel="noopener">公式LINEで相談する<span class="ar">→</span></a>
-      <a class="btn ghost" href="mailto:h.ichikawa@hi-companyjapan.jp?subject=%E7%84%A1%E6%96%99AI%E8%A8%BA%E6%96%AD%E3%81%AE%E7%94%B3%E8%BE%BC">メールで申し込む<span class="ar">→</span></a>
-    </div>
-    <div class="contact-lines" data-rv style="--d:.32s">
-      <span>MAIL　<a href="mailto:h.ichikawa@hi-companyjapan.jp">h.ichikawa@hi-companyjapan.jp</a></span>
-      <span>LINE　<a href="https://line.me/R/ti/p/@966kahwj" target="_blank" rel="noopener">公式LINE @966kahwj</a></span>
+    <div class="grid">
+      <div>
+        <span class="label" data-rv>お問い合わせ</span>
+        <h2 data-rv style="--d:.08s">まずは30分。<br>その繰り返し業務、任せられるか診断します。</h2>
+        <p data-rv style="--d:.16s">公式LINEで「診断希望」と送るか、メールで「会社名・業種・困っている業務」をお知らせください。1営業日以内にご返信し、診断の日程を調整します。</p>
+      </div>
+      <div class="card" data-rv style="--d:.24s">
+        <div class="btns">
+          <a class="btn line" href="https://line.me/R/ti/p/@966kahwj" target="_blank" rel="noopener">公式LINEで相談する<span class="ar">→</span></a>
+          <a class="btn ghost" href="mailto:h.ichikawa@hi-companyjapan.jp?subject=%E7%84%A1%E6%96%99AI%E8%A8%BA%E6%96%AD%E3%81%AE%E7%94%B3%E8%BE%BC">メールで申し込む<span class="ar">→</span></a>
+        </div>
+        <p class="how"><b>無料AI診断の内容</b>　30分のオンライン面談のあと、24時間以内に自動化3本の設計書をお渡しします。費用はかかりません。</p>
+        <p class="addr">メール　<a href="mailto:h.ichikawa@hi-companyjapan.jp">h.ichikawa@hi-companyjapan.jp</a><br>LINE　<a href="https://line.me/R/ti/p/@966kahwj" target="_blank" rel="noopener">公式LINE @966kahwj</a></p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ======== COMPANY / LEGAL ======== -->
-<section id="company" class="sec light">
+<!-- ======== 会社情報・特商法 ======== -->
+<section id="company" class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <div class="eyebrow" data-rv>Company</div>
-      <div class="en" data-rv="clip"><span>Information</span></div>
-      <div class="jp" data-rv style="--d:.1s">事業者情報</div>
+      <span class="label" data-rv>会社情報</span>
+      <h2 data-rv style="--d:.06s">事業者情報</h2>
     </div>
     <div class="acc" data-rv>
       <details open>
@@ -665,26 +823,32 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
 <footer>
   <div class="wrap">
     <div class="fgrid">
-      <a class="brand" href="#top"><i></i>H.I. Company</a>
-      <nav class="fnav">
-        <a href="line/">飲食店向け</a><a href="salon/">美容・整体向け</a><a href="#about">概要</a><a href="#service">サービス</a><a href="#price">料金</a><a href="#flow">進め方</a><a href="#contact">お問い合わせ</a><a href="#company">事業者情報</a><a href="#tokushoho">特定商取引法に基づく表記</a><a href="privacy.html">プライバシーポリシー</a>
+      <div>
+        <a class="brand" href="#top"><img src="img/logo-mark-512.png" alt="" width="34" height="34"><span><span class="nm">H.I. Company</span></span></a>
+        <p class="fdesc">店舗・中小企業のAI業務自動化。公式LINEの24時間AI受付、書類の自動作成、生成AI研修を、構築から毎月の改善まで引き受けます。</p>
+      </div>
+      <nav class="fnav" aria-label="フッターメニュー">
+        <a href="#service">事業内容</a>
+        <a href="line/">飲食店向け LINE AI受付</a>
+        <a href="salon/">美容室・整体院向け</a>
+        <a href="#demo">デモ</a>
+        <a href="#price">料金</a>
+        <a href="#flow">進め方</a>
+        <a href="#contact">お問い合わせ</a>
+        <a href="#company">事業者情報</a>
+        <a href="#tokushoho">特定商取引法に基づく表記</a>
+        <a href="privacy.html">プライバシーポリシー</a>
+        <a href="https://www.instagram.com/hi_company_ai/" target="_blank" rel="noopener">Instagram</a>
       </nav>
     </div>
-    <div class="fbot">© 2026 H.I. Company ／ 掲載している導入イメージは想定例であり、効果を保証するものではありません。</div>
+    <div class="fbot"><span>© 2026 H.I. Company</span><span>掲載している導入イメージは想定例であり、効果を保証するものではありません。</span></div>
   </div>
 </footer>
 
 <script>
 (function(){
   var d=document,b=d.body;
-  // preloader
-  window.addEventListener('load',function(){setTimeout(function(){d.getElementById('pre').classList.add('done')},420)});
-  setTimeout(function(){d.getElementById('pre').classList.add('done')},2600);
-  // header state
-  var hd=d.getElementById('hd');
-  var onScroll=function(){hd.classList.toggle('scrolled',window.scrollY>30)};
-  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
-  // drawer
+  // モバイルメニュー
   var bg=d.getElementById('bg'),dw=d.getElementById('dw');
   bg.addEventListener('click',function(){
     var o=b.classList.toggle('open');
@@ -695,19 +859,18 @@ footer{background:var(--bg);border-top:1px solid var(--line);padding:60px 0 40px
     if(e.target.closest('a')){b.classList.remove('open');bg.setAttribute('aria-expanded','false');b.style.overflow=''}
   });
   d.addEventListener('keydown',function(e){if(e.key==='Escape'&&b.classList.contains('open')){bg.click()}});
-  // reveal
-  var els=d.querySelectorAll('[data-rv],#flowline');
+  // スクロールで表示
+  var els=d.querySelectorAll('[data-rv]');
   if('IntersectionObserver' in window){
     var io=new IntersectionObserver(function(en){
       en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})
-    },{threshold:.14,rootMargin:'0px 0px -6% 0px'});
+    },{threshold:.12,rootMargin:'0px 0px -5% 0px'});
     els.forEach(function(el){io.observe(el)});
   }else{els.forEach(function(el){el.classList.add('in')})}
+  // #tokushoho などのリンクで来たときに折りたたみを開く
+  function o(){var e=location.hash&&d.querySelector(location.hash);if(e&&e.tagName==='DETAILS')e.open=true;}
+  o();addEventListener('hashchange',o);
 })();
-</script>
-<script>
-// #tokushoho などのリンクで来たときに折りたたみを開く
-(function(){function o(){var e=location.hash&&document.querySelector(location.hash);if(e&&e.tagName==="DETAILS")e.open=true;}o();addEventListener("hashchange",o);})();
 </script>
 </body>
 </html>
