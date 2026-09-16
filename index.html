@@ -238,7 +238,7 @@ body.open .drawer{opacity:1;visibility:visible}
 .disclaimer{margin-top:var(--s4);font-size:13px;color:var(--muted);max-width:66em;line-height:1.9}
 
 /* ---------- 業種で選ぶ ---------- */
-.industry{display:grid;grid-template-columns:1.618fr 1fr;gap:var(--s3)}
+.industry{display:grid;grid-template-columns:1.618fr 1fr 1fr;gap:var(--s3)} /* 飲食が左の大枠、残り4枚が右に2×2 */
 .ind{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:var(--s4);transition:.4s var(--ease);position:relative;overflow:hidden}
 .ind:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
 .ind .who{font-size:var(--t-1);letter-spacing:.2em;color:var(--teal-deep);font-weight:500}
@@ -263,7 +263,10 @@ body.open .drawer{opacity:1;visibility:visible}
 .ind .pr .t{font-size:var(--t-1);color:var(--muted);letter-spacing:.06em}
 
 /* ---------- デモ ---------- */
-.demos{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3)}
+.demos{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--s3)} /* 6列を2列ずつ使い、5枚を3+2で中央寄せ */
+.demo{grid-column:span 2}
+.demo:nth-child(4){grid-column:2/span 2}
+.demo:nth-child(5){grid-column:4/span 2}
 .demo{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.4s var(--ease)}
 .demo:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:transparent}
 .demo .shot{aspect-ratio:1.618/1;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:flex-end;justify-content:center;overflow:hidden;padding:var(--s3) var(--s3) 0}
@@ -402,6 +405,7 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
   .glance .cell{border-left:0;border-top:1px solid var(--line);padding:var(--s3) 0}
   .glance .cell:first-child{border-top:0}
   .pillars,.demos,.more{grid-template-columns:1fr}
+  .demo,.demo:nth-child(4),.demo:nth-child(5){grid-column:auto}
   .industry{grid-template-columns:1fr}
   .ind.food{grid-row:auto}
   .ind.food .inner{grid-template-columns:1fr}
@@ -522,7 +526,7 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
       </div>
       <div class="cell" data-rv style="--d:.1s">
         <div class="q">誰のため？</div>
-        <div class="a">飲食店・美容室・整体院・中小企業</div>
+        <div class="a">飲食店・美容室・整体院・職人・歯科・中小企業</div>
         <p>人手が足りず電話に出られない、営業時間外の問い合わせを取りこぼしている、従業員5〜50名の店舗と会社が対象です。</p>
       </div>
       <div class="cell" data-rv style="--d:.2s">
@@ -549,7 +553,7 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
         <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg></div>
         <h3>公式LINEの<br>24時間AI受付</h3>
         <p>予約・空き確認・営業時間・メニューなどの問い合わせに、公式LINE上でAIが即答します。電話は自動音声でLINEへご案内するので、仕込み中や閉店後の取りこぼしがなくなります。</p>
-        <div class="price"><b>初期10万円・月額3万円</b>飲食店向けパッケージ（税別）／美容室・整体院向けは月額55,000円〜</div>
+        <div class="price"><b>初期10万円・月額3万円</b>飲食店向けパッケージ（税別）／美容室・整体院・職人・歯科向けは月額55,000円〜</div>
         <a class="tlink" href="line/">飲食店向けページを見る<span class="ar">→</span></a>
         <a class="tlink" href="salon/" style="margin-top:8px">美容室・整体院向けページを見る<span class="ar">→</span></a>
       </article>
@@ -614,7 +618,21 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
         <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
         <span class="tlink">美容・整体向けページを見る<span class="ar">→</span></span>
       </a>
-      <a class="ind" href="#demo" data-rv style="--d:.16s">
+      <a class="ind" href="sme/demo-shokunin.html" data-rv style="--d:.16s">
+        <span class="who">水道・電気・エアコン・リフォームの方はこちら</span>
+        <h3>現場中の電話を、<br>LINEでAIが一次受付。</h3>
+        <p>水道・電気・エアコン・リフォーム・塗装・鍵・害虫駆除向け。症状・場所・希望日の聞き取りをAIが24時間行い、判断が要るものだけ担当の携帯に転送。くらしのマーケット等と併用できます。</p>
+        <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
+        <span class="tlink">職人向けデモを触る<span class="ar">→</span></span>
+      </a>
+      <a class="ind" href="sme/demo-shika.html" data-rv style="--d:.24s">
+        <span class="who">歯科医院の方はこちら</span>
+        <h3>診療中の電話を、<br>受付の代わりにAIが受ける。</h3>
+        <p>予約・変更・キャンセル、持ち物や保険証の質問に24時間即答。急患や判断が要るものは受付スタッフに転送。今の予約システムと併用できます。自動化するのは受付業務だけです。</p>
+        <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
+        <span class="tlink">歯科向けデモを触る<span class="ar">→</span></span>
+      </a>
+      <a class="ind" href="#demo" data-rv style="--d:.32s">
         <span class="who">不動産・工務店・その他の方はこちら</span>
         <h3>業種別のデモと、<br>月額顧問プラン。</h3>
         <p>受付の自動化から書類作成、口コミ返信まで。まずはデモを触り、無料AI診断で自社に合う自動化をご確認ください。</p>
@@ -653,6 +671,24 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
         </div>
       </article>
       <article class="demo" data-rv style="--d:.16s">
+        <div class="shot" aria-hidden="true"><div class="mini"><div class="bub me">台所の下から水が漏れています</div><div class="bub">場所と、ご希望の日時を教えてください。</div><div class="bub me">今日中に来てほしい</div><div class="bub">担当が現場から戻り次第、折り返します（目安30分）。</div></div></div>
+        <div class="body">
+          <span class="who">水道・電気・エアコン・リフォーム向け</span>
+          <h3>現場中の電話を、AIが一次受付</h3>
+          <p>症状・場所・希望日の聞き取りをAIが24時間行い、判断が要るものだけ担当の携帯に転送します。</p>
+          <div class="links"><a class="btn solid" href="sme/demo-shokunin.html">デモを触る<span class="ar">→</span></a></div>
+        </div>
+      </article>
+      <article class="demo" data-rv style="--d:.24s">
+        <div class="shot" aria-hidden="true"><div class="mini"><div class="bub me">初診の予約をしたい</div><div class="bub">ご希望の日時とご相談内容を教えてください。</div><div class="bub me">金曜の午後、詰め物が取れた</div><div class="bub">金曜15時で承りました。保険証をお持ちください。</div></div></div>
+        <div class="body">
+          <span class="who">歯科医院向け</span>
+          <h3>診療中の電話を、AIが受ける</h3>
+          <p>予約・変更・キャンセル、持ち物や保険証の質問に24時間即答。急患は受付スタッフに転送します。</p>
+          <div class="links"><a class="btn solid" href="sme/demo-shika.html">デモを触る<span class="ar">→</span></a></div>
+        </div>
+      </article>
+      <article class="demo" data-rv style="--d:.32s">
         <div class="shot" aria-hidden="true"><div class="doc"><b>御見積書</b><i class="s"></i><i></i><i></i><i class="s"></i><i></i><i class="g"></i><i></i><i class="s"></i></div></div>
         <div class="body">
           <span class="who">不動産・工務店・全業種</span>
