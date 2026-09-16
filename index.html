@@ -62,6 +62,24 @@
       "url": "https://hi-companyjapan.jp/salon/",
       "areaServed": "JP",
       "offers": {"@type": "Offer", "price": "55000", "priceCurrency": "JPY", "description": "ライトプラン 月額55,000円（税込）"}
+    },
+    {
+      "@type": "Service",
+      "name": "職人・工事会社向け LINE 24時間AI受付",
+      "serviceType": "AI業務自動化",
+      "provider": {"@id": "https://hi-companyjapan.jp/#org"},
+      "url": "https://hi-companyjapan.jp/shokunin/",
+      "areaServed": "JP",
+      "offers": {"@type": "Offer", "price": "55000", "priceCurrency": "JPY", "description": "ライトプラン 月額55,000円（税込）"}
+    },
+    {
+      "@type": "Service",
+      "name": "歯科医院向け LINE 24時間AI受付",
+      "serviceType": "AI業務自動化",
+      "provider": {"@id": "https://hi-companyjapan.jp/#org"},
+      "url": "https://hi-companyjapan.jp/shika/",
+      "areaServed": "JP",
+      "offers": {"@type": "Offer", "price": "55000", "priceCurrency": "JPY", "description": "ライトプラン 月額55,000円（税込）"}
     }
   ]
 }
@@ -469,6 +487,8 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
   <a href="#service">事業内容<small>3つの柱と、できること</small></a>
   <a href="line/">飲食店向け<small>LINE 24時間AI受付　初期10万円・月額3万円</small></a>
   <a href="salon/">美容室・整体院向け<small>施術中の電話をAIが代わりに対応</small></a>
+  <a href="shokunin/">職人・工事会社向け<small>現場中の電話をLINEでAIが一次受付</small></a>
+  <a href="shika/">歯科医院向け<small>診療中の電話を受付の代わりにAIが受ける</small></a>
   <a href="#demo">デモ<small>登録なし・30秒で触れます</small></a>
   <a href="#price">料金</a>
   <a href="#flow">進め方</a>
@@ -556,6 +576,8 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
         <div class="price"><b>初期10万円・月額3万円</b>飲食店向けパッケージ（税別）／美容室・整体院・職人・歯科向けは月額55,000円〜</div>
         <a class="tlink" href="line/">飲食店向けページを見る<span class="ar">→</span></a>
         <a class="tlink" href="salon/" style="margin-top:8px">美容室・整体院向けページを見る<span class="ar">→</span></a>
+        <a class="tlink" href="shokunin/" style="margin-top:8px">職人向けページを見る<span class="ar">→</span></a>
+        <a class="tlink" href="shika/" style="margin-top:8px">歯科向けページを見る<span class="ar">→</span></a>
       </article>
       <article class="pillar" data-rv style="--d:.08s">
         <span class="no">02</span>
@@ -618,19 +640,19 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
         <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
         <span class="tlink">美容・整体向けページを見る<span class="ar">→</span></span>
       </a>
-      <a class="ind" href="sme/demo-shokunin.html" data-rv style="--d:.16s">
+      <a class="ind" href="shokunin/" data-rv style="--d:.16s">
         <span class="who">水道・電気・エアコン・リフォームの方はこちら</span>
         <h3>現場中の電話を、<br>LINEでAIが一次受付。</h3>
         <p>水道・電気・エアコン・リフォーム・塗装・鍵・害虫駆除向け。症状・場所・希望日の聞き取りをAIが24時間行い、判断が要るものだけ担当の携帯に転送。くらしのマーケット等と併用できます。</p>
         <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
-        <span class="tlink">職人向けデモを触る<span class="ar">→</span></span>
+        <span class="tlink">職人向けページを見る<span class="ar">→</span></span>
       </a>
-      <a class="ind" href="sme/demo-shika.html" data-rv style="--d:.24s">
+      <a class="ind" href="shika/" data-rv style="--d:.24s">
         <span class="who">歯科医院の方はこちら</span>
         <h3>診療中の電話を、<br>受付の代わりにAIが受ける。</h3>
         <p>予約・変更・キャンセル、持ち物や保険証の質問に24時間即答。急患や判断が要るものは受付スタッフに転送。今の予約システムと併用できます。自動化するのは受付業務だけです。</p>
         <div class="tags"><span>月額55,000円〜</span><span>先着3社 初期0円</span></div>
-        <span class="tlink">歯科向けデモを触る<span class="ar">→</span></span>
+        <span class="tlink">歯科向けページを見る<span class="ar">→</span></span>
       </a>
       <a class="ind" href="#demo" data-rv style="--d:.32s">
         <span class="who">不動産・工務店・その他の方はこちら</span>
@@ -676,7 +698,7 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
           <span class="who">水道・電気・エアコン・リフォーム向け</span>
           <h3>現場中の電話を、AIが一次受付</h3>
           <p>症状・場所・希望日の聞き取りをAIが24時間行い、判断が要るものだけ担当の携帯に転送します。</p>
-          <div class="links"><a class="btn solid" href="sme/demo-shokunin.html">デモを触る<span class="ar">→</span></a></div>
+          <div class="links"><a class="btn solid" href="shokunin/">料金とデモを見る<span class="ar">→</span></a><span class="sub"><a href="sme/demo-shokunin.html">デモだけ試す</a></span></div>
         </div>
       </article>
       <article class="demo" data-rv style="--d:.24s">
@@ -685,7 +707,7 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
           <span class="who">歯科医院向け</span>
           <h3>診療中の電話を、AIが受ける</h3>
           <p>予約・変更・キャンセル、持ち物や保険証の質問に24時間即答。急患は受付スタッフに転送します。</p>
-          <div class="links"><a class="btn solid" href="sme/demo-shika.html">デモを触る<span class="ar">→</span></a></div>
+          <div class="links"><a class="btn solid" href="shika/">料金とデモを見る<span class="ar">→</span></a><span class="sub"><a href="sme/demo-shika.html">デモだけ試す</a></span></div>
         </div>
       </article>
       <article class="demo" data-rv style="--d:.32s">
@@ -867,6 +889,8 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
         <a href="#service">事業内容</a>
         <a href="line/">飲食店向け LINE AI受付</a>
         <a href="salon/">美容室・整体院向け</a>
+        <a href="shokunin/">職人・工事会社向け</a>
+        <a href="shika/">歯科医院向け</a>
         <a href="#demo">デモ</a>
         <a href="#price">料金</a>
         <a href="#flow">進め方</a>
