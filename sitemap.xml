@@ -62,7 +62,7 @@
   </url>
   <url>
     <loc>https://hi-companyjapan.jp/column/</loc>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -75,6 +75,12 @@
   <url>
     <loc>https://hi-companyjapan.jp/column/salon-yoyaku-denwa/</loc>
     <lastmod>2026-09-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hi-companyjapan.jp/column/genba-denwa-torikoboshi/</loc>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>

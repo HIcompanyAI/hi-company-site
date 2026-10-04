@@ -89,6 +89,18 @@
       "url": "https://hi-companyjapan.jp/shika/",
       "areaServed": "JP",
       "offers": {"@type": "Offer", "price": "55000", "priceCurrency": "JPY", "description": "ライトプラン 月額55,000円（税込）"}
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://hi-companyjapan.jp/#faq",
+      "mainEntity": [
+        {"@type": "Question", "name": "店舗はありますか", "acceptedAnswer": {"@type": "Answer", "text": "訪問とオンラインで提供する会社です。来店いただく店舗はありません。打ち合わせ・デモ・構築はすべてオンラインで完了します。"}},
+        {"@type": "Question", "name": "どの業種に対応していますか", "acceptedAnswer": {"@type": "Answer", "text": "飲食店、美容室・ネイル・エステ・整体院、工務店や電気・水道・塗装などの職人・工事会社、歯科医院、そのほか不動産・士業などの中小企業です。業種ごとに専用のページとデモをご用意しています。"}},
+        {"@type": "Question", "name": "AIが電話に出るのですか", "acceptedAnswer": {"@type": "Answer", "text": "いいえ。電話は自動音声で公式LINEへご案内し、LINE上でAIが受けます。飲食店では、LINEが提供するAI電話予約の導入代行も含めてお引き受けします。"}},
+        {"@type": "Question", "name": "自分で設定する必要はありますか", "acceptedAnswer": {"@type": "Answer", "text": "ありません。初期設定、文面、メニューや営業時間の更新、答えられなかった質問への回答追加、毎月の改善レポートまで当社が行います。お客様にお願いする作業は合計1時間だけです。"}},
+        {"@type": "Question", "name": "料金はいくらですか", "acceptedAnswer": {"@type": "Answer", "text": "飲食店向けは初期10万円・月額3万円（税別）。美容室・整体院、職人・工事会社、歯科医院などその他の業種は月額55,000円（税込）からです。初月解約が可能で、違約金はありません。"}},
+        {"@type": "Question", "name": "契約前に試せますか", "acceptedAnswer": {"@type": "Answer", "text": "試せます。登録なしでその場で触れるデモを業種別にご用意しています。ご希望であれば、店名やメニューを入れた貴店仕様のデモも翌日までにお作りします。"}}
+      ]
     }
   ]
 }
@@ -362,6 +374,17 @@ body.open .drawer{opacity:1;visibility:visible}
 .pnote a{color:var(--teal-deep);border-bottom:1px solid currentColor}
 
 /* ---------- 進め方 ---------- */
+/* ---------- よくある質問 ---------- */
+.faqlist{max-width:820px;margin:0 auto;border-top:1px solid var(--line)}
+.faqlist details{border-bottom:1px solid var(--line)}
+.faqlist summary{cursor:pointer;padding:var(--s3) 0;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:var(--s3);font-family:var(--serif);font-size:var(--t1);color:var(--ink);letter-spacing:.04em;line-height:1.5}
+.faqlist summary::-webkit-details-marker{display:none}
+.faqlist summary::after{content:"";flex:none;width:34px;height:34px;border:1px solid var(--line);border-radius:50%;background:
+  linear-gradient(var(--navy),var(--navy)) center/13px 1px no-repeat,
+  linear-gradient(var(--navy),var(--navy)) center/1px 13px no-repeat;transition:.4s var(--ease)}
+.faqlist details[open] summary::after{background:linear-gradient(#fff,#fff) center/13px 1px no-repeat,var(--navy);border-color:var(--navy)}
+.faqlist p{color:var(--body);font-size:15px;padding:0 0 var(--s3);max-width:44em;line-height:1.809}
+.faqlist p a{color:var(--teal-deep)}
 .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s4);position:relative;counter-reset:step}
 .flow::before{content:"";position:absolute;left:0;right:0;top:21px;height:1px;background:var(--line)}
 .step{position:relative;padding-top:var(--s5)}
@@ -823,6 +846,24 @@ footer{border-top:1px solid var(--line);padding:var(--s5) 0 var(--s4);background
       <div class="step" data-rv style="--d:.1s"><h3><small>STEP 02</small>設計書のお渡し</h3><p>24時間以内に、貴社向けの自動化3本の設計と削減時間の試算方法をお送りします。導入の有無はその後ご判断ください。</p></div>
       <div class="step" data-rv style="--d:.2s"><h3><small>STEP 03</small>ご契約・初月の構築</h3><p>1〜2週間で最初の自動化を稼働させ、マニュアルをお渡しします。</p></div>
       <div class="step" data-rv style="--d:.3s"><h3><small>STEP 04</small>毎月の改善</h3><p>運用データを見ながら次の自動化を追加し、月次で効果を報告します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== よくある質問 ======== -->
+<section id="faq" class="sec">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label" data-rv>よくある質問</span>
+      <h2 data-rv style="--d:.06s">はじめての方から、よくいただく質問。</h2>
+    </div>
+    <div class="faqlist">
+      <details data-rv><summary>店舗はありますか</summary><p>訪問とオンラインで提供する会社です。来店いただく店舗はありません。打ち合わせ・デモ・構築はすべてオンラインで完了します。</p></details>
+      <details data-rv style="--d:.06s"><summary>どの業種に対応していますか</summary><p>飲食店、美容室・ネイル・エステ・整体院、工務店や電気・水道・塗装などの職人・工事会社、歯科医院、そのほか不動産・士業などの中小企業です。業種ごとに専用のページとデモをご用意しています。</p></details>
+      <details data-rv style="--d:.12s"><summary>AIが電話に出るのですか</summary><p>いいえ。電話は自動音声で公式LINEへご案内し、LINE上でAIが受けます。飲食店では、LINEが提供するAI電話予約の導入代行も含めてお引き受けします。</p></details>
+      <details data-rv style="--d:.18s"><summary>自分で設定する必要はありますか</summary><p>ありません。初期設定、文面、メニューや営業時間の更新、答えられなかった質問への回答追加、毎月の改善レポートまで当社が行います。お客様にお願いする作業は合計1時間だけです。</p></details>
+      <details data-rv style="--d:.24s"><summary>料金はいくらですか</summary><p>飲食店向けは初期10万円・月額3万円（税別）。美容室・整体院、職人・工事会社、歯科医院などその他の業種は月額55,000円（税込）からです。初月解約が可能で、違約金はありません。<a href="#price">料金の詳細はこちら</a>。</p></details>
+      <details data-rv style="--d:.3s"><summary>契約前に試せますか</summary><p>試せます。登録なしでその場で触れるデモを業種別にご用意しています。ご希望であれば、店名やメニューを入れた貴店仕様のデモも翌日までにお作りします。<a href="#demo">デモはこちら</a>。</p></details>
     </div>
   </div>
 </section>
