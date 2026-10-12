@@ -126,7 +126,7 @@ function thin(arr, max) { if (arr.length <= max) return arr; const step = arr.le
  *  nk_overnight 毎日引けで買い、翌朝の寄りで売る(持ち越し。夜間の上昇を取る)
  *  サイズ: 日経マイクロ(1 ポイント = 10 円)× contracts 枚。損切りは寄値 −stop%(日中戦略のみ)。
  */
-export const INDEX_DEFAULTS = { contracts: 2, multiplier: 10, capital: 1000000, threshold: 0.002, stop: 0.01, costPts: 5 };
+export const INDEX_DEFAULTS = { contracts: 1, multiplier: 10, capital: 1000000, threshold: +(process.env.US_THRESHOLD || 0.002), stop: 0.01, costPts: 5 };
 
 export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
   const P = { ...DEFAULT_PARAMS, ...INDEX_DEFAULTS, ...params };
