@@ -126,10 +126,11 @@ function thin(arr, max) { if (arr.length <= max) return arr; const step = arr.le
  *  nk_overnight 毎日引けで買い、翌朝の寄りで売る(持ち越し。夜間の上昇を取る)
  *  サイズ: 日経マイクロ(1 ポイント = 10 円)× contracts 枚。損切りは寄値 −stop%(日中戦略のみ)。
  */
-export const INDEX_DEFAULTS = { contracts: 1, multiplier: 10, capital: 1000000, threshold: +(process.env.US_THRESHOLD || 0.002), stop: 0.01, costPts: 5 };
+/** 日経先物 逆張りの運用既定値(6 年検証で最も頑健だった組)。threshold: 前夜の S&P500 の騰落率の下限、stop: 寄値からの損切り幅、lookback: 検証に使う日数(0 = 全期間) */
+export const INDEX_DEFAULTS = { contracts: 1, multiplier: 10, capital: 1000000, threshold: +(process.env.US_THRESHOLD || 0.015), stop: +(process.env.STOP_PCT || 0.007), costPts: 5, lookback: +(process.env.NK_LOOKBACK || 0) };
 
 export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
-  const P = { ...DEFAULT_PARAMS, ...INDEX_DEFAULTS, ...params };
+  const P = { ...DEFAULT_PARAMS, ...INDEX_DEFAULTS, ...params, stop: params.indexStop ?? INDEX_DEFAULTS.stop };
   const idx = data.factors.NKY, spx = data.factors.SPX;
   if (!idx || !spx) return null;
   const etf = data.stocks.find((s) => s.code === "1321")?.bars;
@@ -139,7 +140,7 @@ export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
   const spxIdx = new Map(spx.map((b, i) => [b.date, i]));
   const lastSpxBefore = (date) => { let lo = 0, hi = spx.length - 1, ans = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (spx[m].date < date) { ans = m; lo = m + 1; } else hi = m - 1; } return ans; };
   const days = []; const trades = []; const perStock = {};
-  const start = Math.max(1, nk.length - 600);
+  const start = Math.max(1, P.lookback > 0 ? nk.length - P.lookback : 1);
   for (let j = start; j < nk.length; j++) {
     const cur = nk[j], prev = nk[j - 1];
     if (Math.abs(cur.o / prev.c - 1) > 0.15) { days.push({ date: cur.date, n: 0, ret: 0 }); continue; } // 分割・異常値
@@ -197,7 +198,14 @@ function summarizeIndex(days, trades, perStock, P, strategy, data) {
     bench_curve: benchCurve.length > 300 ? benchCurve.filter((_, i) => i % Math.ceil(benchCurve.length / 300) === 0).concat([benchCurve[benchCurve.length - 1]]) : benchCurve,
     recent_trades: trades.slice(-60),
     monthly: monthly(days, P.capital),
+    yearly: yearly(trades, P.capital),
   };
+}
+/** 年別: 取引数・勝率・損益(円)・最大DD(円) */
+function yearly(trades, capital) {
+  const m = {};
+  for (const t of trades) { const y = (m[t.date.slice(0, 4)] ||= { year: t.date.slice(0, 4), trades: 0, wins: 0, yen: 0, eq: 0, peak: 0, dd: 0 }); y.trades++; if (t.yen > 0) y.wins++; y.yen += t.yen; y.eq += t.yen; y.peak = Math.max(y.peak, y.eq); y.dd = Math.max(y.dd, y.peak - y.eq); }
+  return Object.values(m).map(({ year, trades: n, wins, yen, dd }) => ({ year, trades: n, win_rate: n ? wins / n : null, yen: Math.round(yen), ret: yen / capital, max_dd_yen: Math.round(dd) }));
 }
 function monthly(days, capital) {
   const m = {};

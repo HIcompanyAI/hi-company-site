@@ -11,6 +11,6 @@
     "backtest": "node plan.mjs --backtest",
     "sample": "node plan.mjs --sample",
     "open": "node serve.mjs",
-    "test": "node --test"
+    "test": "node --test test/*.mjs"
   }
 }

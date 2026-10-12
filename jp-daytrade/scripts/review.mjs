@@ -3,7 +3,7 @@
  * 日次レビュー(改善サイクル用の診断レポート)。
  *   node review.mjs            標準出力にレポート(プレーンテキスト)
  *   環境変数: US_THRESHOLD(閾値, 既定 0.01) CONTRACTS(枚数) CAPITAL(資金) STOP_PCT(損切り)
- * 内容: 直近取引日の明細 / 期間別の成績(直近 20・60・120・250 日) / 閾値×損切りの格子 / 紙上運用の累計 / データ鮮度
+ * 内容: 直近取引日の明細 / 期間別・年別の成績 / 閾値×損切りの格子(年別内訳付き) / 条件別 / 紙上運用の累計 / データ鮮度
  */
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -13,7 +13,7 @@ import { readJson, pct } from "./lib/util.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const universe = readJson(path.join(here, "lib", "universe.json"), null);
-const LIVE = { threshold: +(process.env.US_THRESHOLD || 0.01), contracts: +(process.env.CONTRACTS || 4), capital: +(process.env.CAPITAL || 1000000), stop: +(process.env.STOP_PCT || 0.01) };
+const LIVE = { threshold: +(process.env.US_THRESHOLD || 0.015), contracts: +(process.env.CONTRACTS || 4), capital: +(process.env.CAPITAL || 1000000), stop: +(process.env.STOP_PCT || 0.007) };
 const yen = (v) => `${v >= 0 ? "+" : "−"}${Math.abs(Math.round(v)).toLocaleString("ja-JP")}`;
 const data = await loadAll(universe, { offline: process.argv.includes("--offline") });
 
@@ -31,7 +31,7 @@ function fadeTrades(p) {
   const P = { ...LIVE, ...p }; const spx = data.factors.SPX, idx = data.factors.NKY, etf = data.stocks.find((s) => s.code === "1321").bars;
   const lastBefore = (b, d) => { let lo = 0, hi = b.length - 1, a = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (b[m].date < d) { a = m; lo = m + 1; } else hi = m - 1; } return a; };
   const level = new Map(idx.map((b) => [b.date, b.c])); const out = [];
-  for (let j = Math.max(1, etf.length - 600); j < etf.length; j++) {
+  for (let j = 1; j < etf.length; j++) {
     const c = etf[j], pv = etf[j - 1]; if (Math.abs(c.o / pv.c - 1) > 0.15) continue;
     const a = lastBefore(spx, c.date), b = lastBefore(spx, pv.date); if (a < 1 || a === b) continue;
     const us = spx[a].c / spx[b].c - 1; if (Math.abs(us) < P.threshold) continue;
@@ -60,23 +60,27 @@ console.log(`\n--- 直近の取引日(${lastDate}) ---`);
   const f1 = (v) => (+v).toFixed(1); console.log(`ETF1321  寄 ${f1(etf[j].o)} 高 ${f1(etf[j].h)} 安 ${f1(etf[j].l)} 引 ${f1(etf[j].c)}  (寄→引 ${pct(etf[j].c / etf[j].o - 1)}, 前日比ギャップ ${pct(etf[j].o / pv.c - 1)})`);
   if (t) {
     console.log(`結果: ${t.dir === "short" ? "売り" : "買い"} ${t.exit === "stop" ? "損切り" : "引け決済"} ${pct(t.frac)} = ${yen(t.yen)} 円`);
-    for (const s of [0.005, 0.007, 0.015, 10]) { const o = tradeOutcome(etf[j], t.dir, { target: 10, stop: s, cost: 0 }); const lv = data.factors.NKY.find((x) => x.date === pv.date)?.c || etf[j].o; console.log(`  もし損切り ${s >= 10 ? "なし " : (s * 100).toFixed(1) + "%"} なら: ${o.exit === "stop" ? "損切り" : "引け"} ${pct(o.ret)} = ${yen((o.ret * lv - 5) * 10 * LIVE.contracts)} 円`); }
+    for (const s of [0.005, 0.01, 0.015, 10]) { const o = tradeOutcome(etf[j], t.dir, { target: 10, stop: s, cost: 0 }); const lv = data.factors.NKY.find((x) => x.date === pv.date)?.c || etf[j].o; console.log(`  もし損切り ${s >= 10 ? "なし " : (s * 100).toFixed(1) + "%"} なら: ${o.exit === "stop" ? "損切り" : "引け"} ${pct(o.ret)} = ${yen((o.ret * lv - 5) * 10 * LIVE.contracts)} 円`); }
   }
 }
 
 console.log("\n--- 期間別の成績(運用設定、ETF1321 実売買価格ベース) ---");
-for (const n of [20, 60, 120, 250, 600]) { const from = since(n); console.log(`直近 ${String(n).padStart(3)} 営業日(${from}〜) ${fmt(stats(T.filter((t) => t.date >= from)))}`); }
+for (const n of [20, 60, 120, 250, 500, 1250]) { const from = since(n); console.log(`直近 ${String(n).padStart(3)} 営業日(${from}〜) ${fmt(stats(T.filter((t) => t.date >= from)))}`); }
+
+console.log("\n--- 年別(運用設定) ---");
+{ const y = {}; for (const t of T) { const k = t.date.slice(0, 4); (y[k] ||= []).push(t); } for (const [k, v] of Object.entries(y)) console.log(`${k}  ${fmt(stats(v))}`); }
 
 console.log("\n--- 月別(直近 12 か月) ---");
 { const m = {}; for (const t of T) { const k = t.date.slice(0, 7); (m[k] ||= { n: 0, y: 0, w: 0 }); m[k].n++; m[k].y += t.yen; if (t.yen > 0) m[k].w++; }
   for (const [k, v] of Object.entries(m).slice(-12)) console.log(`${k}  ${String(v.n).padStart(2)} 回  勝 ${v.w}  ${yen(v.y).padStart(9)} 円`); }
 
-console.log("\n--- 閾値 × 損切り の格子(直近 250 営業日 / 全期間 600 日、枚数は運用設定) ---");
-console.log("閾値   損切り | 直近250: 回数 勝率 損益 最大DD Sharpe | 全期間: 回数 勝率 損益 最大DD Sharpe");
-for (const th of [0.005, 0.007, 0.01, 0.015]) for (const st of [0.007, 0.01, 0.015, 10]) {
+console.log("\n--- 閾値 × 損切り の格子(直近 250 営業日 / 全期間 6 年、枚数は運用設定) ---");
+console.log("閾値   損切り | 直近250: 回数 勝率 損益 最大DD Sharpe | 全期間: 回数 勝率 損益 最大DD Sharpe | 年別(千円)");
+for (const th of [0.007, 0.01, 0.013, 0.015, 0.017, 0.02]) for (const st of [0.005, 0.007, 0.01, 10]) {
   const tr = fadeTrades({ threshold: th, stop: st }); const a = stats(tr.filter((t) => t.date >= since(250))), b = stats(tr);
   const cell = (s) => `${String(s.n).padStart(3)} ${s.win == null ? " —%" : (s.win * 100).toFixed(0).padStart(3) + "%"} ${yen(s.total).padStart(9)} ${yen(-s.dd).padStart(8)} ${s.sharpe == null ? "   —" : s.sharpe.toFixed(2).padStart(5)}`;
-  console.log(`${(th * 100).toFixed(1)}%  ${st >= 10 ? "なし " : (st * 100).toFixed(1) + "%"}${th === LIVE.threshold && st === LIVE.stop ? "*" : " "} | ${cell(a)} | ${cell(b)}`);
+  const yr = {}; for (const t of tr) yr[t.date.slice(0, 4)] = (yr[t.date.slice(0, 4)] || 0) + t.yen;
+  console.log(`${(th * 100).toFixed(1)}%  ${st >= 10 ? "なし " : (st * 100).toFixed(1) + "%"}${th === LIVE.threshold && st === LIVE.stop ? "*" : " "} | ${cell(a)} | ${cell(b)} | ${Object.entries(yr).map(([k, v]) => `${k.slice(2)}:${Math.round(v / 1000)}`).join(" ")}`);
 }
 console.log("(* = 現在の運用設定)");
 
@@ -84,7 +88,7 @@ console.log("\n--- 条件別(全期間、運用設定): どんな日に効いて
 {
   const by = (label, f) => console.log(`${label.padEnd(22)} ${fmt(stats(T.filter(f)))}`);
   by("S&P 上昇日(売り)", (t) => t.dir === "short"); by("S&P 下落日(買い)", (t) => t.dir === "long");
-  by("|S&P| 1.0〜1.5%", (t) => Math.abs(t.us) < 0.015); by("|S&P| 1.5〜2.5%", (t) => Math.abs(t.us) >= 0.015 && Math.abs(t.us) < 0.025); by("|S&P| 2.5% 以上", (t) => Math.abs(t.us) >= 0.025);
+  by("|S&P| 閾値〜1.5%", (t) => Math.abs(t.us) < 0.015); by("|S&P| 1.5〜2.5%", (t) => Math.abs(t.us) >= 0.015 && Math.abs(t.us) < 0.025); by("|S&P| 2.5% 以上", (t) => Math.abs(t.us) >= 0.025);
   const vix = data.factors.VIX; if (vix) { const vmap = new Map(vix.map((b) => [b.date, b.c])); const lastVix = (d) => { let v = null; for (const b of vix) { if (b.date < d) v = b.c; else break; } return v; }; by("VIX < 20", (t) => (lastVix(t.date) ?? 99) < 20); by("VIX 20〜30", (t) => { const v = lastVix(t.date) ?? 0; return v >= 20 && v < 30; }); by("VIX 30 以上", (t) => (lastVix(t.date) ?? 0) >= 30); }
   by("月曜(週末明け)", (t) => new Date(t.date + "T00:00:00Z").getUTCDay() === 1); by("火〜金", (t) => new Date(t.date + "T00:00:00Z").getUTCDay() !== 1);
   by("寄りが米国と同方向に窓", (t) => (t.dir === "short" ? t.o > T_prev(t) : t.o < T_prev(t))); by("寄りが米国と逆方向に窓", (t) => (t.dir === "short" ? t.o <= T_prev(t) : t.o >= T_prev(t)));

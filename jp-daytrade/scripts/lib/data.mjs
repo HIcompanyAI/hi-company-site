@@ -28,7 +28,7 @@ async function fromStooq(sym) {
   return bars;
 }
 async function fromYahoo(sym) {
-  const j = JSON.parse(await fetchText(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=3y&interval=1d`));
+  const j = JSON.parse(await fetchText(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?range=${encodeURIComponent(process.env.YF_RANGE || "6y")}&interval=1d`));
   const r = j?.chart?.result?.[0];
   const q = r?.indicators?.quote?.[0];
   if (!r?.timestamp || !q) throw new Error(`yahoo ${sym}: empty`);

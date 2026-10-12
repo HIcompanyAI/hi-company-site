@@ -10,6 +10,7 @@
  *   node plan.mjs --backtest      ウォークフォワード検証 → data/backtest.json(週 1 回程度)
  *   node plan.mjs --sample        合成データで全工程を実行(ネット不要)
  *   オプション: --target=0.015 --stop=0.01 --topk=3 --capital=1000000 --offline
+ *   先物(環境変数): US_THRESHOLD=0.015(S&P 閾値) STOP_PCT=0.007(損切り) CONTRACTS=4 CAPITAL=1000000 NK_LOOKBACK=0(検証日数、0=全期間)
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -28,6 +29,7 @@ const P = { ...DEFAULT_PARAMS, target: +(args.target || process.env.TARGET_PCT |
 const CAPITAL = +(args.capital || process.env.CAPITAL || 1000000);
 const CONTRACTS = +(args.contracts || process.env.CONTRACTS || 1);
 const MIN_EDGE_TRADES = 30;
+const NK_STOP = +(args["nk-stop"] || process.env.STOP_PCT || INDEX_DEFAULTS.stop); // 先物の損切り幅(株式の P.stop とは別)
 
 let DATA_CACHE = null;
 async function getData() {
@@ -119,7 +121,7 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
     else {
       const fade = us > 0 ? "short" : "long"; direction = STRAT === "nk_fade" ? fade : fade === "long" ? "short" : "long";
       if (Math.abs(us) < INDEX_DEFAULTS.threshold) { direction = "flat"; }
-      entry = "8:45 の寄り付きで成行"; condition = direction === "flat" ? `前夜の S&P 500 が ${pct(us)} と小動きのため見送り(閾値 ±${pct(INDEX_DEFAULTS.threshold, 1)})` : `前夜の S&P 500 ${pct(us)} → ${direction === "short" ? "売り建て" : "買い建て"}。15:40 までに成行決済。損切りは寄値 ${direction === "short" ? "+" : "−"}${(P.stop * 100).toFixed(1)}%(約 ${Math.round(nk.c * P.stop)} 円幅)`;
+      entry = "8:45 の寄り付きで成行"; condition = direction === "flat" ? `前夜の S&P 500 が ${pct(us)} と小動きのため見送り(閾値 ±${pct(INDEX_DEFAULTS.threshold, 1)})` : `前夜の S&P 500 ${pct(us)} → ${direction === "short" ? "売り建て" : "買い建て"}。15:40 までに成行決済。損切りは寄値 ${direction === "short" ? "+" : "−"}${(NK_STOP * 100).toFixed(1)}%(約 ${Math.round(nk.c * NK_STOP)} 円幅)`;
     }
     const etfCode = direction === "short" ? "1357" : "1570";
     const etf = data.stocks.find((x) => x.code === etfCode);
@@ -128,8 +130,8 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
     const etfYen = Math.min(Math.round(targetExposure / 2), Math.floor(CAPITAL * 0.95)); // 2 倍型 ETF なので半分の金額。資金の 95% を上限
     const etfShares = etfPx ? Math.max(1, Math.floor(etfYen / etfPx)) : null;
     const etfEquivContracts = etfShares ? +((etfShares * etfPx * 2) / (nk.c * 10)).toFixed(1) : null;
-    const etfAlt = direction === "flat" || !etfPx ? null : { code: etfCode, name: etfCode === "1357" ? "日経ダブルインバース(-2倍)" : "日経レバレッジ(2倍)", action: "買い(現物)", shares: etfShares, approx_yen: etfShares ? Math.round(etfShares * etfPx) : null, last_price: etfPx, equiv_contracts: etfEquivContracts, stop_pct: P.stop * 2, note: `(先物 ${etfEquivContracts} 枚相当${etfEquivContracts < CONTRACTS ? "、資金上限のため枚数より小さい" : ""})9:00 寄り成行で買い → 15:20 までに成行で売り。損切りは買値 −${(P.stop * 200).toFixed(0)}%(2 倍型なので先物の −${(P.stop * 100).toFixed(0)}% に相当)の逆指値` };
-    picks = direction === "flat" ? [] : [{ code: "NKM", name: "日経225マイクロ先物", etf_alternative: etfAlt, sector: `${CONTRACTS} 枚(1 枚 = 日経平均 × 10 円)`, direction, score: +(Math.abs(us) / 0.01).toFixed(2), model_corr: null, prev_close: nk.c, prev_date: nk.date, pred_gap: null, expected_open: nk.c, pred_intraday: null, us_move: us, adr_implied: null, entry, condition, target_pct: null, stop_pct: P.stop, target_price: null, stop_price: direction === "long" ? nk.c * (1 - P.stop) : nk.c * (1 + P.stop), shares: CONTRACTS, position_yen: Math.round(nk.c * 10 * CONTRACTS), hist: perStock.NKM ? { n: perStock.NKM.n, win_rate: perStock.NKM.win_rate, target_rate: null, avg: perStock.NKM.avg } : null }];
+    const etfAlt = direction === "flat" || !etfPx ? null : { code: etfCode, name: etfCode === "1357" ? "日経ダブルインバース(-2倍)" : "日経レバレッジ(2倍)", action: "買い(現物)", shares: etfShares, approx_yen: etfShares ? Math.round(etfShares * etfPx) : null, last_price: etfPx, equiv_contracts: etfEquivContracts, stop_pct: NK_STOP * 2, note: `(先物 ${etfEquivContracts} 枚相当${etfEquivContracts < CONTRACTS ? "、資金上限のため枚数より小さい" : ""})9:00 寄り成行で買い → 15:20 までに成行で売り。損切りは買値 −${(NK_STOP * 200).toFixed(1)}%(2 倍型なので先物の −${(NK_STOP * 100).toFixed(1)}% に相当)の逆指値` };
+    picks = direction === "flat" ? [] : [{ code: "NKM", name: "日経225マイクロ先物", etf_alternative: etfAlt, sector: `${CONTRACTS} 枚(1 枚 = 日経平均 × 10 円)`, direction, score: +(Math.abs(us) / 0.01).toFixed(2), model_corr: null, prev_close: nk.c, prev_date: nk.date, pred_gap: null, expected_open: nk.c, pred_intraday: null, us_move: us, adr_implied: null, entry, condition, target_pct: null, stop_pct: NK_STOP, target_price: null, stop_price: direction === "long" ? nk.c * (1 - NK_STOP) : nk.c * (1 + NK_STOP), shares: CONTRACTS, position_yen: Math.round(nk.c * 10 * CONTRACTS), hist: perStock.NKM ? { n: perStock.NKM.n, win_rate: perStock.NKM.win_rate, target_rate: null, avg: perStock.NKM.avg } : null }];
   }
   const dow = new Date(today + "T00:00:00Z").getUTCDay();
   const holiday = (universe.jp_holidays || []).includes(today) || dow === 0 || dow === 6;
@@ -210,7 +212,7 @@ async function score() {
         const bar = ex[i], prev = ex[i - 1]; const level = (idx.find((b) => b.date === prev.date) || idx[idx.length - 1]).c;
         let frac, exit;
         if (plan.strategy?.name === "nk_overnight") { frac = bar.o / prev.c - 1; exit = "open"; }
-        else { const o = tradeOutcome(bar, p.direction, { target: 10, stop: plan.params.stop, cost: 0 }); frac = o.ret; exit = o.exit; }
+        else { const o = tradeOutcome(bar, p.direction, { target: 10, stop: p.stop_pct ?? plan.params.stop, cost: 0 }); frac = o.ret; exit = o.exit; }
         const yen = (frac * level - 5) * 10 * p.shares;
         results.push({ code: "NKM", name: p.name, direction: p.direction, open: bar.o, high: bar.h, low: bar.l, close: bar.c, expected_open: bar.o, open_vs_expected: 0, skipped: false, ret: yen / plan.capital, exit, pnl_yen: Math.round(yen), proxy: ex === etf ? "etf_1321" : "index" });
         continue;
@@ -265,10 +267,10 @@ async function backtest() {
     log(`${st.padEnd(12)} trades ${r.trades} win ${pct(r.win_rate, 0)} target-hit ${pct(r.target_hit_rate, 0)} avg ${pct(r.avg_trade)} P(day≥${pct(P.target, 1)}) ${pct(r.p_day_ge_target, 0)} final ${r.final_equity.toFixed(3)} (target ${r.target_equity.toExponential(2)}) DD ${pct(r.max_drawdown, 0)}`);
   }
   for (const st of ["nk_fade", "nk_momentum", "nk_overnight"]) {
-    const r = runIndexStrategy(data, { ...P, capital: CAPITAL, contracts: CONTRACTS }, st);
+    const r = runIndexStrategy(data, { ...P, capital: CAPITAL, contracts: CONTRACTS, indexStop: NK_STOP }, st);
     if (!r) continue;
     strategies[st] = r;
-    log(`${st.padEnd(12)} days ${r.trades} win ${pct(r.win_rate, 0)} avg ${pct(r.avg_trade)} sharpe ${r.sharpe?.toFixed(2)} final ${r.final_equity.toFixed(3)} DD ${pct(r.max_drawdown, 0)} lev ${r.leverage?.toFixed(2)}`);
+    log(`${st.padEnd(12)} days ${r.trades} win ${pct(r.win_rate, 0)} avg ${pct(r.avg_trade)} sharpe ${r.sharpe?.toFixed(2)} final ${r.final_equity.toFixed(3)} DD ${pct(r.max_drawdown, 0)} lev ${r.leverage?.toFixed(2)} | ${(r.yearly || []).map((y) => `${y.year}:${Math.round(y.yen / 1000)}k`).join(" ")}`);
   }
   // 1.5% 目標の感度: 利確幅を変えたときの到達確率
   const sweep = [0.005, 0.01, 0.015, 0.02, 0.03].map((t) => { const r = runBacktest(data, { ...P, target: t }, "model"); return { target: t, target_hit_rate: r.target_hit_rate, avg_trade: r.avg_trade, p_day_ge_target: r.p_day_ge_target, final_equity: r.final_equity }; });
