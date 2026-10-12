@@ -30,6 +30,7 @@ cd scripts
 node plan.mjs --backtest     # 初回: 過去データで検証(数分)
 node plan.mjs                # 朝: 本日のプラン
 node plan.mjs --score        # 夕方: 採点
+node review.mjs             # 日次レビュー: 直近取引の明細・期間別成績・閾値×損切り格子・紙上運用の累計(改善サイクル用)
 npm run open                 # http://127.0.0.1:8787/ でダッシュボード
 node plan.mjs --sample       # ネット不要の動作確認(合成データ)
 npm test
