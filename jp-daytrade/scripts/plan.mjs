@@ -2,7 +2,11 @@
 /**
  * 日本株デイトレ計画・採点・検証。
  *   node plan.mjs                 朝(07:30 JST 目安): 前夜の米国要因から本日の売買プランを作る → data/latest.json
- *   node plan.mjs --score         夕方(15:45 JST 以降): 本日プランを実際の OHLC で採点 → data/journal.json / performance.json
+ *   node plan.mjs --score         夕方(15:45 JST 以降): 保存済みプランを実際の OHLC で採点 → data/journal.json / performance.json
+ *   node plan.mjs --score --replay-from=YYYY-MM-DD
+ *                                 保存なしで運用する場合: 指定日以降の各営業日について、その日の朝に見えていたデータだけで
+ *                                 プランを再生成して採点し、日誌をゼロから再構築する(定期実行が読み取り専用環境でも動く)
+ *   node plan.mjs --asof=YYYY-MM-DD   その日の朝時点のデータだけでプランを作る(検証・再現用)
  *   node plan.mjs --backtest      ウォークフォワード検証 → data/backtest.json(週 1 回程度)
  *   node plan.mjs --sample        合成データで全工程を実行(ネット不要)
  *   オプション: --target=0.015 --stop=0.01 --topk=3 --capital=1000000 --offline
@@ -25,17 +29,29 @@ const CAPITAL = +(args.capital || process.env.CAPITAL || 1000000);
 const CONTRACTS = +(args.contracts || process.env.CONTRACTS || 1);
 const MIN_EDGE_TRADES = 30;
 
+let DATA_CACHE = null;
 async function getData() {
-  if (SAMPLE) return makeSynthetic(universe, { days: 420, seed: +(args.seed || 7) });
-  return loadAll(universe, { offline: Boolean(args.offline) });
+  if (DATA_CACHE) return DATA_CACHE;
+  DATA_CACHE = SAMPLE ? makeSynthetic(universe, { days: 420, seed: +(args.seed || 7) }) : await loadAll(universe, { offline: Boolean(args.offline) });
+  return DATA_CACHE;
+}
+/** asof(日本の営業日)の朝に見えていたデータだけに切り詰める: 全系列 date < asof */
+function truncate(data, asof) {
+  const cut = (bars) => (bars ? bars.filter((b) => b.date < asof) : bars);
+  return {
+    factors: Object.fromEntries(Object.entries(data.factors).map(([k, v]) => [k, cut(v)])),
+    futures: cut(data.futures),
+    stocks: data.stocks.map((s) => ({ ...s, bars: cut(s.bars), adrBars: cut(s.adrBars) })).filter((s) => s.bars.length > 60),
+  };
 }
 
 /* ---------- 朝: プラン ---------- */
-async function makePlan() {
+async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
   const prevBt = readJson(path.join(DATA_DIR, "backtest.json"), null);
   if (!SAMPLE && (!prevBt || Date.now() - new Date(prevBt.computed_at).getTime() > 7 * 86400 * 1000)) { log("backtest stale → refresh"); await backtest(); }
-  const data = await getData();
-  const today = SAMPLE ? nextBiz(data.stocks[0].bars[data.stocks[0].bars.length - 1].date) : (args.date || ymd());
+  const full = await getData();
+  const data = asof ? truncate(full, asof) : full;
+  const today = asof || (SAMPLE ? nextBiz(data.stocks[0].bars[data.stocks[0].bars.length - 1].date) : (args.date || ymd()));
   const fx = data.factors.USDJPY || null;
   const bt = readJson(path.join(DATA_DIR, "backtest.json"), null);
   // 検証で最も期待値が高かった手法を採用(取引 100 回以上、平均損益がプラスのもの)。無ければ model を表示のみ
@@ -134,8 +150,10 @@ async function makePlan() {
     backtest_summary: edge ? { trades: edge.trades, win_rate: edge.win_rate, target_hit_rate: edge.target_hit_rate, avg_trade: edge.avg_trade, p_day_ge_target: edge.p_day_ge_target, mean_daily: edge.mean_daily, annualized: edge.annualized, max_drawdown: edge.max_drawdown } : null,
   };
   writeJson(path.join(DATA_DIR, "plans", `${today}.json`), plan);
-  writeJson(path.join(DATA_DIR, "latest.json"), plan);
-  fs.writeFileSync(path.join(DATA_DIR, "brief.txt"), brief(plan));
+  if (!quiet) {
+    writeJson(path.join(DATA_DIR, "latest.json"), plan);
+    fs.writeFileSync(path.join(DATA_DIR, "brief.txt"), brief(plan));
+  }
   log(`plan ${today}: ${verdict} ${picks.map((p) => `${p.code}${p.direction === "long" ? "買" : "売"}`).join(" ")}`);
   return plan;
 }
@@ -162,6 +180,18 @@ function nextBiz(d) { const x = new Date(d + "T00:00:00Z"); do { x.setUTCDate(x.
 async function score() {
   const data = await getData();
   const journalFile = path.join(DATA_DIR, "journal.json");
+  const replayFrom = typeof args["replay-from"] === "string" ? args["replay-from"] : null;
+  if (replayFrom) {
+    // 指定日以降の営業日を、その日の朝のデータだけで再生成(保存不要の運用)
+    fs.rmSync(journalFile, { force: true }); fs.rmSync(path.join(DATA_DIR, "plans"), { recursive: true, force: true });
+    const nk = data.factors.NKY || data.stocks[0].bars;
+    const todayStr = ymd();
+    const dates = nk.map((b) => b.date).filter((d) => d >= replayFrom && d <= todayStr);
+    for (const d of dates) await makePlan(d, { quiet: true });
+    // 本日のプランがまだ無ければ(休場や未取得)、本日分の表示用プランも作る
+    if (!dates.includes(todayStr)) await makePlan(todayStr, { quiet: true });
+    log(`replay: ${dates.length} day(s) regenerated from ${replayFrom}`);
+  }
   const journal = readJson(journalFile, { entries: [] });
   const done = new Set(journal.entries.map((e) => e.date));
   const plansDir = path.join(DATA_DIR, "plans");
@@ -173,11 +203,15 @@ async function score() {
     const results = [];
     for (const p of plan.picks || []) {
       if (p.code === "NKM") {
-        const nk = data.factors.NKY; const i = SAMPLE ? nk.length - 1 : nk.findIndex((b) => b.date === plan.date); if (i < 1) continue;
-        const bar = nk[i]; let yen;
-        if (plan.strategy?.name === "nk_overnight") yen = (bar.o - nk[i - 1].c - 5) * 10 * p.shares;
-        else { const o = tradeOutcome(bar, p.direction, { target: 10, stop: plan.params.stop, cost: 0 }); yen = (o.ret * bar.o - 5) * 10 * p.shares; }
-        results.push({ code: "NKM", name: p.name, direction: p.direction, open: bar.o, high: bar.h, low: bar.l, close: bar.c, expected_open: bar.o, open_vs_expected: 0, skipped: false, ret: yen / plan.capital, exit: "close", pnl_yen: Math.round(yen) });
+        // 検証と同じく、執行価格は日経 ETF(1321)の実売買価格。円換算は日経平均の水準 × 10 円 × 枚数
+        const idx = data.factors.NKY; const etf = data.stocks.find((x) => x.code === "1321")?.bars; const ex = etf && etf.length > 200 ? etf : idx;
+        const i = SAMPLE ? ex.length - 1 : ex.findIndex((b) => b.date === plan.date); if (i < 1) continue;
+        const bar = ex[i], prev = ex[i - 1]; const level = (idx.find((b) => b.date === prev.date) || idx[idx.length - 1]).c;
+        let frac, exit;
+        if (plan.strategy?.name === "nk_overnight") { frac = bar.o / prev.c - 1; exit = "open"; }
+        else { const o = tradeOutcome(bar, p.direction, { target: 10, stop: plan.params.stop, cost: 0 }); frac = o.ret; exit = o.exit; }
+        const yen = (frac * level - 5) * 10 * p.shares;
+        results.push({ code: "NKM", name: p.name, direction: p.direction, open: bar.o, high: bar.h, low: bar.l, close: bar.c, expected_open: bar.o, open_vs_expected: 0, skipped: false, ret: yen / plan.capital, exit, pnl_yen: Math.round(yen), proxy: ex === etf ? "etf_1321" : "index" });
         continue;
       }
       const s = data.stocks.find((x) => x.code === p.code); if (!s) continue;
