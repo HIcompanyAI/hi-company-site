@@ -192,7 +192,7 @@ async function backtest() {
   const data = await getData();
   const strategies = {};
   for (const st of ["model", "momentum", "fade", "adr_revert"]) {
-    strategies[st] = runBacktest(data, P, st);
+    strategies[st] = runBacktest(data, { ...P, capital: CAPITAL }, st);
     const r = strategies[st];
     log(`${st.padEnd(12)} trades ${r.trades} win ${pct(r.win_rate, 0)} target-hit ${pct(r.target_hit_rate, 0)} avg ${pct(r.avg_trade)} P(day≥${pct(P.target, 1)}) ${pct(r.p_day_ge_target, 0)} final ${r.final_equity.toFixed(3)} (target ${r.target_equity.toExponential(2)}) DD ${pct(r.max_drawdown, 0)}`);
   }

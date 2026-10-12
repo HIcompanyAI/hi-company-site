@@ -10,6 +10,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 export const DATA_DIR = process.env.JPD_DATA_DIR || path.resolve(here, "..", "..", "data");
 const CACHE = path.join(DATA_DIR, "prices");
 const STALE_MS = 10 * 3600 * 1000;
+let stooqDown = process.env.DATA_SOURCE === "yahoo"; // 一度ネットワーク的に失敗したら以後 stooq は飛ばす
 
 function parseStooq(csv) {
   const out = [];
@@ -52,7 +53,7 @@ export async function loadSeries(spec, { offline = false } = {}) {
     if (offline) throw new Error(`no cache for ${spec.key}`);
   }
   const attempts = [];
-  if (spec.stooq) attempts.push(["stooq", () => fromStooq(spec.stooq)]);
+  if (spec.stooq && !stooqDown) attempts.push(["stooq", () => fromStooq(spec.stooq)]);
   if (spec.yahoo) attempts.push(["yahoo", () => fromYahoo(spec.yahoo)]);
   const errors = [];
   for (const [name, fn] of attempts) {
@@ -61,7 +62,10 @@ export async function loadSeries(spec, { offline = false } = {}) {
       writeJson(file, { key: spec.key, source: name, fetched_at: new Date().toISOString(), bars });
       await sleep(120);
       return bars;
-    } catch (e) { errors.push(`${name}: ${e.message}`); }
+    } catch (e) {
+      errors.push(`${name}: ${e.message}`);
+      if (name === "stooq" && /fetch failed|aborted|ECONN|ENOTFOUND|403/i.test(e.message)) { stooqDown = true; log("stooq unreachable → yahoo only"); }
+    }
   }
   if (cached) { log(`${spec.key}: fetch failed (${errors.join("; ")}) → stale cache`); return cached.bars; }
   throw new Error(`${spec.key}: ${errors.join("; ")}`);

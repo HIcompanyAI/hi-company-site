@@ -5,7 +5,7 @@ export const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 
 export function log(...a) { console.log(`[${new Date().toISOString().slice(11, 19)}]`, ...a); }
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-export async function fetchText(url, { timeoutMs = 20000, headers = {} } = {}) {
+export async function fetchText(url, { timeoutMs = 12000, headers = {} } = {}) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), timeoutMs);
   try {

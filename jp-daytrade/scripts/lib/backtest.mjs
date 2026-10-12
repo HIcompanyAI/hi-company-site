@@ -110,13 +110,17 @@ function summarize(days, trades, perStock, P, strategy, data) {
     per_stock: Object.values(perStock).map((p) => ({ ...p, win_rate: p.wins / p.n, target_rate: p.targets / p.n, avg: p.sum / p.n })).sort((a, b) => b.avg - a.avg),
     curve: thin(curve, 300), bench_curve: thin(benchCurve, 300),
     recent_trades: trades.slice(-60),
+    monthly: monthlyOf(days, P.capital || 1000000),
   };
 }
+function monthlyOf(days, capital) { const m = {}; for (const d of days) { const k = d.date.slice(0, 7); m[k] = (m[k] || 0) + d.ret; } return Object.entries(m).map(([month, ret]) => ({ month, ret, yen: Math.round(ret * capital) })); }
 function thin(arr, max) { if (arr.length <= max) return arr; const step = arr.length / max; return Array.from({ length: max }, (_, i) => arr[Math.floor(i * step)]).concat([arr[arr.length - 1]]); }
 
 /* ======================= 日経先物(指数)戦略 ======================= */
 /**
- * 日経 225 の寄値・終値(日中立会)を先物の代理として使う。
+ * 執行価格には日経 225 ETF(1321)の寄値・終値を使う(日経平均の公式寄値は未寄付き銘柄の前日終値を含み、
+ * 実際には売買できない水準になるため。ETF が無い場合のみ指数で代用し、結果に proxy="index" と記す)。
+ * 損益の円換算は日経マイクロ先物(1 ポイント = 10 円)× 枚数で行う。
  *  nk_fade      前夜の S&P 500 が +0.2% 以上なら寄りで売り、−0.2% 以下なら買い、引けで決済(米国逆張り)
  *  nk_momentum  その逆(順張り)
  *  nk_overnight 毎日引けで買い、翌朝の寄りで売る(持ち越し。夜間の上昇を取る)
@@ -126,20 +130,26 @@ export const INDEX_DEFAULTS = { contracts: 2, multiplier: 10, capital: 1000000, 
 
 export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
   const P = { ...DEFAULT_PARAMS, ...INDEX_DEFAULTS, ...params };
-  const nk = data.factors.NKY, spx = data.factors.SPX;
-  if (!nk || !spx) return null;
+  const idx = data.factors.NKY, spx = data.factors.SPX;
+  if (!idx || !spx) return null;
+  const etf = data.stocks.find((s) => s.code === "1321")?.bars;
+  const nk = etf && etf.length > 200 ? etf : idx;
+  const proxy = nk === etf ? "etf_1321" : "index";
+  const idxClose = new Map(idx.map((b) => [b.date, b.c]));
   const spxIdx = new Map(spx.map((b, i) => [b.date, i]));
   const lastSpxBefore = (date) => { let lo = 0, hi = spx.length - 1, ans = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (spx[m].date < date) { ans = m; lo = m + 1; } else hi = m - 1; } return ans; };
   const days = []; const trades = []; const perStock = {};
   const start = Math.max(1, nk.length - 600);
   for (let j = start; j < nk.length; j++) {
     const cur = nk[j], prev = nk[j - 1];
-    const notional = P.contracts * P.multiplier * cur.o;
+    if (Math.abs(cur.o / prev.c - 1) > 0.15) { days.push({ date: cur.date, n: 0, ret: 0 }); continue; } // 分割・異常値
+    const level = idxClose.get(prev.date) || idxClose.get(cur.date) || cur.o; // 円換算用の日経平均水準
+    const notional = P.contracts * P.multiplier * level;
     const lev = notional / P.capital;
-    let retPts = 0, dir = null, exit = "none";
+    let retFrac = 0, dir = null, exit = "none";
     if (strategy === "nk_overnight") {
-      // 前日引けで買い → 本日寄りで売り
-      dir = "long"; retPts = cur.o - prev.c - P.costPts; exit = "open";
+      // 前日引けで買い → 本日寄りで売り(方向は常に買い。米国の結果は引けの時点では未知)
+      dir = "long"; retFrac = cur.o / prev.c - 1; exit = "open";
     } else {
       const a = lastSpxBefore(cur.date), b = lastSpxBefore(prev.date);
       if (a < 1 || b < 0 || a === b) { days.push({ date: cur.date, n: 0, ret: 0 }); continue; }
@@ -148,9 +158,9 @@ export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
       const fadeDir = us > 0 ? "short" : "long";
       dir = strategy === "nk_fade" ? fadeDir : fadeDir === "long" ? "short" : "long";
       const o = tradeOutcome(cur, dir, { target: 10, stop: P.stop, cost: 0 }); // 利確なし(target 1000%)、損切りのみ
-      retPts = o.ret * cur.o - P.costPts; exit = o.exit;
+      retFrac = o.ret; exit = o.exit;
     }
-    const yen = retPts * P.multiplier * P.contracts;
+    const yen = (retFrac * level - P.costPts) * P.multiplier * P.contracts;
     const ret = yen / P.capital;
     trades.push({ date: cur.date, code: "NKM", dir, score: 0, ret, exit, yen: Math.round(yen) });
     const ps = (perStock.NKM ||= { code: "NKM", name: "日経225マイクロ先物", n: 0, wins: 0, targets: 0, stops: 0, sum: 0 });
@@ -159,6 +169,7 @@ export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
   }
   const out = summarizeIndex(days, trades, perStock, P, strategy, data);
   out.leverage = days.find((d) => d.lev)?.lev ?? null;
+  out.proxy = proxy;
   return out;
 }
 function summarizeIndex(days, trades, perStock, P, strategy, data) {
