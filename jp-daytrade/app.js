@@ -55,7 +55,8 @@
     }
     const xl = [0, Math.floor(dates.length / 2), dates.length - 1].map((i) => `<text x="${X(dates[i])}" y="${H - 8}" text-anchor="${i === 0 ? "start" : i === dates.length - 1 ? "end" : "middle"}" font-size="11" fill="var(--text-secondary)">${dates[i]}</text>`).join("");
     const paths = series.map((s) => { const d = s.points.map((p, i) => `${i ? "L" : "M"}${X(p.date).toFixed(1)},${Y(p.v).toFixed(1)}`).join(""); const last = s.points[s.points.length - 1];
-      return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round"/><text x="${X(last.date) - 4}" y="${Y(last.v) - 6}" text-anchor="end" font-size="11" fill="var(--text-primary)">${esc(s.label)} ×${last.v.toFixed(2)}</text>`; }).join("");
+      const ly = Math.max(pad.t + 11, Y(last.v) - 6);
+      return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="2" stroke-linejoin="round"/><text x="${X(last.date) - 4}" y="${ly}" text-anchor="end" font-size="11" fill="var(--text-primary)">${esc(s.label)} ×${last.v.toFixed(2)}</text>`; }).join("");
     const hover = `<g id="hover" style="display:none"><line y1="${pad.t}" y2="${H - pad.b}" stroke="var(--text-secondary)" stroke-dasharray="3,3"/><rect rx="4" fill="var(--surface-1)" stroke="var(--line)"/><text font-size="11" fill="var(--text-primary)"></text></g>`;
     const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="資産曲線" data-dates='${JSON.stringify(dates)}'>${grid}${xl}${paths}${hover}<rect class="hit" x="${pad.l}" y="${pad.t}" width="${W - pad.l - pad.r}" height="${H - pad.t - pad.b}" fill="transparent"/></svg>`;
     return { svg, attach(el) {
