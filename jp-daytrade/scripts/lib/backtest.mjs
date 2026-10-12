@@ -113,3 +113,83 @@ function summarize(days, trades, perStock, P, strategy, data) {
   };
 }
 function thin(arr, max) { if (arr.length <= max) return arr; const step = arr.length / max; return Array.from({ length: max }, (_, i) => arr[Math.floor(i * step)]).concat([arr[arr.length - 1]]); }
+
+/* ======================= 日経先物(指数)戦略 ======================= */
+/**
+ * 日経 225 の寄値・終値(日中立会)を先物の代理として使う。
+ *  nk_fade      前夜の S&P 500 が +0.2% 以上なら寄りで売り、−0.2% 以下なら買い、引けで決済(米国逆張り)
+ *  nk_momentum  その逆(順張り)
+ *  nk_overnight 毎日引けで買い、翌朝の寄りで売る(持ち越し。夜間の上昇を取る)
+ *  サイズ: 日経マイクロ(1 ポイント = 10 円)× contracts 枚。損切りは寄値 −stop%(日中戦略のみ)。
+ */
+export const INDEX_DEFAULTS = { contracts: 2, multiplier: 10, capital: 1000000, threshold: 0.002, stop: 0.01, costPts: 5 };
+
+export function runIndexStrategy(data, params = {}, strategy = "nk_fade") {
+  const P = { ...DEFAULT_PARAMS, ...INDEX_DEFAULTS, ...params };
+  const nk = data.factors.NKY, spx = data.factors.SPX;
+  if (!nk || !spx) return null;
+  const spxIdx = new Map(spx.map((b, i) => [b.date, i]));
+  const lastSpxBefore = (date) => { let lo = 0, hi = spx.length - 1, ans = -1; while (lo <= hi) { const m = (lo + hi) >> 1; if (spx[m].date < date) { ans = m; lo = m + 1; } else hi = m - 1; } return ans; };
+  const days = []; const trades = []; const perStock = {};
+  const start = Math.max(1, nk.length - 600);
+  for (let j = start; j < nk.length; j++) {
+    const cur = nk[j], prev = nk[j - 1];
+    const notional = P.contracts * P.multiplier * cur.o;
+    const lev = notional / P.capital;
+    let retPts = 0, dir = null, exit = "none";
+    if (strategy === "nk_overnight") {
+      // 前日引けで買い → 本日寄りで売り
+      dir = "long"; retPts = cur.o - prev.c - P.costPts; exit = "open";
+    } else {
+      const a = lastSpxBefore(cur.date), b = lastSpxBefore(prev.date);
+      if (a < 1 || b < 0 || a === b) { days.push({ date: cur.date, n: 0, ret: 0 }); continue; }
+      const us = spx[a].c / spx[b].c - 1;
+      if (Math.abs(us) < P.threshold) { days.push({ date: cur.date, n: 0, ret: 0 }); continue; }
+      const fadeDir = us > 0 ? "short" : "long";
+      dir = strategy === "nk_fade" ? fadeDir : fadeDir === "long" ? "short" : "long";
+      const o = tradeOutcome(cur, dir, { target: 10, stop: P.stop, cost: 0 }); // 利確なし(target 1000%)、損切りのみ
+      retPts = o.ret * cur.o - P.costPts; exit = o.exit;
+    }
+    const yen = retPts * P.multiplier * P.contracts;
+    const ret = yen / P.capital;
+    trades.push({ date: cur.date, code: "NKM", dir, score: 0, ret, exit, yen: Math.round(yen) });
+    const ps = (perStock.NKM ||= { code: "NKM", name: "日経225マイクロ先物", n: 0, wins: 0, targets: 0, stops: 0, sum: 0 });
+    ps.n++; ps.sum += ret; if (ret > 0) ps.wins++; if (exit === "stop") ps.stops++;
+    days.push({ date: cur.date, n: 1, ret, lev });
+  }
+  const out = summarizeIndex(days, trades, perStock, P, strategy, data);
+  out.leverage = days.find((d) => d.lev)?.lev ?? null;
+  return out;
+}
+function summarizeIndex(days, trades, perStock, P, strategy, data) {
+  // 既存 summarize と同じ形にそろえる(UI 共有のため)
+  let eq = 1, peak = 1, maxDD = 0; const curve = [];
+  for (const d of days) { eq *= 1 + d.ret; peak = Math.max(peak, eq); maxDD = Math.max(maxDD, 1 - eq / peak); curve.push({ date: d.date, equity: eq, target: (1 + P.target) ** (curve.length + 1) }); }
+  const active = days.filter((d) => d.n > 0); const tr = trades.map((t) => t.ret);
+  const nk = data.factors.NKY; const start = nk.find((b) => b.date === days[0]?.date)?.c || nk[0].c;
+  const benchCurve = days.map((d) => ({ date: d.date, equity: (nk.find((b) => b.date === d.date)?.c || start) / start }));
+  const m = tr.length ? tr.reduce((s, x) => s + x, 0) / tr.length : 0;
+  const sd = tr.length > 1 ? Math.sqrt(tr.reduce((s, x) => s + (x - m) ** 2, 0) / (tr.length - 1)) : 0;
+  return {
+    strategy, params: P, days: days.length, active_days: active.length, trades: trades.length,
+    win_rate: tr.length ? tr.filter((r) => r > 0).length / tr.length : null,
+    target_hit_rate: null, stop_rate: tr.length ? trades.filter((t) => t.exit === "stop").length / tr.length : null,
+    avg_trade: tr.length ? m : null, mean_daily: days.length ? days.reduce((s, d) => s + d.ret, 0) / days.length : null, std_daily: sd,
+    sharpe: sd > 1e-9 ? (m / sd) * Math.sqrt(245) : null,
+    p_day_ge_target: days.length ? days.filter((d) => d.ret >= P.target).length / days.length : null,
+    p_day_ge_target_active: active.length ? active.filter((d) => d.ret >= P.target).length / active.length : null,
+    final_equity: eq, max_drawdown: maxDD, target_equity: (1 + P.target) ** days.length,
+    bench_final: benchCurve.length ? benchCurve[benchCurve.length - 1].equity : null,
+    annualized: days.length ? eq ** (245 / days.length) - 1 : null,
+    per_stock: Object.values(perStock).map((p) => ({ ...p, win_rate: p.wins / p.n, target_rate: 0, avg: p.sum / p.n })),
+    curve: curve.length > 300 ? curve.filter((_, i) => i % Math.ceil(curve.length / 300) === 0).concat([curve[curve.length - 1]]) : curve,
+    bench_curve: benchCurve.length > 300 ? benchCurve.filter((_, i) => i % Math.ceil(benchCurve.length / 300) === 0).concat([benchCurve[benchCurve.length - 1]]) : benchCurve,
+    recent_trades: trades.slice(-60),
+    monthly: monthly(days, P.capital),
+  };
+}
+function monthly(days, capital) {
+  const m = {};
+  for (const d of days) { const k = d.date.slice(0, 7); m[k] = (m[k] || 0) + d.ret; }
+  return Object.entries(m).map(([month, ret]) => ({ month, ret, yen: Math.round(ret * capital) }));
+}

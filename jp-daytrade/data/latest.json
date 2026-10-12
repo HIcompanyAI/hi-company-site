@@ -1,6 +1,6 @@
 {
   "date": "2026-08-18",
-  "generated_at": "2026-10-12T14:50:50.107Z",
+  "generated_at": "2026-10-12T15:25:27.801Z",
   "sample": true,
   "params": {
     "target": 0.015,
@@ -25,6 +25,27 @@
         "avg_trade": 0.00197130417572571,
         "win_rate": 0.5626398210290827,
         "trades": 894
+      },
+      {
+        "name": "nk_momentum",
+        "label": "日経先物 順張り",
+        "avg_trade": 0.000020814613608315818,
+        "win_rate": 0.48656716417910445,
+        "trades": 335
+      },
+      {
+        "name": "nk_fade",
+        "label": "日経先物 米国逆張り",
+        "avg_trade": -0.00000845879014862363,
+        "win_rate": 0.46865671641791046,
+        "trades": 335
+      },
+      {
+        "name": "nk_overnight",
+        "label": "日経先物 持ち越し(引け買い→翌寄り売り)",
+        "avg_trade": -0.00010000000000000042,
+        "win_rate": 0,
+        "trades": 420
       },
       {
         "name": "adr_revert",

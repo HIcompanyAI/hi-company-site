@@ -8,7 +8,7 @@
   const num = (v, d = 0) => (v == null ? "—" : Number(v).toLocaleString("ja-JP", { maximumFractionDigits: d }));
   const cls = (x) => (x > 0 ? "pos" : x < 0 ? "neg" : "");
   const DIR = { long: "買い", short: "売り建て", conditional: "条件付き" };
-  const STRAT = { model: "回帰モデル", momentum: "順張り", fade: "逆張り(ギャップ埋め)", adr_revert: "ADR 乖離" };
+  const STRAT = { model: "回帰モデル", momentum: "順張り", fade: "逆張り(ギャップ埋め)", adr_revert: "ADR 乖離", nk_fade: "日経先物 米国逆張り", nk_momentum: "日経先物 順張り", nk_overnight: "日経先物 持ち越し" };
   const fmtTime = (iso) => (iso ? new Date(iso).toLocaleString("ja-JP", { timeZone: "Asia/Tokyo", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit" }) : "");
 
   async function load(u) { const r = await fetch(u, { cache: "no-store" }); if (!r.ok) throw new Error(`${u}: ${r.status}`); return r.json(); }
@@ -89,8 +89,10 @@
       <div class="kpi"><div class="l">最大ドローダウン</div><div class="v">${pct0(-m.max_drawdown)}</div><div class="s">年率換算 ${pct(m.annualized, 0)}</div></div>
     </div>`;
     const stratTable = `<div class="table-wrap"><table><thead><tr><th>手法</th><th>取引数</th><th>勝率</th><th>利確到達</th><th>損切り</th><th>平均/回</th><th>日次平均</th><th>P(日 ≥ ${pct(T, 1)})</th><th>資産倍率</th><th>最大DD</th></tr></thead><tbody>` +
-      Object.entries(S).map(([k, r]) => `<tr><td>${esc(STRAT[k] || k)}${k === name ? " ★" : ""}</td><td>${r.trades}</td><td>${pct0(r.win_rate)}</td><td>${pct0(r.target_hit_rate)}</td><td>${pct0(r.stop_rate)}</td><td class="${cls(r.avg_trade)}">${pct(r.avg_trade)}</td><td class="${cls(r.mean_daily)}">${pct(r.mean_daily)}</td><td>${pct0(r.p_day_ge_target)}</td><td>×${r.final_equity.toFixed(2)}</td><td>${pct0(-r.max_drawdown)}</td></tr>`).join("") + "</tbody></table></div>";
-    const sweep = `<p class="note">利確幅を変えたときの到達率(回帰モデル): ` + bt.target_sweep.map((s) => `${pct(s.target, 1)} → 到達 ${pct0(s.target_hit_rate)} / 平均 ${pct(s.avg_trade)}`).join("　|　") + "</p>";
+      Object.entries(S).map(([k, r]) => `<tr><td>${esc(STRAT[k] || k)}${k === name ? " ★" : ""}${r.leverage ? ` <span class="cond">(${r.params.contracts} 枚, レバ ${r.leverage.toFixed(1)}倍)</span>` : ""}</td><td>${r.trades}</td><td>${pct0(r.win_rate)}</td><td>${r.target_hit_rate == null ? "—" : pct0(r.target_hit_rate)}</td><td>${pct0(r.stop_rate)}</td><td class="${cls(r.avg_trade)}">${pct(r.avg_trade)}</td><td class="${cls(r.mean_daily)}">${pct(r.mean_daily)}</td><td>${pct0(r.p_day_ge_target)}</td><td>×${r.final_equity.toFixed(2)}</td><td>${pct0(-r.max_drawdown)}</td></tr>`).join("") + "</tbody></table></div>";
+    const fut = Object.entries(S).filter(([k, r]) => k.startsWith("nk_") && r.monthly?.length);
+    const monthlyTbl = fut.length ? `<details class="rules"><summary>日経先物戦略の月別損益(資金 ${num(fut[0][1].params.capital)} 円、${fut[0][1].params.contracts} 枚)</summary><div class="table-wrap"><table><thead><tr><th>月</th>${fut.map(([k]) => `<th>${esc(STRAT[k])}</th>`).join("")}</tr></thead><tbody>${fut[0][1].monthly.map((row, i) => `<tr><td>${esc(row.month)}</td>${fut.map(([, r]) => { const mm = r.monthly[i]; return `<td class="${cls(mm?.yen)}">${mm ? num(mm.yen) + " 円" : "—"}</td>`; }).join("")}</tr>`).join("")}</tbody></table></div></details>` : "";
+    const sweep = monthlyTbl + `<p class="note">利確幅を変えたときの到達率(回帰モデル): ` + bt.target_sweep.map((s) => `${pct(s.target, 1)} → 到達 ${pct0(s.target_hit_rate)} / 平均 ${pct(s.avg_trade)}`).join("　|　") + "</p>";
     const series = [
       { label: STRAT[name], color: "var(--series-1)", points: m.curve.map((c) => ({ date: c.date, v: c.equity })) },
       { label: `目標(毎日 ${pct(T, 1)})`, color: "var(--series-2)", points: m.curve.map((c) => ({ date: c.date, v: c.target })) },

@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 import { loadAll, DATA_DIR } from "./lib/data.mjs";
 import { makeSynthetic } from "./lib/synthetic.mjs";
 import { alignStock, featureNames, fit, latestFeatures, signal } from "./lib/model.mjs";
-import { runBacktest, tradeOutcome, DEFAULT_PARAMS } from "./lib/backtest.mjs";
+import { runBacktest, runIndexStrategy, tradeOutcome, DEFAULT_PARAMS, INDEX_DEFAULTS } from "./lib/backtest.mjs";
 import { readJson, writeJson, log, ymd, mean, pct } from "./lib/util.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -22,6 +22,7 @@ const args = Object.fromEntries(process.argv.slice(2).map((a) => { const [k, v] 
 const SAMPLE = Boolean(args.sample);
 const P = { ...DEFAULT_PARAMS, target: +(args.target || process.env.TARGET_PCT || DEFAULT_PARAMS.target), stop: +(args.stop || process.env.STOP_PCT || DEFAULT_PARAMS.stop), topK: +(args.topk || process.env.TOP_K || DEFAULT_PARAMS.topK) };
 const CAPITAL = +(args.capital || process.env.CAPITAL || 1000000);
+const CONTRACTS = +(args.contracts || process.env.CONTRACTS || INDEX_DEFAULTS.contracts);
 const MIN_EDGE_TRADES = 30;
 
 async function getData() {
@@ -36,7 +37,7 @@ async function makePlan() {
   const fx = data.factors.USDJPY || null;
   const bt = readJson(path.join(DATA_DIR, "backtest.json"), null);
   // 検証で最も期待値が高かった手法を採用(取引 100 回以上、平均損益がプラスのもの)。無ければ model を表示のみ
-  const LABEL = { model: "回帰モデル", momentum: "順張り(米国と同方向)", fade: "逆張り(ギャップ埋め)", adr_revert: "ADR 理論値との乖離" };
+  const LABEL = { model: "回帰モデル", momentum: "順張り(米国と同方向)", fade: "逆張り(ギャップ埋め)", adr_revert: "ADR 理論値との乖離", nk_fade: "日経先物 米国逆張り", nk_momentum: "日経先物 順張り", nk_overnight: "日経先物 持ち越し(引け買い→翌寄り売り)" };
   const ranked = Object.entries(bt?.strategies || {}).filter(([, r]) => r.trades >= 100).sort((a, b) => (b[1].avg_trade ?? -1) - (a[1].avg_trade ?? -1));
   const best = ranked[0] || null;
   const STRAT = best && best[1].avg_trade > 0 ? best[0] : "model";
@@ -88,11 +89,24 @@ async function makePlan() {
   }
   cands.sort((a, b) => Math.abs(b.score) - Math.abs(a.score));
   // 採用条件: スコア閾値、過去検証で期待値が負の銘柄は除外
-  const picks = edgeOk ? cands.filter((c) => Math.abs(c.score) >= P.minScore && !(c.hist && c.hist.n >= MIN_EDGE_TRADES && c.hist.avg <= 0)).slice(0, P.topK) : [];
+  let picks = edgeOk ? cands.filter((c) => Math.abs(c.score) >= P.minScore && !(c.hist && c.hist.n >= MIN_EDGE_TRADES && c.hist.avg <= 0)).slice(0, P.topK) : [];
   const perPos = Math.floor(CAPITAL / P.topK);
   for (const p of picks) { p.position_yen = perPos; p.shares = Math.max(100, Math.floor(perPos / p.expected_open / 100) * 100); }
+  // 先物戦略が最良なら、プランは先物 1 行に置き換える
+  if (STRAT.startsWith("nk_") && edgeOk && data.factors.NKY && data.factors.SPX) {
+    const nk = data.factors.NKY[data.factors.NKY.length - 1], sp = data.factors.SPX, spLast = sp[sp.length - 1], spPrev = sp[sp.length - 2];
+    const us = spLast.c / spPrev.c - 1;
+    let direction, condition, entry;
+    if (STRAT === "nk_overnight") { direction = "long"; entry = "15:40 頃に買い建て(日中立会の引け)"; condition = "翌朝 8:45 の寄り付きで成行決済。損切りは夜間に建値 −1% の逆指値"; }
+    else {
+      const fade = us > 0 ? "short" : "long"; direction = STRAT === "nk_fade" ? fade : fade === "long" ? "short" : "long";
+      if (Math.abs(us) < INDEX_DEFAULTS.threshold) { direction = "flat"; }
+      entry = "8:45 の寄り付きで成行"; condition = direction === "flat" ? `前夜の S&P 500 が ${pct(us)} と小動きのため見送り(閾値 ±${pct(INDEX_DEFAULTS.threshold, 1)})` : `前夜の S&P 500 ${pct(us)} → ${direction === "short" ? "売り建て" : "買い建て"}。15:40 までに成行決済。損切りは寄値 ${direction === "short" ? "+" : "−"}${(P.stop * 100).toFixed(1)}%(約 ${Math.round(nk.c * P.stop)} 円幅)`;
+    }
+    picks = direction === "flat" ? [] : [{ code: "NKM", name: "日経225マイクロ先物", sector: `${CONTRACTS} 枚(1 枚 = 日経平均 × 10 円)`, direction, score: +(Math.abs(us) / 0.01).toFixed(2), model_corr: null, prev_close: nk.c, prev_date: nk.date, pred_gap: null, expected_open: nk.c, pred_intraday: null, us_move: us, adr_implied: null, entry, condition, target_pct: null, stop_pct: P.stop, target_price: null, stop_price: direction === "long" ? nk.c * (1 - P.stop) : nk.c * (1 + P.stop), shares: CONTRACTS, position_yen: Math.round(nk.c * 10 * CONTRACTS), hist: perStock.NKM ? { n: perStock.NKM.n, win_rate: perStock.NKM.win_rate, target_rate: null, avg: perStock.NKM.avg } : null }];
+  }
   const edge = bt?.strategies?.[STRAT] || null;
-  const verdict = !bt ? "検証データなし: 先に --backtest を実行" : !edgeOk ? "検証した全手法の期待値がマイナス: 本日は見送り" : picks.length === 0 ? "本日は見送り(シグナル弱)" : `${picks.length} 銘柄を仕掛け(${LABEL[STRAT]})`;
+  const verdict = !bt ? "検証データなし: 先に --backtest を実行" : !edgeOk ? "検証した全手法の期待値がマイナス: 本日は見送り" : picks.length === 0 ? "本日は見送り(シグナル弱)" : STRAT.startsWith("nk_") ? `${LABEL[STRAT]}: ${picks[0].direction === "short" ? "売り建て" : "買い建て"} ${CONTRACTS} 枚` : `${picks.length} 銘柄を仕掛け(${LABEL[STRAT]})`;
   const plan = {
     date: today, generated_at: new Date().toISOString(), sample: SAMPLE, params: P, capital: CAPITAL,
     strategy: { name: STRAT, label: LABEL[STRAT], edge_ok: edgeOk, ranking: ranked.map(([k, r]) => ({ name: k, label: LABEL[k], avg_trade: r.avg_trade, win_rate: r.win_rate, trades: r.trades })) },
@@ -128,6 +142,14 @@ async function score() {
     if (!plan || done.has(plan.date)) continue;
     const results = [];
     for (const p of plan.picks || []) {
+      if (p.code === "NKM") {
+        const nk = data.factors.NKY; const i = SAMPLE ? nk.length - 1 : nk.findIndex((b) => b.date === plan.date); if (i < 1) continue;
+        const bar = nk[i]; let yen;
+        if (plan.strategy?.name === "nk_overnight") yen = (bar.o - nk[i - 1].c - 5) * 10 * p.shares;
+        else { const o = tradeOutcome(bar, p.direction, { target: 10, stop: plan.params.stop, cost: 0 }); yen = (o.ret * bar.o - 5) * 10 * p.shares; }
+        results.push({ code: "NKM", name: p.name, direction: p.direction, open: bar.o, high: bar.h, low: bar.l, close: bar.c, expected_open: bar.o, open_vs_expected: 0, skipped: false, ret: yen / plan.capital, exit: "close", pnl_yen: Math.round(yen) });
+        continue;
+      }
       const s = data.stocks.find((x) => x.code === p.code); if (!s) continue;
       const bar = SAMPLE ? s.bars[s.bars.length - 1] : s.bars.find((b) => b.date === plan.date);
       if (!bar) continue;
@@ -142,7 +164,8 @@ async function score() {
       results.push({ code: p.code, name: p.name, direction: dir, open: bar.o, high: bar.h, low: bar.l, close: bar.c, expected_open: p.expected_open, open_vs_expected: gapErr, skipped: Math.abs(gapErr) > 0.01, ret: Math.abs(gapErr) > 0.01 ? 0 : o.ret, exit: Math.abs(gapErr) > 0.01 ? "見送り" : o.exit, pnl_yen: Math.abs(gapErr) > 0.01 ? 0 : Math.round(p.position_yen * o.ret) });
     }
     if (!results.length && (plan.picks || []).length) continue; // まだ当日の足が無い
-    const dayRet = results.length ? mean(results.map((r) => r.ret)) * (results.length / (plan.params.topK || results.length)) : 0;
+    const isFut = results.some((r) => r.code === "NKM");
+    const dayRet = !results.length ? 0 : isFut ? results.reduce((s, r) => s + r.ret, 0) : mean(results.map((r) => r.ret)) * (results.length / (plan.params.topK || results.length));
     journal.entries.push({ date: plan.date, verdict: plan.verdict, n: results.length, day_ret: dayRet, pnl_yen: results.reduce((s, r) => s + r.pnl_yen, 0), results });
     done.add(plan.date); scored++;
   }
@@ -171,7 +194,13 @@ async function backtest() {
   for (const st of ["model", "momentum", "fade", "adr_revert"]) {
     strategies[st] = runBacktest(data, P, st);
     const r = strategies[st];
-    log(`${st.padEnd(10)} trades ${r.trades} win ${pct(r.win_rate, 0)} target-hit ${pct(r.target_hit_rate, 0)} avg ${pct(r.avg_trade)} P(day≥${pct(P.target, 1)}) ${pct(r.p_day_ge_target, 0)} final ${r.final_equity.toFixed(3)} (target ${r.target_equity.toExponential(2)}) DD ${pct(r.max_drawdown, 0)}`);
+    log(`${st.padEnd(12)} trades ${r.trades} win ${pct(r.win_rate, 0)} target-hit ${pct(r.target_hit_rate, 0)} avg ${pct(r.avg_trade)} P(day≥${pct(P.target, 1)}) ${pct(r.p_day_ge_target, 0)} final ${r.final_equity.toFixed(3)} (target ${r.target_equity.toExponential(2)}) DD ${pct(r.max_drawdown, 0)}`);
+  }
+  for (const st of ["nk_fade", "nk_momentum", "nk_overnight"]) {
+    const r = runIndexStrategy(data, { ...P, capital: CAPITAL, contracts: CONTRACTS }, st);
+    if (!r) continue;
+    strategies[st] = r;
+    log(`${st.padEnd(12)} days ${r.trades} win ${pct(r.win_rate, 0)} avg ${pct(r.avg_trade)} sharpe ${r.sharpe?.toFixed(2)} final ${r.final_equity.toFixed(3)} DD ${pct(r.max_drawdown, 0)} lev ${r.leverage?.toFixed(2)}`);
   }
   // 1.5% 目標の感度: 利確幅を変えたときの到達確率
   const sweep = [0.005, 0.01, 0.015, 0.02, 0.03].map((t) => { const r = runBacktest(data, { ...P, target: t }, "model"); return { target: t, target_hit_rate: r.target_hit_rate, avg_trade: r.avg_trade, p_day_ge_target: r.p_day_ge_target, final_equity: r.final_equity }; });
