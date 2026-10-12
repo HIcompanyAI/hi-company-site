@@ -125,9 +125,10 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
     const etf = data.stocks.find((x) => x.code === etfCode);
     const etfPx = etf ? etf.bars[etf.bars.length - 1].c : null;
     const targetExposure = nk.c * 10 * CONTRACTS; // 先物と同じ想定元本
-    const etfYen = Math.round(targetExposure / 2); // 2 倍型 ETF なので半分の金額
+    const etfYen = Math.min(Math.round(targetExposure / 2), Math.floor(CAPITAL * 0.95)); // 2 倍型 ETF なので半分の金額。資金の 95% を上限
     const etfShares = etfPx ? Math.max(1, Math.floor(etfYen / etfPx)) : null;
-    const etfAlt = direction === "flat" || !etfPx ? null : { code: etfCode, name: etfCode === "1357" ? "日経ダブルインバース(-2倍)" : "日経レバレッジ(2倍)", action: "買い(現物)", shares: etfShares, approx_yen: etfShares ? Math.round(etfShares * etfPx) : null, last_price: etfPx, stop_pct: P.stop * 2, note: `9:00 寄り成行で買い → 15:20 までに成行で売り。損切りは買値 −${(P.stop * 200).toFixed(0)}%(2 倍型なので先物の −${(P.stop * 100).toFixed(0)}% に相当)の逆指値` };
+    const etfEquivContracts = etfShares ? +((etfShares * etfPx * 2) / (nk.c * 10)).toFixed(1) : null;
+    const etfAlt = direction === "flat" || !etfPx ? null : { code: etfCode, name: etfCode === "1357" ? "日経ダブルインバース(-2倍)" : "日経レバレッジ(2倍)", action: "買い(現物)", shares: etfShares, approx_yen: etfShares ? Math.round(etfShares * etfPx) : null, last_price: etfPx, equiv_contracts: etfEquivContracts, stop_pct: P.stop * 2, note: `(先物 ${etfEquivContracts} 枚相当${etfEquivContracts < CONTRACTS ? "、資金上限のため枚数より小さい" : ""})9:00 寄り成行で買い → 15:20 までに成行で売り。損切りは買値 −${(P.stop * 200).toFixed(0)}%(2 倍型なので先物の −${(P.stop * 100).toFixed(0)}% に相当)の逆指値` };
     picks = direction === "flat" ? [] : [{ code: "NKM", name: "日経225マイクロ先物", etf_alternative: etfAlt, sector: `${CONTRACTS} 枚(1 枚 = 日経平均 × 10 円)`, direction, score: +(Math.abs(us) / 0.01).toFixed(2), model_corr: null, prev_close: nk.c, prev_date: nk.date, pred_gap: null, expected_open: nk.c, pred_intraday: null, us_move: us, adr_implied: null, entry, condition, target_pct: null, stop_pct: P.stop, target_price: null, stop_price: direction === "long" ? nk.c * (1 - P.stop) : nk.c * (1 + P.stop), shares: CONTRACTS, position_yen: Math.round(nk.c * 10 * CONTRACTS), hist: perStock.NKM ? { n: perStock.NKM.n, win_rate: perStock.NKM.win_rate, target_rate: null, avg: perStock.NKM.avg } : null }];
   }
   const dow = new Date(today + "T00:00:00Z").getUTCDay();
