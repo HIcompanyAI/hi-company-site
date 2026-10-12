@@ -1,8 +1,8 @@
 {
   "date": "2026-10-12",
-  "generated_at": "2026-10-12T12:51:12.154Z",
-  "model": "sample",
-  "sample": true,
+  "generated_at": "2026-10-12T13:56:43.579Z",
+  "model": "check",
+  "sample": false,
   "window_days": 7,
   "sources": {
     "trump": {
@@ -10,7 +10,7 @@
       "fetched": 2,
       "new_count": 2,
       "errors": [],
-      "fetched_at": "2026-10-12T12:51:12.144Z",
+      "fetched_at": "2026-10-12T13:56:42.835Z",
       "count": 2
     },
     "serenity": {
@@ -18,7 +18,15 @@
       "fetched": 1,
       "new_count": 1,
       "errors": [],
-      "fetched_at": "2026-10-12T12:51:12.144Z",
+      "fetched_at": "2026-10-12T13:56:42.835Z",
+      "count": 1
+    },
+    "citrini": {
+      "via": "sample",
+      "fetched": 1,
+      "new_count": 1,
+      "errors": [],
+      "fetched_at": "2026-10-12T13:56:42.835Z",
       "count": 1
     }
   },
@@ -40,6 +48,7 @@
         "thesis_ja": "サンプル: Serenity の投稿で取り上げられた銘柄はここに根拠付きで表示されます。",
         "risk_ja": "サンプル: 小型株の流動性と投稿直後の急騰(高値掴み)リスク。",
         "catalyst_ja": "サンプル: 次回決算など。",
+        "plan_ja": "サンプル: 押し目で分割エントリー、損切り −12%、20 営業日で見直し。",
         "source_post_keys": [
           "x:sample-1"
         ]
@@ -55,49 +64,77 @@
         "thesis_ja": "サンプル: Trump の関税発言で追い風/逆風を受ける業界の代表銘柄がここに入ります。",
         "risk_ja": "サンプル: 発言が撤回・反転されるリスク。",
         "catalyst_ja": "サンプル: 関税発動日。",
+        "plan_ja": "サンプル: 押し目で分割エントリー、損切り −12%、20 営業日で見直し。",
         "source_post_keys": [
           "trump:sample-1"
         ]
       }
     ],
-    "trump_digest": {
-      "post_count": 2,
-      "relevant_count": 2,
-      "themes_ja": [
-        "関税(サンプル)",
-        "金利(サンプル)"
-      ],
-      "key_posts": [
-        {
-          "key": "trump:sample-1",
-          "why_ja": "サンプル: 業界への直接的な影響があるため。"
-        }
-      ]
-    },
-    "serenity_digest": {
-      "post_count": 1,
-      "relevant_count": 1,
-      "themes_ja": [
-        "光通信ボトルネック(サンプル)"
-      ],
-      "key_posts": [
-        {
-          "key": "x:sample-1",
-          "why_ja": "サンプル: 新規銘柄の提示。"
-        }
-      ]
-    },
+    "source_digests": [
+      {
+        "source": "trump",
+        "post_count": 2,
+        "relevant_count": 2,
+        "themes_ja": [
+          "関税(サンプル)",
+          "金利(サンプル)"
+        ],
+        "key_posts": [
+          {
+            "key": "trump:sample-1",
+            "why_ja": "サンプル: 業界への直接的な影響があるため。"
+          }
+        ]
+      },
+      {
+        "source": "serenity",
+        "post_count": 1,
+        "relevant_count": 1,
+        "themes_ja": [
+          "光通信ボトルネック(サンプル)"
+        ],
+        "key_posts": [
+          {
+            "key": "x:sample-1",
+            "why_ja": "サンプル: 新規銘柄の提示。"
+          }
+        ]
+      },
+      {
+        "source": "citrini",
+        "post_count": 1,
+        "relevant_count": 1,
+        "themes_ja": [
+          "自動化(サンプル)"
+        ],
+        "key_posts": [
+          {
+            "key": "x:sample-c1",
+            "why_ja": "サンプル: テーマ提示。"
+          }
+        ]
+      }
+    ],
     "changes_from_yesterday_ja": [],
     "confidence_note_ja": "サンプルデータです。実データではありません。"
   },
   "posts": [
+    {
+      "key": "x:sample-c1",
+      "source": "citrini",
+      "author": "Citrini Research (@citrini)",
+      "created_at": "2026-10-11T15:00:00.000Z",
+      "url": "https://x.com/citrini",
+      "is_new": false,
+      "text": "【サンプル投稿・実在の発言ではありません】自動化テーマの銘柄バスケットについて触れる投稿の例。"
+    },
     {
       "key": "trump:sample-1",
       "source": "trump",
       "author": "Donald J. Trump (@realDonaldTrump)",
       "created_at": "2026-10-11T13:10:00.000Z",
       "url": "https://truthsocial.com/@realDonaldTrump",
-      "is_new": true,
+      "is_new": false,
       "text": "【サンプル投稿・実在の発言ではありません】半導体の輸入関税を引き上げる方針を示唆する投稿の例。国内製造業への支援を強調。"
     },
     {
@@ -106,7 +143,7 @@
       "author": "Serenity (@aleabitoreddit)",
       "created_at": "2026-10-11T02:15:00.000Z",
       "url": "https://x.com/aleabitoreddit",
-      "is_new": true,
+      "is_new": false,
       "text": "【サンプル投稿・実在の発言ではありません】光通信部品のボトルネックについて $EXMPL を取り上げる長文スレッドの例。"
     },
     {
@@ -115,7 +152,7 @@
       "author": "Donald J. Trump (@realDonaldTrump)",
       "created_at": "2026-10-10T22:40:00.000Z",
       "url": "https://truthsocial.com/@realDonaldTrump",
-      "is_new": true,
+      "is_new": false,
       "text": "【サンプル投稿・実在の発言ではありません】FRB に利下げを求める投稿の例。"
     }
   ],

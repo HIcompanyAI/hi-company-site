@@ -17,7 +17,7 @@
       <span class="logo">📈</span>
       <div>
         <h1>Trump × Serenity 株シグナル</h1>
-        <p class="sub">Truth Social @realDonaldTrump と X @aleabitoreddit の投稿を毎日追跡 → Claude が売買の参考意見を生成</p>
+        <p class="sub">Truth Social @realDonaldTrump、X @aleabitoreddit、@citrini の投稿を毎日追跡 → Claude が売買の参考意見を生成</p>
       </div>
     </div>
     <div class="meta" id="meta">読み込み中…</div>
@@ -59,24 +59,24 @@
     <p class="empty" id="recs-empty" hidden>該当する銘柄はありません。</p>
   </section>
 
-  <section class="section two">
-    <div class="card digest" id="digest-trump">
-      <h3><span class="src trump">Trump</span> Truth Social の要点</h3>
-      <div class="digest-body"></div>
+  <section class="section">
+    <div class="section-head">
+      <h2>成績(前向き検証)</h2>
+      <span class="count" id="perf-asof"></span>
     </div>
-    <div class="card digest" id="digest-serenity">
-      <h3><span class="src serenity">Serenity</span> X の要点</h3>
-      <div class="digest-body"></div>
-    </div>
+    <div class="card perf" id="perf"><p class="empty">まだ採点できる推奨がありません。推奨から 5 営業日経つと集計が始まります。</p></div>
   </section>
+
+  <section class="section three" id="digests"></section>
 
   <section class="section">
     <div class="section-head">
       <h2>追跡した投稿 <span class="count" id="post-count"></span></h2>
       <div class="filters" id="post-filters">
-        <button data-f="all" class="on">両方</button>
+        <button data-f="all" class="on">すべて</button>
         <button data-f="trump">Trump</button>
         <button data-f="serenity">Serenity</button>
+        <button data-f="citrini">Citrini</button>
         <button data-f="new">新着のみ</button>
       </div>
     </div>

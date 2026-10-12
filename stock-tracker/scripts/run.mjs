@@ -14,6 +14,8 @@
  *  C) 動作確認
  *     node run.mjs --sample             fixtures のサンプル投稿を使う(ネット不要)
  *
+ *     node run.mjs --perf               過去の推奨を株価で採点し data/performance.json を更新
+ *
  *  共通オプション: --date=YYYY-MM-DD --window-days=7 --no-quotes --model=<表示用ラベル>
  */
 import fs from "node:fs";
@@ -22,6 +24,8 @@ import { fileURLToPath } from "node:url";
 import { fetchTrumpPosts } from "./lib/truth.mjs";
 import { fetchXPosts } from "./lib/x.mjs";
 import { fetchQuotes } from "./lib/prices.mjs";
+import { SOURCES, SOURCE_IDS } from "./lib/sources.mjs";
+import { computePerformance, summarizeForPrompt } from "./lib/performance.mjs";
 import { analyze, buildUserMessage, AnalysisSchema, SYSTEM_PROMPT, MODEL } from "./lib/analyze.mjs";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
 import { readJson, writeJson, log, ymd, extractCashtags } from "./lib/util.mjs";
@@ -30,7 +34,6 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const DATA = path.resolve(here, "..", "data");
 const PENDING = path.join(DATA, "pending");
 const FIXTURES = path.resolve(here, "fixtures");
-const X_USERNAME = process.env.X_USERNAME || "aleabitoreddit";
 
 const args = Object.fromEntries(
   process.argv.slice(2).map((a) => {
@@ -41,10 +44,13 @@ const args = Object.fromEntries(
 const DATE = args.date || ymd();
 const WINDOW_DAYS = Number(args["window-days"] || process.env.WINDOW_DAYS || 7);
 const SAMPLE = Boolean(args.sample);
-const MODE = args["fetch-only"] ? "fetch" : args.prepare ? "prepare" : args.finalize ? "finalize" : "full";
+const MODE = args["fetch-only"] ? "fetch" : args.prepare ? "prepare" : args.finalize ? "finalize" : args.perf ? "perf" : "full";
+const BENCHMARK = process.env.BENCHMARK_TICKER || "SPY";
 
 const storeFile = path.join(DATA, "posts.json");
 const quotesFile = path.join(DATA, "quotes.json");
+const pricesFile = path.join(DATA, "prices.json");
+const perfFile = path.join(DATA, "performance.json");
 const statusFile = path.join(DATA, "status.json");
 
 /* ---------- 取得 ---------- */
@@ -52,16 +58,13 @@ async function fetchAndStore() {
   const store = readJson(storeFile, { posts: {}, updated_at: null });
   if (!SAMPLE) for (const k of Object.keys(store.posts)) if (k.includes(":sample-")) delete store.posts[k];
 
-  let fetched;
+  const fetched = {};
   if (SAMPLE) {
     const sample = readJson(path.join(FIXTURES, "sample-posts.json"), []);
-    fetched = {
-      trump: { posts: sample.filter((p) => p.source === "trump"), via: "sample", errors: [] },
-      serenity: { posts: sample.filter((p) => p.source === "serenity"), via: "sample", errors: [] },
-    };
+    for (const src of SOURCES) fetched[src.id] = { posts: sample.filter((p) => p.source === src.id), via: "sample", errors: [] };
   } else {
-    const [trump, serenity] = await Promise.all([fetchTrumpPosts(), fetchXPosts(X_USERNAME)]);
-    fetched = { trump, serenity };
+    const results = await Promise.all(SOURCES.map((src) => (src.kind === "truth" ? fetchTrumpPosts() : fetchXPosts(src.username, { id: src.id, author: src.author }))));
+    SOURCES.forEach((src, i) => (fetched[src.id] = results[i]));
   }
 
   const nowIso = new Date().toISOString();
@@ -84,23 +87,55 @@ async function fetchAndStore() {
   store.updated_at = nowIso;
   store.last_fetch = sourceStatus;
   writeJson(storeFile, store);
-  log(`store: ${Object.keys(store.posts).length} posts (trump new ${sourceStatus.trump.new_count}, serenity new ${sourceStatus.serenity.new_count})`);
+  log(`store: ${Object.keys(store.posts).length} posts (` + SOURCES.map((s) => `${s.id} new ${sourceStatus[s.id].new_count}`).join(", ") + ")");
 
-  // 株価(任意): 期間内の $ティッカー + 前回の推奨銘柄
+  // 株価(任意): 期間内の $ティッカー + 過去 100 日の推奨銘柄 + ベンチマーク
   if (!args["no-quotes"] && !SAMPLE) {
     const prior = readJson(path.join(DATA, "latest.json"), null);
-    const tickers = new Set();
+    const tickers = new Set([BENCHMARK]);
     for (const p of windowPosts(store, prior)) for (const t of extractCashtags(p.text)) tickers.add(t);
-    for (const r of prior?.analysis?.recommendations || []) tickers.add(r.ticker);
+    for (const r of recentReports(100)) for (const rec of r.analysis?.recommendations || []) tickers.add(rec.ticker);
     try {
       const quotes = await fetchQuotes([...tickers]);
       writeJson(quotesFile, { fetched_at: nowIso, quotes });
       log(`quotes: ${Object.keys(quotes).length}/${tickers.size}`);
+      // 終値の履歴を蓄積(前向き検証用)
+      const prices = readJson(pricesFile, { tickers: {} });
+      for (const [t, q] of Object.entries(quotes)) {
+        const d = q.asof || nowIso.slice(0, 10);
+        (prices.tickers[t] ||= {})[d] = q.price;
+      }
+      const cutoff = new Date(Date.now() - 400 * 86400 * 1000).toISOString().slice(0, 10);
+      for (const t of Object.keys(prices.tickers)) for (const d of Object.keys(prices.tickers[t])) if (d < cutoff) delete prices.tickers[t][d];
+      prices.updated_at = nowIso;
+      writeJson(pricesFile, prices);
+      updatePerformance();
     } catch (e) {
       log(`quotes failed: ${e.message}`);
     }
   }
   return { store, sourceStatus };
+}
+
+/* ---------- 前向き検証 ---------- */
+function recentReports(days) {
+  const dir = path.join(DATA, "history");
+  if (!fs.existsSync(dir)) return [];
+  const cutoff = new Date(Date.now() - days * 86400 * 1000).toISOString().slice(0, 10);
+  return fs.readdirSync(dir)
+    .filter((f) => /^\d{4}-\d{2}-\d{2}\.json$/.test(f) && f.slice(0, 10) >= cutoff)
+    .sort()
+    .map((f) => readJson(path.join(dir, f), null))
+    .filter((r) => r && !r.sample);
+}
+
+function updatePerformance() {
+  const prices = readJson(pricesFile, { tickers: {} });
+  const reports = recentReports(400);
+  const perf = computePerformance({ reports, prices, benchmark: BENCHMARK });
+  writeJson(perfFile, perf);
+  log(`performance: graded ${perf.graded_recommendations}, paper ${perf.paper.value} yen`);
+  return perf;
 }
 
 /* ---------- 分析対象の切り出し ---------- */
@@ -119,13 +154,14 @@ function loadContext() {
   if (prior?.sample && !SAMPLE) prior = null;
   const posts = windowPosts(store, prior);
   const sourceStatus = {};
-  for (const name of ["trump", "serenity"]) {
+  for (const name of SOURCE_IDS) {
     const f = store.last_fetch?.[name] || { via: null, errors: [{ name: "store", error: "未取得" }] };
     sourceStatus[name] = { ...f, count: posts.filter((p) => p.source === name).length };
   }
   const q = readJson(quotesFile, { quotes: {} });
   const quotes = args["no-quotes"] ? {} : q.quotes || {};
-  return { date: DATE, posts, prior, quotes, sourceStatus, quotes_fetched_at: q.fetched_at || null };
+  const performance_summary = SAMPLE ? null : summarizeForPrompt(readJson(perfFile, null));
+  return { date: DATE, posts, prior, quotes, sourceStatus, performance_summary, quotes_fetched_at: q.fetched_at || null };
 }
 
 /* ---------- レポート書き出し ---------- */
@@ -139,6 +175,8 @@ function validateAnalysis(raw) {
     if (keys.has(r.ticker)) problems.push(`${r.ticker}: 重複`);
     keys.add(r.ticker);
   }
+  const digested = new Set(a.source_digests.map((d) => d.source));
+  for (const id of SOURCE_IDS) if (!digested.has(id)) problems.push(`source_digests に ${id} がない`);
   if (problems.length) throw new Error("analysis.json の内容エラー:\n- " + problems.join("\n- "));
   return a;
 }
@@ -193,6 +231,11 @@ async function main() {
     return;
   }
 
+  if (MODE === "perf") {
+    updatePerformance();
+    return;
+  }
+
   if (MODE === "prepare") {
     const ctx = loadContext();
     if (!ctx.posts.length) throw new Error("分析対象の投稿がありません(先に --fetch-only を実行してください)");
@@ -230,6 +273,7 @@ async function main() {
     }
     writeReport(ctx, analysis, { model: args.model || "claude-code-routine" });
     fs.rmSync(PENDING, { recursive: true, force: true });
+    if (!SAMPLE) updatePerformance();
     return;
   }
 

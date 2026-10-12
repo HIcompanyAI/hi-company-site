@@ -29,5 +29,16 @@
     "url": "https://x.com/aleabitoreddit",
     "is_retweet": false,
     "is_reply": false
+  },
+  {
+    "key": "x:sample-c1",
+    "id": "sample-c1",
+    "source": "citrini",
+    "author": "Citrini Research (@citrini)",
+    "text": "【サンプル投稿・実在の発言ではありません】自動化テーマの銘柄バスケットについて触れる投稿の例。",
+    "created_at": "2026-10-11T15:00:00.000Z",
+    "url": "https://x.com/citrini",
+    "is_retweet": false,
+    "is_reply": false
   }
 ]

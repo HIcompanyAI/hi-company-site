@@ -14,8 +14,8 @@ function normalize(username, { id, text, createdAt, url, isRetweet = false, isRe
   return {
     key: `x:${id}`,
     id: String(id),
-    source: "serenity",
-    author: `Serenity (@${username})`,
+    source: username.toLowerCase(),
+    author: `@${username}`,
     text: decodeEntities(text || "").trim(),
     created_at: createdAt,
     url: url || `https://x.com/${username}/status/${id}`,
@@ -113,7 +113,8 @@ async function fromRsshub(username, base) {
     .filter((p) => p.id && p.created_at && !p.is_retweet);
 }
 
-export async function fetchXPosts(username = "aleabitoreddit") {
+export async function fetchXPosts(username = "aleabitoreddit", meta = {}) {
+  const META = { id: meta.id || username.toLowerCase(), author: meta.author || `@${username}` };
   const attempts = [];
   if (process.env.X_BEARER_TOKEN) attempts.push({ name: "x-api-v2", fn: () => fromApiV2(username, process.env.X_BEARER_TOKEN) });
   if (process.env.X_FEED_URL) attempts.push({ name: "custom-feed", fn: () => fromCustomFeed(username, process.env.X_FEED_URL) });
@@ -122,7 +123,8 @@ export async function fetchXPosts(username = "aleabitoreddit") {
   for (const base of nitters) attempts.push({ name: `nitter:${new URL(base).host}`, fn: () => fromNitter(username, base.replace(/\/$/, "")) });
   const rsshub = (process.env.X_RSSHUB_BASE || "https://rsshub.app").replace(/\/$/, "");
   attempts.push({ name: "rsshub", fn: () => fromRsshub(username, rsshub) });
-  const { result, via, errors } = await firstSuccessful("serenity", attempts);
-  if (!result) log("serenity: all sources failed");
-  return { posts: result || [], via, errors };
+  const { result, via, errors } = await firstSuccessful(META.id, attempts);
+  if (!result) log(`${META.id}: all sources failed`);
+  const posts = (result || []).map((p) => ({ ...p, source: META.id, author: META.author }));
+  return { posts, via, errors };
 }

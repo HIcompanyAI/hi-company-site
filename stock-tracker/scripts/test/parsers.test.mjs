@@ -60,6 +60,7 @@ test("syndication __NEXT_DATA__", () => {
   const html = `<html><script id="__NEXT_DATA__" type="application/json">${JSON.stringify(data)}</script></html>`;
   const posts = parseSyndicationHtml("aleabitoreddit", html);
   assert.equal(posts.length, 1);
+  assert.equal(posts[0].source, "aleabitoreddit"); // 刻印は fetchXPosts が行う
   assert.equal(posts[0].text, "Thread on $AAOI https://example.com/x");
   assert.equal(posts[0].url, "https://x.com/aleabitoreddit/status/1");
 });
@@ -73,9 +74,10 @@ test("analysis schema converts to output format and prompt builds", () => {
     posts: [{ key: "x:1", source: "serenity", author: "S", created_at: "2026-10-11T00:00:00Z", text: "hi", url: "u", is_new: true }],
     prior: null,
     quotes: { NVDA: { price: 180, change_pct: 1.234, asof: "2026-10-10" } },
-    sourceStatus: { trump: { via: null, errors: [{ name: "a", error: "b" }] }, serenity: { via: "x-api-v2", count: 1, new_count: 1 } },
+    sourceStatus: { trump: { via: null, errors: [{ name: "a", error: "b" }] }, serenity: { via: "x-api-v2", count: 1, new_count: 1 }, citrini: { via: "syndication", count: 0, new_count: 0 } },
   });
   assert.match(msg, /取得失敗: a: b/);
+  assert.match(msg, /## Citrini の投稿 \(0 件/);
   assert.match(msg, /\[NEW\] hi/);
   assert.match(msg, /NVDA: 180 \(\+1\.23%/);
 });

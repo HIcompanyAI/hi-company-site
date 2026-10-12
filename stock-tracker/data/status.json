@@ -1,11 +1,11 @@
 {
-  "last_run_at": "2026-10-12T12:51:12.155Z",
+  "last_run_at": "2026-10-12T13:56:43.580Z",
   "date": "2026-10-12",
   "window_days": 7,
-  "mode": "full",
+  "mode": "finalize",
   "sample": true,
   "ok": true,
-  "model": "sample",
+  "model": "check",
   "error": null,
   "sources": {
     "trump": {
@@ -13,7 +13,7 @@
       "fetched": 2,
       "new_count": 2,
       "errors": [],
-      "fetched_at": "2026-10-12T12:51:12.144Z",
+      "fetched_at": "2026-10-12T13:56:42.835Z",
       "count": 2
     },
     "serenity": {
@@ -21,7 +21,15 @@
       "fetched": 1,
       "new_count": 1,
       "errors": [],
-      "fetched_at": "2026-10-12T12:51:12.144Z",
+      "fetched_at": "2026-10-12T13:56:42.835Z",
+      "count": 1
+    },
+    "citrini": {
+      "via": "sample",
+      "fetched": 1,
+      "new_count": 1,
+      "errors": [],
+      "fetched_at": "2026-10-12T13:56:42.835Z",
       "count": 1
     }
   }
