@@ -1,0 +1,70 @@
+name: stock-tracker daily
+
+# 毎日 07:15 JST(22:15 UTC、米国市場の引け後)に Trump / Serenity の投稿を収集し、
+# Claude で売買シグナルを生成して stock-tracker/data/ にコミットする。
+on:
+  schedule:
+    - cron: "15 22 * * *"
+  workflow_dispatch:
+    inputs:
+      fetch_only:
+        description: "投稿の取得のみ(Claude を呼ばない)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stock-tracker
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: stock-tracker/scripts/package-lock.json
+
+      - name: Install
+        working-directory: stock-tracker/scripts
+        run: npm ci
+
+      - name: Fetch & analyze
+        working-directory: stock-tracker/scripts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          TRUTHSOCIAL_TOKEN: ${{ secrets.TRUTHSOCIAL_TOKEN }}
+          TRUTH_FEED_URL: ${{ vars.TRUTH_FEED_URL }}
+          X_FEED_URL: ${{ vars.X_FEED_URL }}
+          X_NITTER_INSTANCES: ${{ vars.X_NITTER_INSTANCES }}
+          STOCK_TRACKER_MODEL: ${{ vars.STOCK_TRACKER_MODEL }}
+          TZ: Asia/Tokyo
+        run: |
+          if [ "${{ inputs.fetch_only }}" = "true" ]; then
+            node run.mjs --fetch-only
+          else
+            node run.mjs
+          fi
+
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "stock-tracker bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add stock-tracker/data
+          if git diff --cached --quiet; then
+            echo "no data changes"; exit 0
+          fi
+          git commit -m "stock-tracker: $(date +%Y-%m-%d) のデータ更新"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin HEAD:"${{ github.ref_name }}"

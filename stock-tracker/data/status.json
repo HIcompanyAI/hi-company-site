@@ -1,0 +1,25 @@
+{
+  "last_run_at": "2026-10-12T11:41:16.922Z",
+  "date": "2026-10-12",
+  "sources": {
+    "trump": {
+      "via": "sample",
+      "fetched": 2,
+      "new_count": 0,
+      "errors": [],
+      "count": 2
+    },
+    "serenity": {
+      "via": "sample",
+      "fetched": 1,
+      "new_count": 0,
+      "errors": [],
+      "count": 1
+    }
+  },
+  "window_days": 7,
+  "sample": true,
+  "ok": true,
+  "error": null,
+  "model": "sample"
+}

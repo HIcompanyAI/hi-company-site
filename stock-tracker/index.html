@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Trump × Serenity 株シグナル</title>
+<meta name="description" content="トランプ大統領と Serenity(@aleabitoreddit)の株に関する投稿を毎日追跡し、Claude が売買の参考シグナルを生成する社内ツール。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <span class="logo">📈</span>
+      <div>
+        <h1>Trump × Serenity 株シグナル</h1>
+        <p class="sub">Truth Social @realDonaldTrump と X @aleabitoreddit の投稿を毎日追跡 → Claude が売買の参考意見を生成</p>
+      </div>
+    </div>
+    <div class="meta" id="meta">読み込み中…</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="banner" class="banner" hidden></div>
+
+  <section class="card hero" id="hero">
+    <div class="hero-head">
+      <div>
+        <div class="date" id="date"></div>
+        <h2 id="headline">—</h2>
+      </div>
+      <div class="stance" id="stance"></div>
+    </div>
+    <p class="summary" id="summary"></p>
+    <details class="macro">
+      <summary>マクロ・政策の整理(Trump 発言の影響)</summary>
+      <p id="macro"></p>
+    </details>
+    <ul class="changes" id="changes"></ul>
+    <p class="note" id="confidence"></p>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>売買アドバイス</h2>
+      <div class="filters" id="filters" role="tablist">
+        <button data-f="ALL" class="on">すべて</button>
+        <button data-f="BUY">買い</button>
+        <button data-f="SELL">売り/回避</button>
+        <button data-f="HOLD">保有</button>
+        <button data-f="WATCH">監視</button>
+      </div>
+    </div>
+    <div class="grid" id="recs"></div>
+    <p class="empty" id="recs-empty" hidden>該当する銘柄はありません。</p>
+  </section>
+
+  <section class="section two">
+    <div class="card digest" id="digest-trump">
+      <h3><span class="src trump">Trump</span> Truth Social の要点</h3>
+      <div class="digest-body"></div>
+    </div>
+    <div class="card digest" id="digest-serenity">
+      <h3><span class="src serenity">Serenity</span> X の要点</h3>
+      <div class="digest-body"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <h2>追跡した投稿 <span class="count" id="post-count"></span></h2>
+      <div class="filters" id="post-filters">
+        <button data-f="all" class="on">両方</button>
+        <button data-f="trump">Trump</button>
+        <button data-f="serenity">Serenity</button>
+        <button data-f="new">新着のみ</button>
+      </div>
+    </div>
+    <div class="posts" id="posts"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>過去のアドバイス</h2></div>
+    <div class="history" id="history"></div>
+  </section>
+
+  <footer class="disclaimer">
+    <strong>免責事項:</strong> 本ページは SNS 投稿を自動収集し、AI(Claude)が整理した<em>参考情報</em>です。金融商品取引法上の投資助言ではなく、特定の銘柄の売買を推奨・勧誘するものではありません。情報源の投稿内容、AI の解釈、株価データには誤りや遅延が含まれる可能性があります。投資判断はご自身の責任で行い、必要に応じて登録された専門家にご相談ください。小型株は流動性が低く、SNS 投稿を契機とした急騰・急落が起こりやすい点に特にご注意ください。
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

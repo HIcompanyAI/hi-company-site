@@ -1,0 +1,19 @@
+{
+  "name": "trump-serenity-stock-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "トランプ大統領と Serenity(@aleabitoreddit) の株関連投稿を毎日収集し、Claude で売買シグナルを生成する日次バッチ",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "run": "node run.mjs",
+    "fetch": "node run.mjs --fetch-only",
+    "sample": "node run.mjs --sample",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "cheerio": "^1.0.0",
+    "zod": "^4.0.0"
+  }
+}
