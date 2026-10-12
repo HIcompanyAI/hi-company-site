@@ -4,11 +4,15 @@
   "private": true,
   "type": "module",
   "description": "トランプ大統領と Serenity(@aleabitoreddit) の株関連投稿を毎日収集し、Claude で売買シグナルを生成する日次バッチ",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
+    "daily": "node run.mjs && node serve.mjs",
     "run": "node run.mjs",
     "fetch": "node run.mjs --fetch-only",
     "sample": "node run.mjs --sample",
+    "open": "node serve.mjs",
     "test": "node --test"
   },
   "dependencies": {
