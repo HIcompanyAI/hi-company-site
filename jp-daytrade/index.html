@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>米国連動 日本株デイトレ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><span class="logo">🗾</span><div><h1>米国連動 日本株デイトレ</h1><p class="sub">前夜の米国市場 → 翌朝の寄り付きプラン(利確 +1.5% / 損切り −1.0%)と、その検証・実績</p></div></div>
+  <div class="meta" id="meta">読み込み中…</div>
+</div></header>
+<main class="wrap">
+  <div id="banner" class="banner" hidden></div>
+
+  <section class="card verdict" id="verdict">
+    <div class="date" id="date"></div>
+    <h2 id="verdict-text">—</h2>
+    <p class="strategy" id="strategy"></p>
+    <div class="market" id="market"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>本日の売買プラン</h2><span class="count" id="plan-count"></span></div>
+    <div class="table-wrap"><table class="plan" id="plan"></table></div>
+    <details class="rules"><summary>執行ルール(毎日同じ)</summary><ol id="rules"></ol></details>
+    <details class="rules"><summary>候補一覧(上位 15)</summary><div class="table-wrap"><table class="cands" id="cands"></table></div></details>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>検証(過去データでのウォークフォワード)</h2><span class="count" id="bt-asof"></span></div>
+    <div class="card viz-root" id="bt"><p class="empty">まだ検証結果がありません。<code>node plan.mjs --backtest</code> を実行してください。</p></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>実績日誌</h2><span class="count" id="perf-asof"></span></div>
+    <div class="card" id="perf"><p class="empty">採点済みの日がまだありません。</p></div>
+  </section>
+
+  <footer class="disclaimer"><strong>免責事項:</strong> 本ページは公開データから機械的に計算した参考情報で、投資助言ではありません。デイトレードは短期間で資金の大部分を失う可能性があります。損切り注文は必ず発注し、損失はすべて自己責任で管理してください。</footer>
+</main>
+<script src="app.js"></script>
+</body>
+</html>

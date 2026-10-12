@@ -1,0 +1,16 @@
+{
+  "name": "jp-daytrade",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "前日の米国株の動きに連動する日本株を、毎朝の寄り付きでデイトレードするための計画・検証アプリ(依存パッケージなし)",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "plan": "node plan.mjs",
+    "score": "node plan.mjs --score",
+    "backtest": "node plan.mjs --backtest",
+    "sample": "node plan.mjs --sample",
+    "open": "node serve.mjs",
+    "test": "node --test"
+  }
+}

@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /line/teian.html
 Disallow: /stock-tracker/
+Disallow: /jp-daytrade/
 
 Sitemap: https://hi-companyjapan.jp/sitemap.xml
