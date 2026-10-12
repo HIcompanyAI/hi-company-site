@@ -1,25 +1,28 @@
 {
-  "last_run_at": "2026-10-12T11:41:16.922Z",
+  "last_run_at": "2026-10-12T12:51:12.155Z",
   "date": "2026-10-12",
+  "window_days": 7,
+  "mode": "full",
+  "sample": true,
+  "ok": true,
+  "model": "sample",
+  "error": null,
   "sources": {
     "trump": {
       "via": "sample",
       "fetched": 2,
-      "new_count": 0,
+      "new_count": 2,
       "errors": [],
+      "fetched_at": "2026-10-12T12:51:12.144Z",
       "count": 2
     },
     "serenity": {
       "via": "sample",
       "fetched": 1,
-      "new_count": 0,
+      "new_count": 1,
       "errors": [],
+      "fetched_at": "2026-10-12T12:51:12.144Z",
       "count": 1
     }
-  },
-  "window_days": 7,
-  "sample": true,
-  "ok": true,
-  "error": null,
-  "model": "sample"
+  }
 }

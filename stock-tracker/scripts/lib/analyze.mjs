@@ -41,7 +41,7 @@ export const AnalysisSchema = z.object({
   confidence_note_ja: z.string().describe("データの欠落や取得失敗など、判断の信頼性に関する注記(日本語)"),
 });
 
-const SYSTEM_PROMPT = `あなたは日本語で報告する株式リサーチアナリストです。
+export const SYSTEM_PROMPT = `あなたは日本語で報告する株式リサーチアナリストです。
 2 つの情報源の投稿を毎日読み、「どの株を買う/売る/様子見するべきか」を根拠付きで整理します。
 
 ■ 情報源の性質
