@@ -73,7 +73,7 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
     const f = data.futures[data.futures.length - 1], n = data.factors.NKY[data.factors.NKY.length - 1];
     if (f.date >= n.date) futuresGap = { futures_close: f.c, nikkei_close: n.c, implied_gap: f.c / n.c - 1, date: f.date };
   }
-  const cands = []; const skipped = [];
+  const cands = []; const skipped = []; let usBasis = null;
   for (const s of data.stocks) {
     const rows = alignStock(s, data.factors, fx);
     const names = featureNames(s);
@@ -114,8 +114,12 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
   for (const p of picks) { p.position_yen = perPos; p.shares = Math.max(100, Math.floor(perPos / p.expected_open / 100) * 100); }
   // 先物戦略が最良なら、プランは先物 1 行に置き換える
   if (STRAT.startsWith("nk_") && edgeOk && data.factors.NKY && data.factors.SPX) {
-    const nk = data.factors.NKY[data.factors.NKY.length - 1], sp = data.factors.SPX, spLast = sp[sp.length - 1], spPrev = sp[sp.length - 2];
-    const us = spLast.c / spPrev.c - 1;
+    const nk = data.factors.NKY[data.factors.NKY.length - 1], sp = data.factors.SPX, spLast = sp[sp.length - 1];
+    // 検証(runIndexStrategy)と同じ定義: 日本の前営業日(nk.date)の引け「より前」の最後の米国終値 → 直近の米国終値。
+    // 日本が休場だった翌日は米国 2 営業日分の累積になる(1 日分だけ見る旧実装は検証とずれていた)
+    const spBase = [...sp].reverse().find((b) => b.date < nk.date) || sp[sp.length - 2];
+    const us = spLast.c / spBase.c - 1;
+    usBasis = { from: spBase.date, to: spLast.date, ret: us, sessions: sp.filter((b) => b.date > spBase.date && b.date <= spLast.date).length };
     let direction, condition, entry;
     if (STRAT === "nk_overnight") { direction = "long"; entry = "15:40 頃に買い建て(日中立会の引け)"; condition = "翌朝 8:45 の寄り付きで成行決済。損切りは夜間に建値 −1% の逆指値"; }
     else {
@@ -141,7 +145,7 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
   const plan = {
     date: today, generated_at: new Date().toISOString(), sample: SAMPLE, params: P, capital: CAPITAL, holiday,
     strategy: { name: STRAT, label: LABEL[STRAT], edge_ok: edgeOk, ranking: ranked.map(([k, r]) => ({ name: k, label: LABEL[k], avg_trade: r.avg_trade, win_rate: r.win_rate, trades: r.trades })) },
-    market, futures_gap: futuresGap, verdict, picks, candidates: cands.slice(0, 15), skipped,
+    market, us_basis: usBasis, futures_gap: futuresGap, verdict, picks, candidates: cands.slice(0, 15), skipped,
     rules: [
       `仕掛け: 9:00 の寄り付きで成行(${P.topK} 銘柄まで、各 ${perPos.toLocaleString("ja-JP")} 円)`,
       `利確: 寄値 ${pct(P.target, 1)} に指値(OCO)`,
@@ -164,6 +168,7 @@ export function brief(plan) {
   const m = plan.market; const line = [];
   line.push(`【${plan.date} 朝のプラン】${plan.verdict}`);
   line.push(`前夜: S&P500 ${pct(m.SPX?.ret)} / NASDAQ100 ${pct(m.NDX?.ret)} / SOX ${pct(m.SOX?.ret)} / ドル円 ${pct(m.USDJPY?.ret)}`);
+  if (plan.us_basis && plan.us_basis.sessions > 1) line.push(`判定に使う S&P500 の動き: ${pct(plan.us_basis.ret)}(東京の前営業日以降の米国 ${plan.us_basis.sessions} 営業日分、${plan.us_basis.from} → ${plan.us_basis.to})`);
   for (const p of plan.picks) {
     if (p.code === "NKM") {
       line.push(`■ 先物口座がある場合: 日経225マイクロ先物を ${p.direction === "short" ? "売り建て" : "買い建て"} ${p.shares} 枚、${p.entry}。損切り: ${Math.round(p.stop_price).toLocaleString("ja-JP")} 付近(寄値から ${p.direction === "short" ? "+" : "−"}${(p.stop_pct * 100).toFixed(1)}%)の逆指値。15:40 までに成行決済`);
