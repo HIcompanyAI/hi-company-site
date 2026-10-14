@@ -115,17 +115,19 @@ async function makePlan(asof = args.asof || null, { quiet = false } = {}) {
   // 先物戦略が最良なら、プランは先物 1 行に置き換える
   if (STRAT.startsWith("nk_") && edgeOk && data.factors.NKY && data.factors.SPX) {
     const nk = data.factors.NKY[data.factors.NKY.length - 1], sp = data.factors.SPX, spLast = sp[sp.length - 1];
-    // 検証(runIndexStrategy)と同じ定義: 日本の前営業日(nk.date)の引け「より前」の最後の米国終値 → 直近の米国終値。
-    // 日本が休場だった翌日は米国 2 営業日分の累積になる(1 日分だけ見る旧実装は検証とずれていた)
-    const spBase = [...sp].reverse().find((b) => b.date < nk.date) || sp[sp.length - 2];
+    // 検証(runIndexStrategy)と同じ定義: 東京の前営業日の引け「より前」の最後の米国終値 → 直近の米国終値。
+    // 前営業日は日経平均データの最終日ではなく暦(土日・祝日)から求める。データ配信が 1 日遅れても判定窓が伸びないようにするため
+    const prevJp = prevTradingDay(today);
+    const spBase = [...sp].reverse().find((b) => b.date < prevJp) || sp[sp.length - 2];
     const us = spLast.c / spBase.c - 1;
-    usBasis = { from: spBase.date, to: spLast.date, ret: us, sessions: sp.filter((b) => b.date > spBase.date && b.date <= spLast.date).length };
+    const usStale = spLast.date < prevJp; // 東京の前営業日以降に米国の終値がない(米国休場 or 未取得) → 検証でも対象外の日
+    usBasis = { from: spBase.date, to: spLast.date, ret: us, sessions: sp.filter((b) => b.date > spBase.date && b.date <= spLast.date).length, prev_jp: prevJp, nikkei_asof: nk.date, nikkei_lag: nk.date < prevJp, us_stale: usStale };
     let direction, condition, entry;
     if (STRAT === "nk_overnight") { direction = "long"; entry = "15:40 頃に買い建て(日中立会の引け)"; condition = "翌朝 8:45 の寄り付きで成行決済。損切りは夜間に建値 −1% の逆指値"; }
     else {
       const fade = us > 0 ? "short" : "long"; direction = STRAT === "nk_fade" ? fade : fade === "long" ? "short" : "long";
-      if (Math.abs(us) < INDEX_DEFAULTS.threshold) { direction = "flat"; }
-      entry = "8:45 の寄り付きで成行"; condition = direction === "flat" ? `前夜の S&P 500 が ${pct(us)} と小動きのため見送り(閾値 ±${pct(INDEX_DEFAULTS.threshold, 1)})` : `前夜の S&P 500 ${pct(us)} → ${direction === "short" ? "売り建て" : "買い建て"}。15:40 までに成行決済。損切りは寄値 ${direction === "short" ? "+" : "−"}${(NK_STOP * 100).toFixed(1)}%(約 ${Math.round(nk.c * NK_STOP)} 円幅)`;
+      if (Math.abs(us) < INDEX_DEFAULTS.threshold || usStale) { direction = "flat"; }
+      entry = "8:45 の寄り付きで成行"; condition = usStale ? `米国市場の直近終値が ${spLast.date} で、東京の前営業日 ${prevJp} 以降の米国の取引がない(休場またはデータ未取得)ため見送り` : direction === "flat" ? `前夜の S&P 500 が ${pct(us)} と小動きのため見送り(閾値 ±${pct(INDEX_DEFAULTS.threshold, 1)})` : `前夜の S&P 500 ${pct(us)} → ${direction === "short" ? "売り建て" : "買い建て"}。15:40 までに成行決済。損切りは寄値 ${direction === "short" ? "+" : "−"}${(NK_STOP * 100).toFixed(1)}%(約 ${Math.round(nk.c * NK_STOP)} 円幅)`;
     }
     const etfCode = direction === "short" ? "1357" : "1570";
     const etf = data.stocks.find((x) => x.code === etfCode);
@@ -168,7 +170,9 @@ export function brief(plan) {
   const m = plan.market; const line = [];
   line.push(`【${plan.date} 朝のプラン】${plan.verdict}`);
   line.push(`前夜: S&P500 ${pct(m.SPX?.ret)} / NASDAQ100 ${pct(m.NDX?.ret)} / SOX ${pct(m.SOX?.ret)} / ドル円 ${pct(m.USDJPY?.ret)}`);
-  if (plan.us_basis && plan.us_basis.sessions > 1) line.push(`判定に使う S&P500 の動き: ${pct(plan.us_basis.ret)}(東京の前営業日以降の米国 ${plan.us_basis.sessions} 営業日分、${plan.us_basis.from} → ${plan.us_basis.to})`);
+  if (plan.us_basis && plan.us_basis.sessions > 1 && !plan.us_basis.us_stale) line.push(`判定に使う S&P500 の動き: ${pct(plan.us_basis.ret)}(東京の前営業日 ${plan.us_basis.prev_jp} 以降の米国 ${plan.us_basis.sessions} 営業日分、${plan.us_basis.from} → ${plan.us_basis.to})`);
+  if (plan.us_basis?.us_stale) line.push(`注意: 米国の直近終値が ${plan.us_basis.to} までしか取得できていません(東京の前営業日 ${plan.us_basis.prev_jp} 以降の米国の取引なし)。米国休場でなければデータ遅延です`);
+  if (plan.us_basis?.nikkei_lag) line.push(`注意: 日経平均のデータが ${plan.us_basis.nikkei_asof} までしか取得できていません(前営業日 ${plan.us_basis.prev_jp} 分が未反映)。損切り水準の円換算は参考値`);
   for (const p of plan.picks) {
     if (p.code === "NKM") {
       line.push(`■ 先物口座がある場合: 日経225マイクロ先物を ${p.direction === "short" ? "売り建て" : "買い建て"} ${p.shares} 枚、${p.entry}。損切り: ${Math.round(p.stop_price).toLocaleString("ja-JP")} 付近(寄値から ${p.direction === "short" ? "+" : "−"}${(p.stop_pct * 100).toFixed(1)}%)の逆指値。15:40 までに成行決済`);
@@ -181,6 +185,12 @@ export function brief(plan) {
   if (plan.backtest_summary) line.push(`参考(検証): 勝率 ${(plan.backtest_summary.win_rate * 100).toFixed(0)}%、1 日平均 ${pct(plan.backtest_summary.avg_trade)}、最大DD ${(plan.backtest_summary.max_drawdown * 100).toFixed(0)}%`);
   line.push("※ 損切りの逆指値は約定確認後すぐに入れる。寄り付きが想定と大きく違う(前夜の米国と逆に窓を開けた等)ときは見送り。");
   return line.join("\n") + "\n";
+}
+/** today より前の直近の東京の営業日(土日と universe.jp_holidays を除く) */
+function prevTradingDay(today) {
+  const d = new Date(today + "T00:00:00Z");
+  for (let i = 0; i < 30; i++) { d.setUTCDate(d.getUTCDate() - 1); const s = d.toISOString().slice(0, 10); if (![0, 6].includes(d.getUTCDay()) && !(universe.jp_holidays || []).includes(s)) return s; }
+  return today;
 }
 function nextBiz(d) { const x = new Date(d + "T00:00:00Z"); do { x.setUTCDate(x.getUTCDate() + 1); } while ([0, 6].includes(x.getUTCDay())); return x.toISOString().slice(0, 10); }
 
