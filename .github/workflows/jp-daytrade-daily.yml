@@ -1,0 +1,66 @@
+name: jp-daytrade daily
+
+# 朝 07:35 JST(22:35 UTC 前日)に売買プラン、夕方 15:50 JST(06:50 UTC)に採点、日曜に再検証。
+on:
+  schedule:
+    - cron: "35 22 * * 0-4"   # 月〜金 07:35 JST: プラン
+    - cron: "50 6 * * 1-5"    # 月〜金 15:50 JST: 採点
+    - cron: "15 1 * * 0"      # 日曜 10:15 JST: バックテスト更新
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "plan / score / backtest"
+        type: choice
+        options: [plan, score, backtest]
+        default: plan
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jp-daytrade
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Decide mode
+        id: mode
+        run: |
+          if [ -n "${{ inputs.mode }}" ]; then echo "mode=${{ inputs.mode }}" >> $GITHUB_OUTPUT; exit 0; fi
+          H=$(date -u +%H)
+          if [ "$(date -u +%u)" = "7" ]; then echo "mode=backtest" >> $GITHUB_OUTPUT
+          elif [ "$H" -lt 12 ] && [ "$H" -ge 5 ]; then echo "mode=score" >> $GITHUB_OUTPUT
+          else echo "mode=plan" >> $GITHUB_OUTPUT; fi
+      - name: Run
+        working-directory: scripts
+        env:
+          TARGET_PCT: ${{ vars.TARGET_PCT }}
+          STOP_PCT: ${{ vars.STOP_PCT }}
+          TOP_K: ${{ vars.TOP_K }}
+          CAPITAL: ${{ vars.CAPITAL }}
+          TZ: Asia/Tokyo
+        run: |
+          case "${{ steps.mode.outputs.mode }}" in
+            backtest) node plan.mjs --backtest ;;
+            score)    node plan.mjs --score ;;
+            *)        test -f ../data/backtest.json || node plan.mjs --backtest; node plan.mjs ;;
+          esac
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "jp-daytrade bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet && { echo "no changes"; exit 0; }
+          git commit -m "data: $(date +%Y-%m-%d) ${{ steps.mode.outputs.mode }}"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin HEAD:"${{ github.ref_name }}"

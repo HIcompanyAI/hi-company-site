@@ -1,0 +1,87 @@
+{
+  "headline_ja": "【サンプル】初回実行前の表示例",
+  "summary_ja": "これはダッシュボードの表示確認用サンプルです。GitHub Actions で日次バッチが一度実行されると、実際の投稿に基づく分析に置き換わります。ここに表示される銘柄・判断は架空のもので、投資判断に使わないでください。",
+  "market_context_ja": "サンプル: 関税・金利に関する発言があればここにマクロ影響の整理が入ります。",
+  "overall_stance": "neutral",
+  "recommendations": [
+    {
+      "ticker": "EXMPL",
+      "company": "Example Photonics (架空)",
+      "exchange": "NASDAQ",
+      "action": "WATCH",
+      "conviction": 2,
+      "horizon": "medium",
+      "source": "serenity",
+      "thesis_ja": "サンプル: Serenity の投稿で取り上げられた銘柄はここに根拠付きで表示されます。",
+      "risk_ja": "サンプル: 小型株の流動性と投稿直後の急騰(高値掴み)リスク。",
+      "catalyst_ja": "サンプル: 次回決算など。",
+      "source_post_keys": [
+        "x:sample-1"
+      ],
+      "plan_ja": "サンプル: 押し目で分割エントリー、損切り −12%、20 営業日で見直し。"
+    },
+    {
+      "ticker": "SMPL",
+      "company": "Sample Steel (架空)",
+      "exchange": "NYSE",
+      "action": "HOLD",
+      "conviction": 2,
+      "horizon": "short",
+      "source": "trump",
+      "thesis_ja": "サンプル: Trump の関税発言で追い風/逆風を受ける業界の代表銘柄がここに入ります。",
+      "risk_ja": "サンプル: 発言が撤回・反転されるリスク。",
+      "catalyst_ja": "サンプル: 関税発動日。",
+      "source_post_keys": [
+        "trump:sample-1"
+      ],
+      "plan_ja": "サンプル: 押し目で分割エントリー、損切り −12%、20 営業日で見直し。"
+    }
+  ],
+  "changes_from_yesterday_ja": [],
+  "confidence_note_ja": "サンプルデータです。実データではありません。",
+  "source_digests": [
+    {
+      "source": "trump",
+      "post_count": 2,
+      "relevant_count": 2,
+      "themes_ja": [
+        "関税(サンプル)",
+        "金利(サンプル)"
+      ],
+      "key_posts": [
+        {
+          "key": "trump:sample-1",
+          "why_ja": "サンプル: 業界への直接的な影響があるため。"
+        }
+      ]
+    },
+    {
+      "source": "serenity",
+      "post_count": 1,
+      "relevant_count": 1,
+      "themes_ja": [
+        "光通信ボトルネック(サンプル)"
+      ],
+      "key_posts": [
+        {
+          "key": "x:sample-1",
+          "why_ja": "サンプル: 新規銘柄の提示。"
+        }
+      ]
+    },
+    {
+      "source": "citrini",
+      "post_count": 1,
+      "relevant_count": 1,
+      "themes_ja": [
+        "自動化(サンプル)"
+      ],
+      "key_posts": [
+        {
+          "key": "x:sample-c1",
+          "why_ja": "サンプル: テーマ提示。"
+        }
+      ]
+    }
+  ]
+}

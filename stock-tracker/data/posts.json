@@ -1,0 +1,74 @@
+{
+  "posts": {
+    "trump:sample-1": {
+      "key": "trump:sample-1",
+      "id": "sample-1",
+      "source": "trump",
+      "author": "Donald J. Trump (@realDonaldTrump)",
+      "text": "【サンプル投稿・実在の発言ではありません】半導体の輸入関税を引き上げる方針を示唆する投稿の例。国内製造業への支援を強調。",
+      "created_at": "2026-10-11T13:10:00.000Z",
+      "url": "https://truthsocial.com/@realDonaldTrump",
+      "media_count": 0,
+      "first_seen_at": "2026-10-12T13:56:42.835Z"
+    },
+    "trump:sample-2": {
+      "key": "trump:sample-2",
+      "id": "sample-2",
+      "source": "trump",
+      "author": "Donald J. Trump (@realDonaldTrump)",
+      "text": "【サンプル投稿・実在の発言ではありません】FRB に利下げを求める投稿の例。",
+      "created_at": "2026-10-10T22:40:00.000Z",
+      "url": "https://truthsocial.com/@realDonaldTrump",
+      "media_count": 0,
+      "first_seen_at": "2026-10-12T13:56:42.835Z"
+    },
+    "x:sample-1": {
+      "key": "x:sample-1",
+      "id": "sample-1",
+      "source": "serenity",
+      "author": "Serenity (@aleabitoreddit)",
+      "text": "【サンプル投稿・実在の発言ではありません】光通信部品のボトルネックについて $EXMPL を取り上げる長文スレッドの例。",
+      "created_at": "2026-10-11T02:15:00.000Z",
+      "url": "https://x.com/aleabitoreddit",
+      "is_retweet": false,
+      "is_reply": false,
+      "first_seen_at": "2026-10-12T13:56:42.835Z"
+    },
+    "x:sample-c1": {
+      "key": "x:sample-c1",
+      "id": "sample-c1",
+      "source": "citrini",
+      "author": "Citrini Research (@citrini)",
+      "text": "【サンプル投稿・実在の発言ではありません】自動化テーマの銘柄バスケットについて触れる投稿の例。",
+      "created_at": "2026-10-11T15:00:00.000Z",
+      "url": "https://x.com/citrini",
+      "is_retweet": false,
+      "is_reply": false,
+      "first_seen_at": "2026-10-12T13:56:42.835Z"
+    }
+  },
+  "updated_at": "2026-10-12T13:56:42.835Z",
+  "last_fetch": {
+    "trump": {
+      "via": "sample",
+      "fetched": 2,
+      "new_count": 2,
+      "errors": [],
+      "fetched_at": "2026-10-12T13:56:42.835Z"
+    },
+    "serenity": {
+      "via": "sample",
+      "fetched": 1,
+      "new_count": 1,
+      "errors": [],
+      "fetched_at": "2026-10-12T13:56:42.835Z"
+    },
+    "citrini": {
+      "via": "sample",
+      "fetched": 1,
+      "new_count": 1,
+      "errors": [],
+      "fetched_at": "2026-10-12T13:56:42.835Z"
+    }
+  }
+}

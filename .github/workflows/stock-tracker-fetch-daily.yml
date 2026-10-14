@@ -1,0 +1,71 @@
+name: fetch daily
+
+# 毎日 07:15 JST(22:15 UTC)に Trump / Serenity の投稿と参考株価を取得して data/ にコミットする。
+# 分析は Claude Code の Routine が 07:40 JST に行う(API キー不要)。
+# ANTHROPIC_API_KEY を Secrets に入れて analyze=true で手動実行すれば、API 方式の分析も可能。
+on:
+  schedule:
+    - cron: "15 22 * * *"
+  workflow_dispatch:
+    inputs:
+      analyze:
+        description: "Claude API でも分析する(ANTHROPIC_API_KEY が必要)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stock-tracker
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: scripts/package-lock.json
+
+      - name: Install
+        working-directory: scripts
+        run: npm ci
+
+      - name: Fetch posts & quotes
+        working-directory: scripts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          TRUTHSOCIAL_TOKEN: ${{ secrets.TRUTHSOCIAL_TOKEN }}
+          TRUTH_FEED_URL: ${{ vars.TRUTH_FEED_URL }}
+          X_FEED_URL: ${{ vars.X_FEED_URL }}
+          X_NITTER_INSTANCES: ${{ vars.X_NITTER_INSTANCES }}
+          STOCK_TRACKER_MODEL: ${{ vars.STOCK_TRACKER_MODEL }}
+          TZ: Asia/Tokyo
+        run: |
+          if [ "${{ inputs.analyze }}" = "true" ]; then
+            node run.mjs
+          else
+            node run.mjs --fetch-only
+          fi
+
+      - name: Commit data
+        if: always()
+        run: |
+          git config user.name "stock-tracker bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "no data changes"; exit 0
+          fi
+          git commit -m "data: $(date +%Y-%m-%d) 取得"
+          git pull --rebase origin "${{ github.ref_name }}"
+          git push origin HEAD:"${{ github.ref_name }}"
